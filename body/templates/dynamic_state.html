@@ -1,0 +1,180 @@
+{% extends 'parent_template.html' %}
+{% load staticfiles %}
+{% block activate2 %}
+    class="on"
+{% endblock %}
+{% block show %}
+    <div class="lmlblog-member-content-list clear">
+        <div class="lmlblog-member-left">
+            {# 热度信息#}
+            <div class="lmlblog-member-left-follow clear">
+                {% for foo in heat %}
+                    <li>
+                        <strong>168</strong>
+                        <span>关注</span>
+                    </li>
+                {% endfor %}
+
+            </div>
+
+            {# 背景音乐 #}
+            <div class="lmlblog-member-left-bg-music clear">
+                <h3>背景音乐</h3>
+                <div id="lmlblog-memeber-bg-music" class="aplayer"></div>
+                <img src="http://wx2.sinaimg.cn/large/9c774d91gy1ft4lhr5vbmg20jp08okbw.gif" alt="司空琪">
+                <audio src="https://img.jinsom.cn/user_files/12551/bg-music/music_1530776683.mp3" autoplay
+                       controls></audio>
+            </div>
+
+            {# 个人资料 #}
+            <div class="lmlblog-member-left-profile">
+                <h3>资料简介</h3>
+                <li><i class="fa fa-address-book-o"></i> I D：<span>520<span></li>
+                <li><i class="fa fa-transgender"></i> 性别：<span>女生<span></li>
+                <li><i class="fa fa-map-marker"></i> 城市：<span>画江湖 司空家<span></li>
+                <li><i class="fa fa-smile-o"></i> 签名：<span>坚强勇敢，利落干脆。冰雪聪明，明眸善睐。重情重义，侠骨柔情。<span></li>
+                <div class="lmlblog-member-left-profile-hide">
+                    <li><i class="fa fa-qq"></i> Q Q：<span>sikongqi<span></li>
+                    <li><i class="fa fa-wechat"></i> 微信：<span>天涯路远，一剑轻安。携琪之手，相伴江湖<span></li>
+                    <li><i class="fa fa-weibo"></i> 微博：<span>司空琪吧官博<span></li>
+                    <li><i class="fa fa-clock-o"></i> 生日：<span>2月15日<span></li>
+                </div>
+                <div class="lmlblog-member-left-profile-more">查看更多 <i class="fa fa-angle-right"></i></div>
+            </div>
+
+            {# 最近访客 #}
+            <div class="lmlblog-member-left-visitor clear">
+                <h3>最近访客</h3>
+                {% for foo in guest %}
+                    {% if foo == 10 %}
+                        <li><a href="#1" title="访问时间：22分钟前"><span class="lmlblog-vip-icon"></span><img
+                                src="picture/1.gif" class="avatar"/>
+                            <p>born</p></a></li>
+                    {% else %}
+                        <li><a href="#1" title="访问时间：22分钟前"><img src="picture/1.gif" class="avatar"/>
+                            <p>born</p></a></li>
+                    {% endif %}
+
+                {% endfor %}
+
+
+            </div>
+
+            {# 相关推荐 #}
+            <div class="lmlblog-member-left-bg-xg clear">
+                <h3>相关推荐</h3>
+                <div id="lmlblog-memeber-bg-xg" class="aplayer"></div>
+                <a href="http://www.lmlblog.com/blog/yanlingjiao/1.html" target="_blank"><h2>燕凌姣个人主页</h2>
+                    <img src="http://www.lmlblog.com/blog/yanlingjiao/images/jiao8.jpg" alt="燕凌姣个人主页">
+                    <p>　　一袭蓝衣亭亭玉立，姣若春梅绽雪，神如月射寒江，香培玉琢、英姿飒爽;其静兰生幽谷，其动若飞若扬，性格大气坚毅、疏朗开阔，举止敢爱敢恨、聪明磊落...他就是燕凌姣</p></a>
+            </div>
+        </div>
+        <div class="lmlblog-member-right">
+            <div class="lmlblog-post-list">
+                {# 文章展示 #}
+                {% for foo in info %}
+                    <div class="lmlblog-posts-list words" style="background-image:url(images/058.png); ">
+
+                        <!-- 动态内容部分，包括列表 -->
+                        <div class="lmlblog-post-user-info">
+                            <div class="lmlblog-post-user-info-avatar" user-data="1">
+                                <a href="#1" style="display: inline-block;">
+                                    <span class="lmlblog-vip-icon"></span><img src="images/tx2.jpg" class="avatar"/><i
+                                        class="lmlblog-verify lmlblog-verify-a" title="司空琪"></i></a>
+                                <div class="lmlblog-user-info-card">
+                                    <div class="info_card_loading"><img src="picture/chat-loading.gif">
+                                        <p>资料加载中...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lmlblog-post-user-info-name">
+                                <a href="#1">
+                                    <font style="color:#333;font-weight:600">司空琪</font>
+                                </a>
+                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.6</span><span
+                                    class="lmlblog-mark lmlblog-vip">VIP 6</span>
+                            </div>
+                            <div class="lmlblog-post-user-info-time" title="2017-12-14 05:25">12-14 05:25</div>
+                        </div><!-- 作者信息 -->
+                        <div class="lmlblog-post-setting">
+                            <i class="fa fa-angle-down"></i>
+                            <div class="lmlblog-post-setting-box">
+                                <ul>
+                                    <a href="#" title="查看全文">
+                                        <li>查看全文</li>
+                                    </a>
+                                    <a href="#1" title="访问主页">
+                                        <li>访问主页</li>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="lmlblog-post-content ">
+                            <a class="post_list_link" href="#">
+                                <P>
+                                    　　疏星淡月，紫陌曲岸，持觞游赏，神移长川。一片彀纹，溶溶泄泄，忽而烟靡云敛。睹一丽人，缦立青水，云蒸雾霭，花衬善睐。荧荧兮若北辰之荣现，扰扰兮若紫玉之生烟。颜如舜华，迫闻素腰华琚摇;和颜静志，远望渌水呈雾绡。戏流光之夜蝶，采舞雪之琼花，流眷眷之眸光，润荣曜之笑靥。</P>
+                                <P>　　偶得美人回顾，思之朝朝暮暮。采芝兰以明愫，寄琼琚以作妆。余咏永慕叹道长，彼应影独愿偕芳。才知世有解语，不过琪语溯光。<img
+                                        src="images/66.png" alt="[s-65]" class="wp-smiley"/>
+                                    <img src="images/8.png" alt="[s-65]" class="wp-smiley"/></P></a>
+                        </div>
+                        <div class="lmlblog-post-images-list clear">
+                            <a href="images/qi01.jpg" data-fancybox="gallery"
+                               data-caption='<i class="fa fa-copyright"></i> lmlblog'>
+                                <img src="images/qi01.jpg" alt="司空琪吧十一月壁纸"/></a>
+                            <a href="images/qi02.jpg" data-fancybox="gallery"
+                               data-caption='<i class="fa fa-copyright"></i> lmlblog'>
+                                <img src="images/qi02.jpg" alt="司空琪吧十一月壁纸"/></a>
+                            <a href="images/qi03.jpg" data-fancybox="gallery"
+                               data-caption='<i class="fa fa-copyright"></i> lmlblog'>
+                                <img src="images/qi03.jpg" alt="司空琪吧十一月壁纸"/></a>
+                        </div>
+                        <div class="lmlblog-post-bar">
+                            <li class="lmlblog-no-like" onclick='lmlblog_like_posts(4197,this,"post");'>
+                                <i class="lmlblog-icon">&#xe608;</i> <span>5</span>
+                            </li>
+                            <li onclick='list_comments_show(this);'>
+                                <i class="lmlblog-icon">&#xe633;</i> <span>5</span>
+                            </li>
+                            <li onclick='lmlblog_pop_login_style();'>
+                                <i class="lmlblog-icon"></i>评论 <span>0</span>
+                            </li>
+                            <li>
+                                <i class="lmlblog-icon">&#xe602;</i> <span>1.2w</span>
+                            </li>
+                            <li class="tag clear">
+                                <i class="lmlblog-icon">&#xe895;</i><a href="#2" title="司空琪壁纸"># 司空琪壁纸</a></li>
+                        </div>
+                        <div class="lmlblog-post-like-list">
+                            <a href="#17" id="had_like_11788">
+                                <img src="picture/11.gif" class="avatar"/></a>
+                            <a href="#18" id="had_like_11499"><img src="picture/12.gif" class="avatar"/></a>
+                            <a href="#22" id="had_like_11488"><img src="picture/20.png" class="avatar"/>
+                                <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：作者许仙白"></i></a><a href="#22"
+                                                                                                         id="had_like_11477">
+                            <img src="picture/13.gif" class="avatar"/>
+                            <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：168号计师"></i></a><a href="#22"
+                                                                                                      id="had_like_1">
+                            <img src="images/tx2.jpg" class="avatar"/>
+                            <i class="lmlblog-verify lmlblog-verify-a" title="司空琪"></i></a></div>
+                        <div class="lmlblog-post-footer-bar">
+                            <span title="2017-12-14 05:25:48">12月14日 05:25</span>
+                            <span>电脑端</span><i class="lmlblog-icon" onclick="lmlblog_post_type_open();">&#xe62c;</i>
+                        </div>
+
+                    </div><!-- posts_list -->
+                {% endfor %}
+                <!-- 分页地点 -->
+                <div class="lmlblog-pager"><a class="lmlblog-pager-left" href="#2">上一页</a>
+                    <div class="lmlblog-pager-center layui-form">
+                        <select>
+                            <option value="#=1">第 1 页</option>
+                            <option value="#=2">第 2 页</option>
+                            <option selected="selected" value="#3">第 3 页</option>
+                        </select>第 1 页
+                    </div>
+                    <a class="lmlblog-pager-right" href="#3">下一页</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

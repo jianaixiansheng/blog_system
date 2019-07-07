@@ -1,0 +1,135 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="{% static 'login_and_registration/images/tx.jpg' %}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>地表最强博客</title>
+    <meta name="keywords" content="地表最强博客"/>
+    <meta name="description" content="地表最强博客"/>
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' id='style-css' href='{% static 'home/css/style.css' %}' type='text/css'
+          media='all'/>
+    <link rel='stylesheet' id='lmlblog-css' href='{% static 'home/css/lmlblog.css' %}' type='text/css'
+          media='all'/>
+    <link rel='stylesheet' id='all-css' href='{% static 'home/css/all.css' %}' type='text/css'
+          media='all'/>
+    <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
+    <script type='text/javascript' src='{% static 'home/js/jquery.min.js' %}'></script>
+    <script type='text/javascript' src='{% static 'home/js/ueditor.all.min.js' %}'></script>
+</head>
+
+<body>
+<div class="lmlblog-member-main" data="1">
+    <div class="lmlblog-member-bg">
+        <div class="lmlblog-member-content">
+            <div class="lmlblog-member-header">
+                <div class="lmlblog-member-avatar other">
+                    <img src="{{ head_portrait }}"
+                         class="avatar"/>
+                    <i class="lmlblog-verify lmlblog-verify-a" title="{{ user_name }}"></i></div>
+                <div class="lmlblog-member-username">
+                    <h1>{{ user_name }}</h1>
+                    <span class="lmlblog-mark lmlblog-girl"><i class="fa fa-mars"></i></span>
+                    <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.6</span>
+                    <span class="lmlblog-mark lmlblog-vip">VIP 6</span></div>
+                <div class="lmlblog-member-desc">江湖风雨，几度阑珊。沧海一粟，愿君一剑轻安。</div>
+                <div class="lmlblog-member-follow-info">
+                    <a href="https://weibo.com/u/6077164061" target="_blank" rel="nofollow"><span
+                            class="follow no opacity"><i class="lmlblog-icon"></i>+ 关注</span></a>
+                    <span class="opacity"><i class="lmlblog-icon">&#xe612;</i> <a href="{% url 'chat' %}">私聊</a></span>
+                </div>
+            </div>
+            <div class="lmlblog-member-menu clear">
+                <li {% block activate1 %}{% endblock %} ><a href="{% url 'index' %}">主页</a></li>
+                <li {% block activate2 %}{% endblock %} ><a href="{% url 'dynamic_state' %}">动态</a></li>
+                <li {% block activate3 %}{% endblock %} ><a href="{% url 'music' %}">音乐</a></li>
+                <li {% block activate5 %}{% endblock %} ><a href="{% url 'photo_album' %}">相册</a></li>
+                <li {% block activate6 %}{% endblock %} ><a href="{% url 'personal' %}">个人档</a></li>
+            </div>
+            {% block show %}
+            
+            {% endblock %}
+
+        </div>
+    </div>
+</div>
+<!-- 底部 -->
+<div style="clear:both"></div>
+<div class="footer">
+    <div class="footer_b_foot">
+        <div class="footer_b_top">
+        </div>
+        <div class="footer_b_bottom">Design by 2017 画江湖杯莫停 司空琪个人主页 司空琪微博/空间/贴吧官博。内容源于网络搜集,仅学习、分享交流。</div>
+    </div>
+</div>
+<!-- 返回顶部 -->
+<a href="javascript:returnTop();" class="cd-top"></a>
+<script type="text/javascript">
+    var sdelay = 0;
+
+    function returnTop() {
+        window.scrollBy(0, -100);//Only for y vertical-axis
+        if (document.body.scrollTop > 0) {
+            sdelay = setTimeout('returnTop()', 50);
+        }
+    }
+</script>
+</body>
+
+<script type='text/javascript' src='{% static 'home/js/base.js' %}'></script>
+<script type='text/javascript' src='{% static 'home/js/all.js' %}'></script>
+<script type='text/javascript' src='{% static 'home/js/plupload.full.min.js' %}'></script>
+<script type='text/javascript' src='{% static 'home/js/layui.js' %}'></script>
+<script src="{% static 'chat/js/script.js' %}"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $.fn.smartFloat = function () {
+            var position = function (element) {
+                var top = element.position().top, pos = element.css("position");
+                $(window).scroll(function () {
+                    var scrolls = $(this).scrollTop();
+                    if (scrolls > top) {
+                        if (window.XMLHttpRequest) {
+                            element.css({
+                                position: "fixed",
+                                top: 0
+                            });
+                        } else {
+                            element.css({
+                                top: scrolls
+                            });
+                        }
+                    } else {
+                        element.css({
+                            position: "absolute",
+                            top: top
+                        });
+                    }
+                });
+            };
+            return $(this).each(function () {
+                position($(this));
+            });
+        };
+        $(".lmlblog-member-left-bg-xg").smartFloat();
+    });
+</script>
+</html>

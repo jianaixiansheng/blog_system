@@ -1,0 +1,41 @@
+{% extends 'account_template.html' %}
+{% load staticfiles %}
+
+{% block static %}
+    免费注册/Register
+{% endblock %}
+
+{% block body %}
+    <div class="wid_con loginbox">
+        <div class="register_txt">
+            <h1>注册流程</h1>
+            <img src="images/registe_pic.png">
+        </div>
+        <div class="register_con password_con">
+            <div class="text_box">
+                <div>
+                    <div><i><img src="images/icon01.png"></i><input type="text" placeholder="请输入数字用户名">
+                        <span>*</span>
+                    </div>
+                    <div><i><img src="images/icon04.png"></i><input type="text" placeholder="请输入您的邮箱">
+                        <span>*</span>
+                    </div>
+                    <div><i><img src="images/icon02.png"></i><input type="password" placeholder="请输入您的密码">
+                        <span>*</span>
+                    </div>
+                    <div><i><img src="images/icon02.png"></i><input type="password" placeholder="请再次输入您的密码">
+                        <span>*</span>
+                    </div>
+                    <div class="yzm">
+                        <i><img src="images/icon03.png"></i><input type="text" placeholder="请输入验证码">
+                        <label><img src="images/yzm.png"></label><span>*</span>
+                    </div>
+                    <h4><a href="#">《网站服务协议》</a></h4>
+                    <a href="{% url 'log' %}">
+                        <button>同意以上协议并注册</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
