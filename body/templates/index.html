@@ -72,14 +72,21 @@
                     <p>　　一袭蓝衣亭亭玉立，姣若春梅绽雪，神如月射寒江，香培玉琢、英姿飒爽;其静兰生幽谷，其动若飞若扬，性格大气坚毅、疏朗开阔，举止敢爱敢恨、聪明磊落...他就是燕凌姣</p></a>
             </div>
         </div>
+    <form action="{% url 'publish' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="publish_text" style="left: 18px;position: relative;">
-            <textarea  class="text_area"   placeholder="说点儿什么吧"
-      rows="1">
-</textarea>
+            <div class="pub_tex1">
+             <textarea  class="text_area"   placeholder="说点儿什么吧"
+      rows="1" name="d_content">
+             </textarea>
+                <input type="file" value="上传图片" class="pub_img" name="d_picture">
+            </div>
             <div class="text_pub">
 
+               <input type="submit" value="发表">
             </div>
         </div>
+    </form>
         <div class="lmlblog-member-right">
             <div class="lmlblog-post-list">
                 {# 文章展示 #}

@@ -3,19 +3,41 @@
     padding: 0;
 }
 
-.text_area{
+.publish_text{
     width: 710px;
-    height: 70px;
-}
-.text_pub{
-    width: 710px;
-    height: 40px;
-    border: 1px solid red;
+    height: 120px;
     margin-left: 300px;
-    margin-top: -7px;
-    /*display: none;*/
 }
 
+.pub_tex1{
+    width: 710px;
+    height: 75px;
+    background-color: white;
+}
+
+
+.text_area{
+    width: 650px;
+    height: 75px;
+}
+
+.pub_img{
+    display: block;
+    width: 40px;
+    height: 100px;
+    top: 10px;
+    right: 10px;
+    position: absolute;
+}
+
+
+.text_pub input{
+    width: 80px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: 80px;
+}
 
 
 

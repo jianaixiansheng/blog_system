@@ -1,11 +1,12 @@
 from django.db import models
+from django.core import validators
 
 # Create your models here.
 
 class UserInfo(models.Model):
     """用户表"""
-    user_number=models.BigIntegerField()
-    user_password=models.CharField(max_length=20)
+    user_numbers=models.BigIntegerField(null=True)
+    user_password=models.CharField(max_length=20, null=True)
     user_name = models.CharField(max_length=20)
     user_sex = models.CharField(max_length=20)
     user_sign = models.TextField()
@@ -22,20 +23,35 @@ class PhotoAlbum(models.Model):
     image_type = models.CharField(max_length=10)
     user_fk = models.ForeignKey('UserInfo',on_delete=models.CASCADE)
 
+
 class DynamicStatus(models.Model):
     """用户动态表"""
     #发表动态的时间
     d_time = models.DateTimeField(auto_now_add=True)
+    # 发表的动态内容
     d_content = models.TextField()
-    d_type = models.CharField(max_length=10)
-    # 点赞数量
-    d_num = models.IntegerField()
+    # 发表的图片
+    d_picture = models.FileField(upload_to='picture', null=True, validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')])
+    # 谁发表的动态
+    user_id = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+
+class Move_text(models.Model):
     # 转发的时间
-    d_b_time  = models.DateTimeField(auto_now_add=True)
+    d_b_time = models.DateTimeField(auto_now_add=True, null=True)
     # 被转发的用户的ID（也就是这篇文章是谁写的）
-    d_user = models.ForeignKey('UserInfo',on_delete=models.CASCADE)
+    d_user = models.IntegerField(null=True)
     # 转发的用户的ID（也就是谁转发的）
-    d_z_user = models.IntegerField()
+    d_z_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+
+
+# 点赞表
+class Thumps_up(models.Model):
+    # 谁点的赞
+    u = models.ForeignKey(UserInfo, on_delete=models.PROTECT)
+    # 赞的那个动态
+    article = models.ForeignKey(DynamicStatus, on_delete=models.PROTECT)
+    # 点赞的时间
+    date = models.DateTimeField(auto_now_add=True)
 
 
 class AttentionPerson(models.Model):
@@ -60,6 +76,8 @@ class Comment(models.Model):
     c_b_commentID = models.ForeignKey('Comment',on_delete=models.CASCADE)
 
 # 访客表
+
+
 class GuestLog(models.Model):
     g_b_user=models.IntegerField()
     # 被访问的用户
