@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'blog_system',  # 数据库名
         'USER': 'root',  # 用户名
         'PASSWORD': 'root',  # 密码
-        'HOST': '127.0.0.1',
+        'HOST': '106.13.144.115',
         'PORT': '3306',
     }
 }
@@ -111,13 +111,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

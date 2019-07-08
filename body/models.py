@@ -4,6 +4,8 @@ from django.db import models
 
 class UserInfo(models.Model):
     """用户表"""
+    user_number=models.BigIntegerField()
+    user_password=models.CharField(max_length=20)
     user_name = models.CharField(max_length=20)
     user_sex = models.CharField(max_length=20)
     user_sign = models.TextField()
@@ -56,3 +58,11 @@ class Comment(models.Model):
     c_b_dynamic = models.ForeignKey('DynamicStatus',on_delete=models.CASCADE)
     # 被评论的评论的ID
     c_b_commentID = models.ForeignKey('Comment',on_delete=models.CASCADE)
+
+# 访客表
+class GuestLog(models.Model):
+    g_b_user=models.IntegerField()
+    # 被访问的用户
+    g_user=models.ForeignKey('UserInfo',on_delete=models.CASCADE)
+    # 访问的用户
+    g_date=models.DateTimeField(auto_now=True)
