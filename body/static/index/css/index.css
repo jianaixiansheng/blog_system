@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.text_area{
+    width: 710px;
+    height: 70px;
+}
+.text_pub{
+    width: 710px;
+    height: 40px;
+    border: 1px solid red;
+    margin-left: 300px;
+    margin-top: -7px;
+    /*display: none;*/
+}
+
+
+
+
