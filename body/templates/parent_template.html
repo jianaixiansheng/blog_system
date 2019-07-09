@@ -58,11 +58,13 @@
                 </div>
             </div>
             <div class="lmlblog-member-menu clear">
-                <li {% block activate1 %}{% endblock %} ><a href="{% url 'index' %}">主页</a></li>
+                <ul>
+                    <li {% block activate1 %}{% endblock %} ><a href="{% url 'index' %}">主页</a></li>
                 <li {% block activate2 %}{% endblock %} ><a href="{% url 'dynamic_state' %}">动态</a></li>
                 <li {% block activate3 %}{% endblock %} ><a href="{% url 'music' %}">音乐</a></li>
                 <li {% block activate5 %}{% endblock %} ><a href="{% url 'photo_album' %}">相册</a></li>
                 <li {% block activate6 %}{% endblock %} ><a href="{% url 'personal' %}">个人档</a></li>
+                </ul>
             </div>
             {% block show %}
             
