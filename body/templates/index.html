@@ -89,16 +89,16 @@
         <div class="lmlblog-member-right">
             <div class="lmlblog-post-list">
                 {# 文章展示 #}
-                {% for u in info %}
-                    {% for d1 in u.dynamicstatus_set.all.order_by %}
+            {% load get_user %}
+                {% for dyns in info %}
+
                     <div class="lmlblog-posts-list words">
 
                         <!-- 动态内容部分，包括列表 -->
-                        <div class="lmlblog-post-user-info">
-                            <div class="lmlblog-post-user-info-avatar" user-data="1">
+                        <div class="lmlblog-post-user-info"><div class="lmlblog-post-user-info-avatar" user-data="1">
                                 <a href="#1" style="display: inline-block;">
                                     <span class="lmlblog-vip-icon" ></span><img src="images/tx2.jpg" class="avatar"/><i
-                                        class="lmlblog-verify lmlblog-verify-a" title="{{ u.user_name }}"></i></a>
+                                        class="lmlblog-verify lmlblog-verify-a" title="{{ dyns.user_id_id|get_user }}"></i></a>
                                 <div class="lmlblog-user-info-card">
                                     <div class="info_card_loading" style="border: 1px solid red;"><img src="picture/chat-loading.gif">
                                         <p>资料加载中...</p>
@@ -108,12 +108,12 @@
 
                             <div class="lmlblog-post-user-info-name">
                                 <a href="#1">
-                                    <span>{{ u.user_name }}</span>
+                                    <span>{{ dyns.user_id_id|get_user }}</span>
                                 </a>
-                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ u.user_one_level }}</span><span
-                                    class="lmlblog-mark lmlblog-vip">VIP {{ u.user_member_level }}</span>
+                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span
+                                    class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
                             </div>
-                            <div class="lmlblog-post-user-info-time" title="{{ d1.d_time }}">{{ d1.d_time }}</div>
+                            <div class="lmlblog-post-user-info-time" title="{{ dyns.d_time|time_since }}">{{ dyns.d_time|time_since }}</div>
                         </div><!-- 作者信息 -->
                         <div class="lmlblog-post-setting">
                             <i class="fa fa-angle-down"></i>
@@ -129,27 +129,38 @@
                         <div class="lmlblog-post-content ">
                             <a class="post_list_link" href="#">
                                 <p>
-                                    {{ d1.d_content }}
+                                    {{ dyns.d_content }}
                                 </p>
-                                <p><img src="{{ MEDIA_URL }}{{ d1.d_picture }}"></p>
+
+{#                                <img src="{{ MEDIA_URL }}{{ dyns.get_picture }}" alt="" width="250" height="250">#}
+{#                                {{ dyns.id|get_picture }}#}
+                                {% for foo in dyns.id|get_picture %}
+                                    <img src="{{ MEDIA_URL }}{{ foo }}" alt="">
+                                {% endfor %}
+
+
+
+
                             </a>
                         </div>
-                        <div class="lmlblog-post-images-list clear">
-                            <a href="images/qi01.jpg" data-fancybox="gallery"
-                               data-caption='<i class="fa fa-copyright"></i> lmlblog'>
-                                <img src="images/qi01.jpg" alt="司空琪吧十一月壁纸"/></a>
-                            <a href="images/qi02.jpg" data-fancybox="gallery"
-                               data-caption='<i class="fa fa-copyright"></i> lmlblog'>
-                                <img src="images/qi02.jpg" alt="司空琪吧十一月壁纸"/></a>
-                            <a href="images/qi03.jpg" data-fancybox="gallery"
-                               data-caption='<i class="fa fa-copyright"></i> lmlblog'>
-                                <img src="images/qi03.jpg" alt="司空琪吧十一月壁纸"/></a>
-                        </div>
+
                         <div class="lmlblog-post-bar">
-                            <li class="lmlblog-no-like" onclick='lmlblog_like_posts(4197,this,"post");'>
+                            <ul>
+{#                                <li class="lmlblog-no-like">#}
+{#                                {% if u %}#}
+                                    {% if u.id|thumps_up:dyns.id %}
+                                        <a href="{% url 'thumps_up'  %}">取消点赞</a>
+                                    {% else %}
+                                        <a href="{% url 'thumps_up' %}">点赞</a>
+                                    {% endif %}
+                            {{ dyns.d_num }}
+{#                                {% else %}#}
+{#                                    <a href="{% url 'log' %}">点赞</a>  {{ dyns.d_num }}#}
+{#                                {% endif %}#}
+
                                 <i class="lmlblog-icon">&#xe608;</i> <span>5</span>
-                            </li>
-                            <li onclick='list_comments_show(this);'>
+{#                            </li>#}
+                            <li class="lmlblog-no-like1">
                                 <i class="lmlblog-icon">&#xe633;</i> <span>5</span>
                             </li>
                             <li onclick='lmlblog_pop_login_style();'>
@@ -160,6 +171,7 @@
                             </li>
                             <li class="tag clear">
                                 <i class="lmlblog-icon">&#xe895;</i><a href="#2" title="司空琪壁纸"># 司空琪壁纸</a></li>
+                            </ul>
                         </div>
                         <div class="lmlblog-post-like-list">
                             <a href="#17" id="had_like_11788">
@@ -179,7 +191,7 @@
                         </div>
 
                     </div><!-- posts_list -->
-                    {% endfor %}
+
 
 
                 {% endfor %}

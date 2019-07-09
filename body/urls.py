@@ -12,6 +12,7 @@ urlpatterns = [
     path('register/', views.register, name='register'), # 注册
     path('retrieve_password/', views.retrieve_password, name='retrieve_password'), # 找回密码
     path('change_password/', views.change_password, name='change_password'), # 修改密码
-    path('publish/', views.publish.as_view(), name='publish')
+    path('publish/', views.publish.as_view(), name='publish'),
+    path('thump_up/', views.Thumpsup, name='thumps_up')
 ]
 

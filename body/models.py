@@ -31,7 +31,8 @@ class DynamicStatus(models.Model):
     # 发表的动态内容
     d_content = models.TextField()
     # 发表的图片
-    d_picture = models.FileField(upload_to='picture', null=True, validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')])
+    d_picture = models.FileField(upload_to='picture', null=True, validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')], max_length=1000)
+    d_num = models.IntegerField(default=0)
     # 谁发表的动态
     user_id = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
@@ -50,8 +51,6 @@ class Thumps_up(models.Model):
     u = models.ForeignKey(UserInfo, on_delete=models.PROTECT)
     # 赞的那个动态
     article = models.ForeignKey(DynamicStatus, on_delete=models.PROTECT)
-    # 点赞的时间
-    date = models.DateTimeField(auto_now_add=True)
 
 
 class AttentionPerson(models.Model):

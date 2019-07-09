@@ -44,5 +44,19 @@
     background: url('../images/35.32-yoo190131143813.png');
 }
 
+.lmlblog-no-like{
+    background: url('../images/35.32-yoo190131143813.png')-50px -25px;
+}
+
+.lmlblog-no-like1 i{
+    /*相机*/
+    /*background: url('../images/35.32-yoo190131143813.png')-2px 40px;*/
+    background: url('../images/35.32-yoo190131143813.png')-2px -405px;
+}
+.lmlblog-no-like1:hover{
+    color: red;
+}
+
+
 
 
