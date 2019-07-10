@@ -32,7 +32,12 @@ class DynamicStatus(models.Model):
     d_content = models.TextField()
     # 发表的图片
     d_picture = models.FileField(upload_to='picture', null=True, validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')], max_length=1000)
+    # 点赞的数量
     d_num = models.IntegerField(default=0)
+    # 喜欢的数量
+    d_like = models.IntegerField(default=0)
+    # 转发之后附加内容
+    new_content = models.TextField(null=True)
     # 谁发表的动态
     user_id = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
@@ -51,6 +56,14 @@ class Thumps_up(models.Model):
     u = models.ForeignKey(UserInfo, on_delete=models.PROTECT)
     # 赞的那个动态
     article = models.ForeignKey(DynamicStatus, on_delete=models.PROTECT)
+
+
+# 喜欢表
+class love(models.Model):
+    # 谁喜欢这条动态
+    u = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    # 喜欢那条动态
+    U_Article = models.ForeignKey(DynamicStatus, on_delete=models.CASCADE)
 
 
 class AttentionPerson(models.Model):

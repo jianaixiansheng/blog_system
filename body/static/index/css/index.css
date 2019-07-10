@@ -39,10 +39,10 @@
     top: 80px;
 }
 
-.pub_img input{
-    /*border: 1px solid red;*/
-    background: url('../images/35.32-yoo190131143813.png');
-}
+/*.pub_img input{*/
+    /*!*border: 1px solid red;*!*/
+    /*background: url('../images/35.32-yoo190131143813.png');*/
+/*}*/
 
 .lmlblog-no-like{
     background: url('../images/35.32-yoo190131143813.png')-50px -25px;
@@ -57,6 +57,46 @@
     color: red;
 }
 
+/*.zan1{*/
+    /*border: 1px solid black;*/
+/*}*/
+
+.zan2{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url('../images/35.32-yoo190131143813.png')-50px -25px;
+}
+
+.zan1{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url('../images/35.32-yoo190131143813.png')-50px 30px;
+}
+
+.like1{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url('../images/35.32-yoo190131143813.png')-270px -538px;
+}
+
+.like2{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url('../images/35.32-yoo190131143813.png')-82px -31px;
+}
+
+
+.move_cont{
+    display: none;
+    width: 432px;
+    height: 211px;
+    border: 1px solid red;
+    background:white;
+}
 
 
 

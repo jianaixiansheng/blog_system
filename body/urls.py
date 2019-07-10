@@ -13,6 +13,8 @@ urlpatterns = [
     path('retrieve_password/', views.retrieve_password, name='retrieve_password'), # 找回密码
     path('change_password/', views.change_password, name='change_password'), # 修改密码
     path('publish/', views.publish.as_view(), name='publish'),
-    path('thump_up/', views.Thumpsup, name='thumps_up')
+    path('thump_up/<int:a_id>', views.Thumpsup, name='thumps_up'),
+    path('Love_article/<int:a_id>', views.Love_article, name='Love_article'),
+    path('move_text/<int:a_id>', views.move_text, name='move_text')
 ]
 

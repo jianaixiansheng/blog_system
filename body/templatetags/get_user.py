@@ -64,21 +64,29 @@ def time_since(value):
 
 
 
-def Thumps_ups(u_id, a_id):
-    dynamic = DynamicStatus.objects.get(id=a_id)
-    if Thumps_up.objects.filter(u_id=u_id, article_id=a_id).exists():
-        Thumps_up.objects.filter(u_id=u_id, article_id=a_id).delete()
-        dynamic.d_num -= 1
-        dynamic.save()
+def Thumps_ups(a_id):
+    if Thumps_up.objects.filter(u_id=1, article_id=a_id).exists():
         return True
     else:
-        Thumps_up.objects.create(u_id=2, article_id=a_id)
-        dynamic.d_num += 1
-        dynamic.save()
         return False
 
 
 register.filter('thumps_up', Thumps_ups)
+
+
+def love_art(a_id):
+    if love.objects.filter(u_id=1, U_Article_id=a_id).exists():
+        return True
+    else:
+        return False
+
+
+register.filter('love_art', love_art)
+
+
+def get_a_id(d_user, d_z_user):
+    # aid =
+    pass
 
 
 

@@ -132,8 +132,6 @@
                                     {{ dyns.d_content }}
                                 </p>
 
-{#                                <img src="{{ MEDIA_URL }}{{ dyns.get_picture }}" alt="" width="250" height="250">#}
-{#                                {{ dyns.id|get_picture }}#}
                                 {% for foo in dyns.id|get_picture %}
                                     <img src="{{ MEDIA_URL }}{{ foo }}" alt="">
                                 {% endfor %}
@@ -146,32 +144,32 @@
 
                         <div class="lmlblog-post-bar">
                             <ul>
-{#                                <li class="lmlblog-no-like">#}
-{#                                {% if u %}#}
-                                    {% if u.id|thumps_up:dyns.id %}
-                                        <a href="{% url 'thumps_up'  %}">取消点赞</a>
-                                    {% else %}
-                                        <a href="{% url 'thumps_up' %}">点赞</a>
-                                    {% endif %}
-                            {{ dyns.d_num }}
-{#                                {% else %}#}
-{#                                    <a href="{% url 'log' %}">点赞</a>  {{ dyns.d_num }}#}
-{#                                {% endif %}#}
+                                <li>
+                                    {% if dyns.id|thumps_up %}
+                                    <a href="{% url 'thumps_up' a_id=dyns.id  %}" class="zan1"></a>
+                                {% else %}
+                                    <a href="{% url 'thumps_up' a_id=dyns.id %}" class="zan2"></a>
+                                {% endif %}
+                                <span style="position: absolute;margin-left: 35px;margin-top: -32px">{{ dyns.d_num }}</span>
+                                </li>
 
-                                <i class="lmlblog-icon">&#xe608;</i> <span>5</span>
-{#                            </li>#}
-                            <li class="lmlblog-no-like1">
-                                <i class="lmlblog-icon">&#xe633;</i> <span>5</span>
-                            </li>
-                            <li onclick='lmlblog_pop_login_style();'>
-                                <i class="lmlblog-icon"></i>评论 <span>0</span>
-                            </li>
-                            <li>
-                                <i class="lmlblog-icon">&#xe602;</i> <span>1.2w</span>
-                            </li>
-                            <li class="tag clear">
-                                <i class="lmlblog-icon">&#xe895;</i><a href="#2" title="司空琪壁纸"># 司空琪壁纸</a></li>
+                                <li>
+                                   {% if dyns.id|love_art %}
+                                        <a href="{% url 'Love_article' a_id=dyns.id  %}" class="like1"></a>
+                                   {% else %}
+                                        <a href="{% url 'Love_article' a_id=dyns.id %}" class="like2"></a>
+                                   {% endif %}
+                                    <span style="position: absolute;margin-left: 35px;margin-top: -28px">{{ dyns.d_like }}</span>
+                                </li>
+
+                                <li>
+
+                                    <input type="radio" name="zhuan" class="move_font" value="{{ dynamic.id }}">
+                                </li>
+
+
                             </ul>
+
                         </div>
                         <div class="lmlblog-post-like-list">
                             <a href="#17" id="had_like_11788">
@@ -195,6 +193,17 @@
 
 
                 {% endfor %}
+
+                <form action="{% url 'move_text' a_id=d_id %}" method="post">
+                    {% csrf_token %}
+
+                    <div class="move_cont">
+                                <textarea name="move_content" id="" cols="30" rows="10" style="width: 390px;height: 60px;border: 1px solid burlywood;"></textarea>
+
+                        <input type="submit" value="转发">
+                    </div>
+
+                </form>
                 <!-- 分页地点 -->
                 <div class="lmlblog-pager"><a class="lmlblog-pager-left" href="#2">上一页</a>
                     <div class="lmlblog-pager-center layui-form">
