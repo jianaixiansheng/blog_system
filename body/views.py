@@ -37,7 +37,7 @@ class publish(views.View):
                 file.write(j)
             file.close()
         DynamicStatus.objects.create(d_content=content, d_picture=str(p_list), user_id_id=2)
-        return redirect('index')
+        return redirect('body:index')
 
 
 def Thumpsup(request, a_id):
@@ -111,8 +111,8 @@ def move_text(request, a_id):
     # 最近访客信息传递
     guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     # uid = request.session.get('u_id')
-    d_id = request.POST.get('zhuan')
-    dynamic = DynamicStatus.objects.get(id=d_id)
+    # d_id = request.POST.get('zhuan')
+    dynamic = DynamicStatus.objects.get(id=a_id)
     d_user_id = dynamic.user_id_id # 被转发的用户Id
     print('d_user_id在这儿', d_user_id)
     u_id = UserInfo.objects.get(id=1).id # 转发的用户Id
@@ -126,7 +126,7 @@ def move_text(request, a_id):
                                           "heat": heat,
                                           "guest": guest,
                                           "dynamic": dynamic,
-                                          'd_id': d_id
+                                          # 'd_id': d_id
                                           })
 
 

@@ -54,16 +54,16 @@
                 <div class="lmlblog-member-follow-info">
                     <a href="https://weibo.com/u/6077164061" target="_blank" rel="nofollow"><span
                             class="follow no opacity"><i class="lmlblog-icon"></i>+ 关注</span></a>
-                    <span class="opacity"><i class="lmlblog-icon">&#xe612;</i> <a href="{% url 'chat' %}">私聊</a></span>
+                    <span class="opacity"><i class="lmlblog-icon">&#xe612;</i> <a href="{% url 'body:chat' %}">私聊</a></span>
                 </div>
             </div>
             <div class="lmlblog-member-menu clear">
                 <ul>
-                    <li {% block activate1 %}{% endblock %} ><a href="{% url 'index' %}">主页</a></li>
-                <li {% block activate2 %}{% endblock %} ><a href="{% url 'dynamic_state' %}">动态</a></li>
-                <li {% block activate3 %}{% endblock %} ><a href="{% url 'music' %}">音乐</a></li>
-                <li {% block activate5 %}{% endblock %} ><a href="{% url 'photo_album' %}">相册</a></li>
-                <li {% block activate6 %}{% endblock %} ><a href="{% url 'personal' %}">个人档</a></li>
+                    <li {% block activate1 %}{% endblock %} ><a href="{% url 'body:index' %}">主页</a></li>
+                <li {% block activate2 %}{% endblock %} ><a href="{% url 'body:dynamic_state' %}">动态</a></li>
+                <li {% block activate3 %}{% endblock %} ><a href="{% url 'body:music' %}">音乐</a></li>
+                <li {% block activate5 %}{% endblock %} ><a href="{% url 'body:photo_album' %}">相册</a></li>
+                <li {% block activate6 %}{% endblock %} ><a href="{% url 'body:personal' %}">个人档</a></li>
                 </ul>
             </div>
             {% block show %}

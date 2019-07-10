@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 
 <!DOCTYPE html>
 <html>
@@ -38,7 +38,7 @@
 		<div class="wid_con">
 			<div class="top_con">
 				<div class="top_logo">
-					<a href="{% url 'index' %}">
+					<a href="{% url 'body:index' %}">
 						<img src="{% static 'login_and_registration/images/logo_touming.gif' %}">
 					</a>
 					<span>{% block static %}{% endblock %}</span>

@@ -72,7 +72,7 @@
                     <p>　　一袭蓝衣亭亭玉立，姣若春梅绽雪，神如月射寒江，香培玉琢、英姿飒爽;其静兰生幽谷，其动若飞若扬，性格大气坚毅、疏朗开阔，举止敢爱敢恨、聪明磊落...他就是燕凌姣</p></a>
             </div>
         </div>
-    <form action="{% url 'publish' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'body:publish' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="publish_text" style="left: 18px;position: relative;">
             <div class="pub_tex1">
@@ -146,18 +146,18 @@
                             <ul>
                                 <li>
                                     {% if dyns.id|thumps_up %}
-                                    <a href="{% url 'thumps_up' a_id=dyns.id  %}" class="zan1"></a>
+                                    <a href="{% url 'body:thumps_up' a_id=dyns.id  %}" class="zan1"></a>
                                 {% else %}
-                                    <a href="{% url 'thumps_up' a_id=dyns.id %}" class="zan2"></a>
+                                    <a href="{% url 'body:thumps_up' a_id=dyns.id %}" class="zan2"></a>
                                 {% endif %}
                                 <span style="position: absolute;margin-left: 35px;margin-top: -32px">{{ dyns.d_num }}</span>
                                 </li>
 
                                 <li>
                                    {% if dyns.id|love_art %}
-                                        <a href="{% url 'Love_article' a_id=dyns.id  %}" class="like1"></a>
+                                        <a href="{% url 'body:Love_article' a_id=dyns.id  %}" class="like1"></a>
                                    {% else %}
-                                        <a href="{% url 'Love_article' a_id=dyns.id %}" class="like2"></a>
+                                        <a href="{% url 'body:Love_article' a_id=dyns.id %}" class="like2"></a>
                                    {% endif %}
                                     <span style="position: absolute;margin-left: 35px;margin-top: -28px">{{ dyns.d_like }}</span>
                                 </li>
@@ -194,7 +194,7 @@
 
                 {% endfor %}
 
-                <form action="{% url 'move_text' a_id=d_id %}" method="post">
+                <form action="{% url 'body:move_text' a_id=82 %}" method="post">
                     {% csrf_token %}
 
                     <div class="move_cont">

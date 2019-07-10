@@ -13,9 +13,9 @@ def code(request):
     # send_sms(tel,get_code())
 
 # 写登陆
-def _login(request):
+def login(request):
     if request.method == "GET":
-        return render(request,'log.html')
+        return render(request, 'log.html')
     else:
         user_numbers = request.POST.get('tel')
         user_password = request.POST.get('pwd')
@@ -24,7 +24,7 @@ def _login(request):
         try:
             if UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password):
                 if yzm == verifycode:
-                    return HttpResponse('成功')
+                    return redirect('body:index')
                 else:
                     return render(request, 'log.html')
             return render(request, 'log.html')
@@ -52,7 +52,7 @@ def register(request):
         user_city = request.POST.get('city')
         UserInfo.objects.create(user_numbers=user_numbers,user_password=user_password,user_name=user_name,user_sex=user_sex,user_sign=user_sign,user_birth=user_birth,user_city=user_city)
 
-        return redirect(reverse('login'))
+        return redirect(reverse('logins:login'))
 
 # 图片验证码
 def verify_code(request):
@@ -79,7 +79,7 @@ def verify_code(request):
     for i in range(0, 4):
         rand_str += str1[random.randrange(0, len(str1))]
     #构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
-    font = ImageFont.truetype('F:/code/blog_system/login/FreeMono.ttf', 23)
+    font = ImageFont.truetype('E:/courseware/shixunxaingmu/blog_system/login/FreeMono.ttf', 23)
     #构造字体颜色
     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
     #绘制4个字
@@ -107,7 +107,7 @@ def forgetpassword(request):
         tel = request.POST.get('tel')
         if UserInfo.objects.get(user_numbers=tel):
             request.session['tel']=tel
-            return redirect(reverse('change'))
+            return redirect(reverse('logins:change'))
         else:
             render(request, 'forgetpassword.html')
 
@@ -129,9 +129,9 @@ def change(request):
             user = UserInfo.objects.get(user_numbers=tel)
             user.user_password=pwd
             user.save()
-            return redirect(reverse('login'))
+            return redirect(reverse('logins:login'))
         else:
-            return redirect(reverse('forget'))
+            return redirect(reverse('logins:forget'))
 
 
 
