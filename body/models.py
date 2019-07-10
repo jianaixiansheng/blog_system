@@ -3,6 +3,9 @@ from django.core import validators
 
 # Create your models here.
 
+
+
+
 class UserInfo(models.Model):
     """用户表"""
     user_numbers=models.BigIntegerField(null=True)
@@ -12,8 +15,8 @@ class UserInfo(models.Model):
     user_sign = models.TextField()
     user_birth = models.DateField()
     user_city = models.CharField(max_length=20)
-    user_one_level = models.IntegerField()
-    user_member_level = models.IntegerField()
+    user_one_level = models.IntegerField(default=0)
+    user_member_level = models.IntegerField(default=0)
 
 
 class PhotoAlbum(models.Model):

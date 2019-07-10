@@ -123,43 +123,8 @@ def chat(request):
     user_name = '呵呵哒'
     return render(request,"chat.html",{"head_portrait":head_portrait,"user_name":user_name})
 
-def log(request):
-    '''
 
-    :param request:
-    :return:
-        登录页面
-    '''
 
-    return render(request,"log.html")
 
-def register(request):
-    '''
 
-    :param request:
-    :return:
-        注册页面
-    '''
 
-    return render(request,"register.html")
-
-def retrieve_password(request):
-    '''
-
-    :param request:
-    :return:
-        找回密码页面
-
-    '''
-
-    return render(request,"retrieve_password.html")
-
-def change_password(request):
-    '''
-
-    :param request:
-    :return:
-        修改密码页面
-    '''
-
-    return render(request,"change_password.html")
