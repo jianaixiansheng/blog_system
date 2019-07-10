@@ -8,7 +8,7 @@
     <form action="{% url 'change' %}" method="post">
         {% csrf_token %}
         <input type="text" name="yzm" placeholder="请输入验证码">
-        <input type="text" name="pwd" placeholder="请输入新密码">
+        <input type="text" name="pwd" pattern="[0-9|A-z]{6}" placeholder="请输入6位密码">
         <input type="submit" value="修改">
     </form>
 {% endblock %}
