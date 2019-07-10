@@ -64,8 +64,8 @@ def time_since(value):
 
 
 
-def Thumps_ups(a_id):
-    if Thumps_up.objects.filter(u_id=1, article_id=a_id).exists():
+def Thumps_ups(u_id, a_id):
+    if Thumps_up.objects.filter(u_id=u_id, article_id=a_id).exists():
         return True
     else:
         return False
@@ -74,8 +74,8 @@ def Thumps_ups(a_id):
 register.filter('thumps_up', Thumps_ups)
 
 
-def love_art(a_id):
-    if love.objects.filter(u_id=1, U_Article_id=a_id).exists():
+def love_art(u_id, a_id):
+    if love.objects.filter(u_id=u_id, U_Article_id=a_id).exists():
         return True
     else:
         return False
@@ -84,9 +84,28 @@ def love_art(a_id):
 register.filter('love_art', love_art)
 
 
-def get_a_id(d_user, d_z_user):
-    # aid =
-    pass
+@register.filter
+def get_a_id(a_id):
+    if DynamicStatus.objects.get(id=a_id):
+        print('这是第一次')
+        return False
+    else:
+        print('这是第二次')
+        return True
+
+
+
+@register.filter
+
+def get_content(a_id):
+    d_all = DynamicStatus.objects.filter(id=a_id)
+    # print(d_all)
+    if d_all.values_list('new_content', flat=True)[0] != None:
+        # print()
+        return True
+    else:
+        return False
+
 
 
 

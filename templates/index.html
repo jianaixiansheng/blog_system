@@ -128,15 +128,20 @@
                         </div>
                         <div class="lmlblog-post-content ">
                             <a class="post_list_link" href="#">
-                                <p>
-                                    {{ dyns.d_content }}
-                                </p>
+
+                            {% if dyns.id|get_content %}
+                                     <p>{{ dyns.new_content }}</p>
+                                    <p>{{ dyns.d_content }}</p>
+                                {% else %}
+
+
+                                    <p>{{ dyns.d_content }}</p>
+
+                            {% endif %}
 
                                 {% for foo in dyns.id|get_picture %}
                                     <img src="{{ MEDIA_URL }}{{ foo }}" alt="">
                                 {% endfor %}
-
-
 
 
                             </a>
@@ -145,7 +150,7 @@
                         <div class="lmlblog-post-bar">
                             <ul>
                                 <li>
-                                    {% if dyns.id|thumps_up %}
+                                    {% if u.id|thumps_up:dyns.id %}
                                     <a href="{% url 'body:thumps_up' a_id=dyns.id  %}" class="zan1"></a>
                                 {% else %}
                                     <a href="{% url 'body:thumps_up' a_id=dyns.id %}" class="zan2"></a>
@@ -154,7 +159,7 @@
                                 </li>
 
                                 <li>
-                                   {% if dyns.id|love_art %}
+                                   {% if u.id|love_art:dyns.id %}
                                         <a href="{% url 'body:Love_article' a_id=dyns.id  %}" class="like1"></a>
                                    {% else %}
                                         <a href="{% url 'body:Love_article' a_id=dyns.id %}" class="like2"></a>
@@ -164,13 +169,29 @@
 
                                 <li>
 
-                                    <input type="radio" name="zhuan" class="move_font" value="{{ dynamic.id }}">
+{#                                    <input type="radio" name="zhuan" class="move_font" value="{{ dynamic.id }}">#}
+                                    <span class="move_font">转</span>
                                 </li>
 
 
                             </ul>
 
                         </div>
+{#                        {% if dyns.id|get_a_id %}#}
+                <form action="{% url 'body:move_text' a_id=dyns.id %}" method="post">
+                    {% csrf_token %}
+
+
+                        <div class="move_cont">
+                             <textarea name="move_content" id="" cols="30" rows="10" style="width: 390px;height: 60px;border: 1px solid burlywood;"></textarea>           <input type="submit" value="转发">
+                        </div>
+
+
+
+                </form>
+{#                        {% else %}#}
+{#                        我在这人#}
+{#                    {% endif %}#}
                         <div class="lmlblog-post-like-list">
                             <a href="#17" id="had_like_11788">
                                 <img src="picture/11.gif" class="avatar"/></a>
@@ -194,16 +215,7 @@
 
                 {% endfor %}
 
-                <form action="{% url 'body:move_text' a_id=82 %}" method="post">
-                    {% csrf_token %}
 
-                    <div class="move_cont">
-                                <textarea name="move_content" id="" cols="30" rows="10" style="width: 390px;height: 60px;border: 1px solid burlywood;"></textarea>
-
-                        <input type="submit" value="转发">
-                    </div>
-
-                </form>
                 <!-- 分页地点 -->
                 <div class="lmlblog-pager"><a class="lmlblog-pager-left" href="#2">上一页</a>
                     <div class="lmlblog-pager-center layui-form">

@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'root',  # 用户名
         'PASSWORD': 'root',  # 密码
         'HOST': '106.13.144.115',
-        # 'HOST': '127.0.0.1',
+        # 'HOST': 'localhost',
         'PORT': '3306',
     }
 }

@@ -23,7 +23,9 @@ def login(request):
         verifycode = request.session['verifycode']
         try:
             if UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password):
+                u = UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password)
                 if yzm == verifycode:
+                    request.session['user_id'] = u.id
                     return redirect('body:index')
                 else:
                     return render(request, 'log.html')
