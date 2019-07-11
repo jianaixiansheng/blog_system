@@ -39,6 +39,8 @@ class DynamicStatus(models.Model):
     d_num = models.IntegerField(default=0)
     # 喜欢的数量
     d_like = models.IntegerField(default=0)
+    # 转发数量
+    d_move = models.IntegerField(default=0)
     # 转发之后附加内容
     new_content = models.TextField(null=True)
     # 谁发表的动态
@@ -94,8 +96,8 @@ class Comment(models.Model):
 
 
 class GuestLog(models.Model):
-    g_b_user=models.IntegerField()
     # 被访问的用户
-    g_user=models.ForeignKey('UserInfo',on_delete=models.CASCADE)
+    g_b_user=models.IntegerField()
     # 访问的用户
+    g_user=models.ForeignKey('UserInfo',on_delete=models.CASCADE)
     g_date=models.DateTimeField(auto_now=True)

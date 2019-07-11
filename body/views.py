@@ -55,6 +55,7 @@ def Thumpsup(request, a_id):
     guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     u = UserInfo.objects.get(id=u_id)
     dynamic = DynamicStatus.objects.get(id=a_id)
+    # all_id = Thumps_up.objects.filter(article_id=a_id)
     if Thumps_up.objects.filter(u_id=u_id, article_id=a_id).exists():
         Thumps_up.objects.filter(u_id=u_id, article_id=a_id).delete()
         dynamic.d_num -= 1
@@ -68,7 +69,9 @@ def Thumpsup(request, a_id):
                                           "head_portrait": head_portrait,
                                         "info": info,
                                         "heat": heat,
-                                        "guest": guest})
+                                        "guest": guest,
+                                        # 'all_id': all_id
+                                          })
 
 
 def Love_article(request, a_id):
@@ -120,6 +123,8 @@ def move_text(request, a_id):
     dynamic = DynamicStatus.objects.get(id=a_id)
     Move_text.objects.create(d_user=b_id, d_z_user_id=u_id)
     DynamicStatus.objects.create(d_content=dynamic.d_content, d_picture=dynamic.d_picture, new_content=new_content, user_id_id=u_id)
+    dynamic.d_move += 1
+    dynamic.save()
     return render(request, 'index.html', {"head_portrait": head_portrait,
                                         "info": info,
                                         "heat": heat,

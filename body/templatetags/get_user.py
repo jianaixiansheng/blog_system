@@ -84,14 +84,7 @@ def love_art(u_id, a_id):
 register.filter('love_art', love_art)
 
 
-@register.filter
-def get_a_id(a_id):
-    if DynamicStatus.objects.get(id=a_id):
-        print('这是第一次')
-        return False
-    else:
-        print('这是第二次')
-        return True
+
 
 
 
@@ -99,14 +92,22 @@ def get_a_id(a_id):
 
 def get_content(a_id):
     d_all = DynamicStatus.objects.filter(id=a_id)
-    # print(d_all)
     if d_all.values_list('new_content', flat=True)[0] != None:
-        # print()
         return True
     else:
         return False
 
 
+@register.filter
+
+
+def get_username(a_id):
+    uid = Thumps_up.objects.filter(article_id=a_id)
+    u_id = uid.values_list('article__user_id', flat=True)[0]
+    u = UserInfo.objects.filter(id=u_id)
+    name = u.values_list('user_name', flat=True)[0]
+    print(name)
+    return name
 
 
 

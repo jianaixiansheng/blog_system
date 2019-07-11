@@ -68,6 +68,10 @@
     background: url('../images/35.32-yoo190131143813.png')-50px -25px;
 }
 
+.zan2:hover{
+    background: url('../images/35.32-yoo190131143813.png')-50px 30px;
+}
+
 .zan1{
     display: block;
     width: 30px;
@@ -79,6 +83,10 @@
     display: block;
     width: 20px;
     height: 20px;
+    background: url('../images/35.32-yoo190131143813.png')-270px -538px;
+}
+
+.like2:hover{
     background: url('../images/35.32-yoo190131143813.png')-270px -538px;
 }
 
@@ -98,5 +106,20 @@
     background:white;
 }
 
+.move_font{
+    display: block;
+    width: 24px;
+    height: 24px;
+    background: url('../images/35.32-yoo190131143813.png')-40px -55px
+}
 
+.move_font:hover{
+    background: url('../images/35.32-yoo190131143813.png')-50px -3px;
+}
+
+.d_move{
+    position: absolute;
+    margin-left: 40px;
+    margin-top: -33px;
+}
 

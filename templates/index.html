@@ -169,15 +169,15 @@
 
                                 <li>
 
-{#                                    <input type="radio" name="zhuan" class="move_font" value="{{ dynamic.id }}">#}
-                                    <span class="move_font">转</span>
+                                    <span class="move_font"></span>
+                                    <span class="d_move">{{ dyns.d_move }}</span>
                                 </li>
 
 
                             </ul>
 
                         </div>
-{#                        {% if dyns.id|get_a_id %}#}
+
                 <form action="{% url 'body:move_text' a_id=dyns.id %}" method="post">
                     {% csrf_token %}
 
@@ -189,21 +189,25 @@
 
 
                 </form>
-{#                        {% else %}#}
-{#                        我在这人#}
-{#                    {% endif %}#}
                         <div class="lmlblog-post-like-list">
-                            <a href="#17" id="had_like_11788">
-                                <img src="picture/11.gif" class="avatar"/></a>
-                            <a href="#18" id="had_like_11499"><img src="picture/12.gif" class="avatar"/></a>
-                            <a href="#22" id="had_like_11488"><img src="picture/20.png" class="avatar"/>
-                                <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：作者许仙白"></i></a><a href="#22"
-                                                                                                         id="had_like_11477">
-                            <img src="picture/13.gif" class="avatar"/>
-                            <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：168号计师"></i></a><a href="#22"
-                                                                                                      id="had_like_1">
-                            <img src="images/tx2.jpg" class="avatar"/>
-                            <i class="lmlblog-verify lmlblog-verify-a" title="司空琪"></i></a></div>
+
+                            {% for i in all_id %}
+                                   <a href="" id="had_like_11788" style="border: 1px solid red;">{{ i|get_user }}</a>
+                            {% endfor %}
+
+
+
+{#                            <a href="" id="had_like_11499"><img src="" class="avatar"/></a>#}
+{#                            <a href="" id="had_like_11488"><img src="" class="avatar"/>#}
+{#                            <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：作者许仙白" style="border: 1px solid red;"></i>#}
+{#                            </a>#}
+{#                            <a href="#22" id="had_like_11477">#}
+{#                            <img src="picture/13.gif" class="avatar"/>#}
+{#                            <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：168号计师"></i></a>#}
+{#                            <a href="#22" id="had_like_1">#}
+{#                            <img src="images/tx2.jpg" class="avatar"/>#}
+{#                            <i class="lmlblog-verify lmlblog-verify-a" title="司空琪"></i></a>#}
+                        </div>
                         <div class="lmlblog-post-footer-bar">
                             <span title="2017-12-14 05:25:48">12月14日 05:25</span>
                             <span>电脑端</span><i class="lmlblog-icon" onclick="lmlblog_post_type_open();">&#xe62c;</i>
