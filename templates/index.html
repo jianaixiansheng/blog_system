@@ -77,12 +77,13 @@
         <div class="publish_text" style="left: 18px;position: relative;">
             <div class="pub_tex1">
              <textarea  class="text_area" placeholder="说点儿什么吧"
-      rows="1" name="d_content"></textarea>
-                <input type="file" class="pub_img" name="d_picture" multiple="">
+      rows="1" name="d_content" style="border-bottom: none;"></textarea>
+                <img src="" alt="" class="pub_img1">
+                <input type="file" class="pub_img" name="d_picture" multiple="" style="display: none;">
             </div>
-            <div class="text_pub">
+            <div class="text_pub" style="width: 711px;height: 42px;background:white;border-top: 1px silver solid;display: none;">
 
-               <input type="submit" value="发表">
+               <input type="submit" value="发表" class="pub_tex2">
             </div>
         </div>
     </form>
@@ -113,7 +114,7 @@
                                 <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span
                                     class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
                             </div>
-                            <div class="lmlblog-post-user-info-time" title="{{ dyns.d_time|time_since }}">{{ dyns.d_time|time_since }}</div>
+                            <div class="lmlblog-post-user-info-time" title="{{ dyns.d_time|timesince }}">{{ dyns.d_time|timesince }}</div>
                         </div><!-- 作者信息 -->
                         <div class="lmlblog-post-setting">
                             <i class="fa fa-angle-down"></i>
@@ -127,24 +128,27 @@
                             </div>
                         </div>
                         <div class="lmlblog-post-content ">
-                            <a class="post_list_link" href="#">
+                            <span class="post_list_link">
 
                             {% if dyns.id|get_content %}
-                                     <p>{{ dyns.new_content }}</p>
-                                    <p>{{ dyns.d_content }}</p>
+                                <p><a href="#" style="font-family: 楷体;font-size: 20px;">{{ dyns.new_content }}</a></p>
+                                <br>
+                                <p><a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a></p>
                                 {% else %}
 
 
-                                    <p>{{ dyns.d_content }}</p>
+                                <a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a>
 
                             {% endif %}
 
+                            </span>
+
+
                                 {% for foo in dyns.id|get_picture %}
-                                    <img src="{{ MEDIA_URL }}{{ foo }}" alt="">
+                                  <a href="#">  <img src="{{ MEDIA_URL }}{{ foo }}" alt="" width="150" height="150" style="border: 1px silver solid;"> </a>
                                 {% endfor %}
 
 
-                            </a>
                         </div>
 
                         <div class="lmlblog-post-bar">
@@ -164,7 +168,7 @@
                                    {% else %}
                                         <a href="{% url 'body:Love_article' a_id=dyns.id %}" class="like2"></a>
                                    {% endif %}
-                                    <span style="position: absolute;margin-left: 35px;margin-top: -28px">{{ dyns.d_like }}</span>
+                                    <span style="position: absolute;margin-left: 35px;margin-top: -24px">{{ dyns.d_like }}</span>
                                 </li>
 
                                 <li>
@@ -191,29 +195,19 @@
                 </form>
                         <div class="lmlblog-post-like-list">
 
-                            {% for i in all_id %}
-                                   <a href="" id="had_like_11788" style="border: 1px solid red;">{{ i|get_user }}</a>
+                            {% for i in  dyns.thumps_up_set.all  %}
+
+                                <a href="#">{{ i.u.user_name }}</a>
                             {% endfor %}
 
 
-
-{#                            <a href="" id="had_like_11499"><img src="" class="avatar"/></a>#}
-{#                            <a href="" id="had_like_11488"><img src="" class="avatar"/>#}
-{#                            <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：作者许仙白" style="border: 1px solid red;"></i>#}
-{#                            </a>#}
-{#                            <a href="#22" id="had_like_11477">#}
-{#                            <img src="picture/13.gif" class="avatar"/>#}
-{#                            <i class="lmlblog-verify lmlblog-verify-a" title="认证信息：168号计师"></i></a>#}
-{#                            <a href="#22" id="had_like_1">#}
-{#                            <img src="images/tx2.jpg" class="avatar"/>#}
-{#                            <i class="lmlblog-verify lmlblog-verify-a" title="司空琪"></i></a>#}
                         </div>
                         <div class="lmlblog-post-footer-bar">
                             <span title="2017-12-14 05:25:48">12月14日 05:25</span>
                             <span>电脑端</span><i class="lmlblog-icon" onclick="lmlblog_post_type_open();">&#xe62c;</i>
                         </div>
 
-                    </div><!-- posts_list -->
+                    </div>
 
 
 
