@@ -152,8 +152,8 @@ def move_text(request, a_id):
 
 
 def dynamic_state(request):
-    userid = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=userid)
+    u_id = request.session.get('user_id')
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
 
     # 好友文章信息传递
     info = [1,2,3,4,5,6,7,8,9,10]
@@ -176,8 +176,8 @@ def music(request):
     :return:
         音乐页面
     '''
-    userid = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=userid)
+    u_id = request.session.get('user_id')
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
 
     # 上传音频传递
     info = [1,2,3,4,5,6,7,8,9,10]
@@ -200,8 +200,8 @@ def photo_album(request):
     :return:
         相册页面
     '''
-    userid = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=userid)
+    u_id = request.session.get('user_id')
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
     return render(request,"photo_album.html",{"head_info":head_info})
 
 def personal(request):
@@ -211,8 +211,8 @@ def personal(request):
     :return:
         个人档页面
     '''
-    userid = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=userid)
+    u_id = request.session.get('user_id')
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
 
     # 上传音频传递
     info = [1]
@@ -234,12 +234,24 @@ def chat(request):
     :return:
         聊天页面
     '''
-    userid = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=userid)
+    u_id = request.session.get('user_id')
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
     return render(request,"chat.html",{"head_info":head_info})
 
 
 
 
-
+def Commnets(request):
+    data ={}
+    u_id = request.session.get('user_id')
+    text = request.POST.get('comm_content')
+    aId = request.POST.get('hidd')
+    dyns = DynamicStatus.objects.get(id=aId)
+    u = dyns.user_id_id  # 被评论的用户Id
+    Comment.objects.create(c_content=text, c_b_user_id=u, c_user=u_id, c_b_dynamic_id=aId)
+    data['status'] = 'SUCCESS'
+    data['u_id'] = u_id
+    data['text'] = text
+    data['aid'] = aId
+    return JsonResponse(data)
 
