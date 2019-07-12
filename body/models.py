@@ -7,15 +7,15 @@ from django.core import validators
 
 class UserInfo(models.Model):
     """用户表"""
-    user_numbers = models.BigIntegerField(null=True)
-    user_password = models.CharField(max_length=20, null=True)
-    user_name = models.CharField(max_length=20)
-    user_sex = models.CharField(max_length=20)
-    user_sign = models.TextField()
-    user_birth = models.DateField()
-    user_city = models.CharField(max_length=20)
-    user_one_level = models.IntegerField(default=0)
-    user_member_level = models.IntegerField(default=0)
+    user_numbers = models.BigIntegerField(null=True,verbose_name='账号')
+    user_password = models.CharField(max_length=20, null=True,verbose_name='密码')
+    user_name = models.CharField(max_length=20,verbose_name='用户名')
+    user_sex = models.CharField(max_length=20,verbose_name='性别')
+    user_sign = models.TextField(verbose_name='个性签名')
+    user_birth = models.DateField(verbose_name='出生日期')
+    user_city = models.CharField(max_length=20,verbose_name='所在地')
+    user_one_level = models.IntegerField(default=0,verbose_name='用户等级')
+    user_member_level = models.IntegerField(default=0,verbose_name='会员等级')
 
 
 class levelsystem(models.Model):
@@ -32,27 +32,27 @@ class levelsystem(models.Model):
 
 class PhotoAlbum(models.Model):
     """用户相册字段"""
-    user_image = models.ImageField(upload_to='image')
-    image_time = models.DateTimeField(auto_now_add=True)
-    image_type = models.CharField(max_length=10)
+    user_image = models.ImageField(upload_to='image',verbose_name='图片地址')
+    image_time = models.DateTimeField(auto_now_add=True,verbose_name='时间')
+    image_type = models.CharField(max_length=10,verbose_name='类型')
     user_fk = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
 
 class DynamicStatus(models.Model):
     """用户动态表"""
     # 发表动态的时间
-    d_time = models.DateTimeField(auto_now_add=True)
+    d_time = models.DateTimeField(auto_now_add=True,verbose_name='时间')
     # 发表的动态内容
-    d_content = models.TextField()
+    d_content = models.TextField(verbose_name='内容')
     # 发表的图片
     d_picture = models.FileField(upload_to='picture', null=True,
-                                 validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')], max_length=1000)
+                                 validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')], max_length=1000,verbose_name='图片')
     # 点赞的数量
-    d_num = models.IntegerField(default=0)
+    d_num = models.IntegerField(default=0,verbose_name='点赞数')
     # 喜欢的数量
-    d_like = models.IntegerField(default=0)
+    d_like = models.IntegerField(default=0,verbose_name='喜欢数')
     # 转发之后附加内容
-    new_content = models.TextField(null=True)
+    new_content = models.TextField(null=True,verbose_name='转发')
     # 谁发表的动态
     user_id = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
@@ -94,11 +94,11 @@ class AttentionPerson(models.Model):
 class Comment(models.Model):
     """评论表"""
     # 评论的内容
-    c_content = models.TextField()
+    c_content = models.TextField(verbose_name='内容')
     # 被评论的用户
-    c_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+    c_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE,verbose_name='被评用户')
     # 评论的用户
-    c_user = models.IntegerField()
+    c_user = models.IntegerField(verbose_name='评论用户')
     #被评论的文章
     c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
     # 被评论的评论的ID
