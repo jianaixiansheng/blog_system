@@ -93,13 +93,13 @@ class AttentionPerson(models.Model):
 
 class Comment(models.Model):
     """评论表"""
-    # 评论的内容被评论的用户评论的用户被评论的文章被评论的评论的ID
+    # 评论的内容
     c_content = models.TextField()
-    # 被评论的用户评论的用户被评论的文章被评论的评论的ID
+    # 被评论的用户
     c_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
-    # 评论的用户被评论的文章被评论的评论的ID
+    # 评论的用户
     c_user = models.IntegerField()
-    #
+    #被评论的文章
     c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
     # 被评论的评论的ID
     c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE)
