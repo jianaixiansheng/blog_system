@@ -26,7 +26,9 @@ def login(request):
                 u = UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password)
                 if yzm == verifycode:
                     request.session['user_id'] = u.id
+                    request.session.set_expiry(0)
                     return redirect('body:index')
+
                 else:
                     return render(request, 'log.html')
             return render(request, 'log.html')
@@ -81,7 +83,7 @@ def verify_code(request):
     for i in range(0, 4):
         rand_str += str1[random.randrange(0, len(str1))]
     #构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
-    font = ImageFont.truetype('E:/courseware/shixunxaingmu/blog_system/login/FreeMono.ttf', 23)
+    font = ImageFont.truetype('E:/code/blog_system/login/FreeMono.ttf', 23)
     #构造字体颜色
     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
     #绘制4个字

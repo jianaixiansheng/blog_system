@@ -42,15 +42,14 @@
         <div class="lmlblog-member-content">
             <div class="lmlblog-member-header">
                 <div class="lmlblog-member-avatar other">
-                    <img src="{{ head_portrait }}"
+                    <img src="{{ head_info.userimg }}"
                          class="avatar"/>
-                    <i class="lmlblog-verify lmlblog-verify-a" title="{{ user_name }}"></i></div>
+                    <i class="lmlblog-verify lmlblog-verify-a" title="{{ head_info.userid.user_name }}"></i></div>
                 <div class="lmlblog-member-username">
-                    <h1>{{ user_name }}</h1>
-                    <span class="lmlblog-mark lmlblog-girl"><i class="fa fa-mars"></i></span>
-                    <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.6</span>
-                    <span class="lmlblog-mark lmlblog-vip">VIP 6</span></div>
-                <div class="lmlblog-member-desc">江湖风雨，几度阑珊。沧海一粟，愿君一剑轻安。</div>
+                    <h1>{{ head_info.userid.user_name }}</h1>
+                    <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ head_info.userid.user_one_level }}</span>
+                    <span class="lmlblog-mark lmlblog-vip">VIP {{ head_info.userid.user_member_level }}</span></div>
+                <div class="lmlblog-member-desc">{{ head_info.userid.user_sign }}</div>
                 <div class="lmlblog-member-follow-info">
                     <a href="https://weibo.com/u/6077164061" target="_blank" rel="nofollow"><span
                             class="follow no opacity"><i class="lmlblog-icon"></i>+ 关注</span></a>
