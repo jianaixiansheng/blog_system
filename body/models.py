@@ -90,7 +90,7 @@ class Comment(models.Model):
     # 被评论的文章
     c_b_dynamic = models.ForeignKey('DynamicStatus',on_delete=models.CASCADE)
     # 被评论的评论的ID
-    c_b_commentID = models.ForeignKey('Comment',on_delete=models.CASCADE)
+    c_b_commentID = models.ForeignKey('Comment',on_delete=models.CASCADE, null=True)
 
 # 访客表
 

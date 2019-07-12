@@ -21,15 +21,30 @@
     height: 75px;
 }
 
-.pub_img{
+.pub_img1{
     display: block;
-    width: 40px;
-    height: 100px;
-    top: 10px;
-    right: 10px;
+    width: 27px;
+    height: 25px;
+    top: 20px;
+    right: 20px;
     position: absolute;
+    cursor: pointer;
+    background: url('../images/35.32-yoo190131143813.png')1.5px 35px;
 }
 
+.pub_img1:hover{
+    background: url('../images/35.32-yoo190131143813.png')-25px 35px;
+}
+
+.pub_tex2{
+    background-color: rgb(28, 165, 252);
+    color: white;
+    border: 1px solid rgb(28, 165, 252);
+    cursor: pointer;
+}
+/*.pub_tex2:hover{*/
+    /*background-color:rgb(100, 205, 212);*/
+/*}*/
 
 .text_pub input{
     width: 80px;
@@ -39,10 +54,6 @@
     top: 80px;
 }
 
-/*.pub_img input{*/
-    /*!*border: 1px solid red;*!*/
-    /*background: url('../images/35.32-yoo190131143813.png');*/
-/*}*/
 
 .lmlblog-no-like{
     background: url('../images/35.32-yoo190131143813.png')-50px -25px;
@@ -50,7 +61,7 @@
 
 .lmlblog-no-like1 i{
     /*相机*/
-    /*background: url('../images/35.32-yoo190131143813.png')-2px 40px;*/
+
     background: url('../images/35.32-yoo190131143813.png')-2px -405px;
 }
 .lmlblog-no-like1:hover{
@@ -120,6 +131,6 @@
 .d_move{
     position: absolute;
     margin-left: 40px;
-    margin-top: -33px;
+    margin-top: -31px;
 }
 

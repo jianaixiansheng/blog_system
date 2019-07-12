@@ -98,16 +98,4 @@ def get_content(a_id):
         return False
 
 
-@register.filter
-
-
-def get_username(a_id):
-    uid = Thumps_up.objects.filter(article_id=a_id)
-    u_id = uid.values_list('article__user_id', flat=True)[0]
-    u = UserInfo.objects.filter(id=u_id)
-    name = u.values_list('user_name', flat=True)[0]
-    print(name)
-    return name
-
-
 
