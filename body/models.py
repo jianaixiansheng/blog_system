@@ -1,15 +1,14 @@
 from django.db import models
 from django.core import validators
 
+
 # Create your models here.
-
-
 
 
 class UserInfo(models.Model):
     """用户表"""
-    user_numbers=models.BigIntegerField(null=True)
-    user_password=models.CharField(max_length=20, null=True)
+    user_numbers = models.BigIntegerField(null=True)
+    user_password = models.CharField(max_length=20, null=True)
     user_name = models.CharField(max_length=20)
     user_sex = models.CharField(max_length=20)
     user_sign = models.TextField()
@@ -19,22 +18,35 @@ class UserInfo(models.Model):
     user_member_level = models.IntegerField(default=0)
 
 
+class levelsystem(models.Model):
+    userid = models.ForeignKey(to='UserInfo', db_column='user_id', on_delete=models.CASCADE,verbose_name='用户id')
+    signnumber = models.IntegerField(db_column='sign_num',verbose_name='登陆天数')
+    memberopendata = models.DateField(null=True, db_column='member_open_data',verbose_name='会员充值日期')
+    duedata = models.DateField(null=True, db_column='member_due_data',verbose_name='会员到期时间')
+    sign = models.BooleanField(default=False,verbose_name='当天是否签到')
+    userimg = models.TextField(verbose_name='用户头像编码')
+
+    class Meta:
+        db_table = 'level_system'
+
+
 class PhotoAlbum(models.Model):
     """用户相册字段"""
     user_image = models.ImageField(upload_to='image')
     image_time = models.DateTimeField(auto_now_add=True)
     image_type = models.CharField(max_length=10)
-    user_fk = models.ForeignKey('UserInfo',on_delete=models.CASCADE)
+    user_fk = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
 
 class DynamicStatus(models.Model):
     """用户动态表"""
-    #发表动态的时间
+    # 发表动态的时间
     d_time = models.DateTimeField(auto_now_add=True)
     # 发表的动态内容
     d_content = models.TextField()
     # 发表的图片
-    d_picture = models.FileField(upload_to='picture', null=True, validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')], max_length=1000)
+    d_picture = models.FileField(upload_to='picture', null=True,
+                                 validators=[validators.FileExtensionValidator('jpg', 'png', 'txt')], max_length=1000)
     # 点赞的数量
     d_num = models.IntegerField(default=0)
     # 喜欢的数量
@@ -43,6 +55,7 @@ class DynamicStatus(models.Model):
     new_content = models.TextField(null=True)
     # 谁发表的动态
     user_id = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+
 
 class Move_text(models.Model):
     # 转发的时间
@@ -74,28 +87,30 @@ class AttentionPerson(models.Model):
     # 我====》关注
     a_user = models.IntegerField()
 
-    #被关注的人
+    # 被关注的人
     a_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+
 
 class Comment(models.Model):
     """评论表"""
-    #评论的内容
+    # 评论的内容被评论的用户评论的用户被评论的文章被评论的评论的ID
     c_content = models.TextField()
-    # 被评论的用户
+    # 被评论的用户评论的用户被评论的文章被评论的评论的ID
     c_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
-    # 评论的用户
+    # 评论的用户被评论的文章被评论的评论的ID
     c_user = models.IntegerField()
-    # 被评论的文章
-    c_b_dynamic = models.ForeignKey('DynamicStatus',on_delete=models.CASCADE)
+    #
+    c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
     # 被评论的评论的ID
-    c_b_commentID = models.ForeignKey('Comment',on_delete=models.CASCADE)
+    c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE)
+
 
 # 访客表
 
 
 class GuestLog(models.Model):
-    g_b_user=models.IntegerField()
+    g_b_user = models.IntegerField()
     # 被访问的用户
-    g_user=models.ForeignKey('UserInfo',on_delete=models.CASCADE)
-    # 访问的用户
-    g_date=models.DateTimeField(auto_now=True)
+    g_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+    # 被访问的用户被访问的用户访问的用户
+    g_date = models.DateTimeField(auto_now=True)
