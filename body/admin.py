@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserInfo,PhotoAlbum,DynamicStatus,Comment
+from .models import UserInfo,DynamicStatus,Comment
 
 # Register your models here.
 
@@ -16,15 +16,15 @@ class UserInfoAdmin(admin.ModelAdmin):
 admin.site.register(UserInfo,UserInfoAdmin)
 
 
-class PhotoAlbumAdmin(admin.ModelAdmin):
-    '''图片信息管理类'''
-    list_per_page = 100
-    list_display = ['id','user_image','image_time','image_type']
-    actions_on_bottom = True
-    actions_on_top = False
+# class PhotoAlbumAdmin(admin.ModelAdmin):
+#     '''图片信息管理类'''
+#     list_per_page = 100
+#     list_display = ['id','user_image','image_time','image_type']
+#     actions_on_bottom = True
+#     actions_on_top = False
 
 
-admin.site.register(PhotoAlbum, PhotoAlbumAdmin)
+# admin.site.register(PhotoAlbum, PhotoAlbumAdmin)
 
 class DynamicStatusAdmin(admin.ModelAdmin):
     '''文章信息管理类'''

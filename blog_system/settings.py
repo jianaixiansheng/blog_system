@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'body',
     'login',
+    'albums',
 ]
 
 MIDDLEWARE = [
@@ -82,9 +83,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog_system',  # 数据库名
         'USER': 'root',  # 用户名
-        'PASSWORD': 'root',  # 密码
-        'HOST': '106.13.144.115',
-        # 'HOST': 'localhost',
+        'PASSWORD': '5173066',  # 密码
+        # 'HOST': '106.13.144.115',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }

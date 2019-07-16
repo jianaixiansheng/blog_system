@@ -78,18 +78,14 @@
         <div class="lmlblog-member-right">
             <div class="lmlblog-post-list">
                 <div class="lmlblog-member-left-visitor clear" style="padding: 8px">
-                    <div style="display: inline-block;position: relative;margin-left: 5px;border: 2px olive dashed">
-                        <a href="{% url 'albums:upload_album' %}">
-                            <h4 style="position: absolute;left: 14px;top: 4px;">新建</h4>
-                            <img src="{{ MEDIA_URL }}/picture/+3.jpg" alt="">
-                        </a>
-                    </div>
-                    {% for album_obj in album_objs %}
-                    <div style="display: inline-block;position: relative;margin-left: 5px;">
-                    <a href="{% url 'albums:photo_graph' album_id=album_obj.id %}"><h4 style="position: absolute;left: 14px;top: 4px;">{{ album_obj.image_type }}</h4><img src="{{ MEDIA_URL }}{{ album_obj.user_image }}" alt=""></a>
-                    </div>
-                    {% endfor %}
-
+                <div>
+                    <form action="{% url 'albums:upload_graph' album_id=album_id %}" method="post" enctype="multipart/form-data" >
+                            {% csrf_token %}
+                            上传：
+                            <input type="file" name="picture" multiple="">
+                            <input type="submit" value="上传照片">
+                        </form>
+                </div>
 
                 </div>
             </div>

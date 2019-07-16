@@ -30,12 +30,12 @@ class levelsystem(models.Model):
         db_table = 'level_system'
 
 
-class PhotoAlbum(models.Model):
-    """用户相册字段"""
-    user_image = models.ImageField(upload_to='image',verbose_name='图片地址')
-    image_time = models.DateTimeField(auto_now_add=True,verbose_name='时间')
-    image_type = models.CharField(max_length=10,verbose_name='类型')
-    user_fk = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+# class PhotoAlbum(models.Model):
+#     """用户相册字段"""
+#     user_image = models.ImageField(upload_to='image',verbose_name='图片地址')
+#     image_time = models.DateTimeField(auto_now_add=True,verbose_name='时间')
+#     image_type = models.CharField(max_length=10,verbose_name='类型')
+#     user_fk = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
 
 class DynamicStatus(models.Model):

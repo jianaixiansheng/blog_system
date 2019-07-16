@@ -193,16 +193,16 @@ def music(request):
                                         "heat":heat,
                                         "guest":guest})
 
-def photo_album(request):
-    '''
-
-    :param request:
-    :return:
-        相册页面
-    '''
-    u_id = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
-    return render(request,"photo_album.html",{"head_info":head_info})
+# def photo_album(request):
+#     '''
+#
+#     :param request:
+#     :return:
+#         相册页面
+#     '''
+#     u_id = request.session.get('user_id')
+#     head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
+#     return render(request,"photo_album.html",{"head_info":head_info})
 
 def personal(request):
     '''
