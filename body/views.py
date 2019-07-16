@@ -68,13 +68,28 @@ def Thumpsup(request, a_id):
         dynamic.d_num += 1
         dynamic.save()
 
-    return render(request, 'index.html', {'u': u,
-                                          "head_info": head_info,
-                                        "info": info,
-                                        "heat": heat,
-                                        "guest": guest,
-                                        # 'all_id': all_id
-                                          })
+    return render(request, 'index.html', {'u': u, "head_info": head_info, "info": info, "heat": heat, "guest": guest})
+
+
+def thumps_up2(request):
+    data = {}
+    u_id = request.session.get('user_id')
+    u = UserInfo.objects.get(id=u_id)
+    username = u.user_name
+    a_id = request.POST.get('object_id')
+    dynamic = DynamicStatus.objects.get(id=a_id)
+    if Thumps_up.objects.filter(u_id=u_id, article_id=a_id).exists():
+        Thumps_up.objects.filter(u_id=u_id, article_id=a_id).delete()
+        dynamic.d_num -= 1
+        dynamic.save()
+    else:
+        Thumps_up.objects.create(u_id=u_id, article_id=a_id)
+        dynamic.d_num += 1
+        dynamic.save()
+    data['status'] = 'SUCCESS'
+    data['d_num'] = dynamic.d_num
+    data['username'] = username
+    return JsonResponse(data)
 
 
 def t_up(request):

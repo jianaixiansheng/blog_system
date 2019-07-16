@@ -74,6 +74,26 @@ def Thumps_ups(u_id, a_id):
 register.filter('thumps_up', Thumps_ups)
 
 
+@register.filter
+def get_like_num(a_id):
+    d = DynamicStatus.objects.get(id=a_id)
+    d_num = d.d_num
+    return d_num
+
+@register.filter
+
+def get_thump_name(aid):
+    name_list = []
+    u_id = Thumps_up.objects.filter(article_id=aid).values_list('u_id')
+    name = UserInfo.objects.filter(id__in=u_id).values_list('user_name', flat=True)
+    for i in name:
+        name_list.append(str(i).replace("'", "").replace("'", ''))
+    print(name_list)
+    return str(name_list).replace('[', '').replace(']', '').replace(',', '')
+
+
+
+
 def love_art(u_id, a_id):
     if love.objects.filter(u_id=u_id, U_Article_id=a_id).exists():
         return True

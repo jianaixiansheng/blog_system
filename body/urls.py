@@ -16,6 +16,6 @@ urlpatterns = [
     path('Love_article/<int:a_id>', views.Love_article, name='Love_article'),
     path('move_text/<int:a_id>', views.move_text, name='move_text'),
     path('comment/', views.Commnets, name='Comment'),
-    # path('get_aid/<int:aid>', views.get_aid, name='get_aid')
+    path('thumps_up2', views.thumps_up2, name='thumps_up2')
 ]
 

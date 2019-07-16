@@ -83,6 +83,9 @@
     background: url('../images/35.32-yoo190131143813.png')-50px 30px;
 }
 
+.like .active{
+    color: #f22;
+}
 .zan1{
     display: block;
     width: 30px;
