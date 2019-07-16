@@ -82,6 +82,7 @@
                         {% for graph_obj in graph_objs %}
                             <div style="display: inline-block;margin-left: 5px;">
                             <img src="{{ MEDIA_URL }}{{ graph_obj.user_image_url }}" alt="">
+                            <a href="{% url 'albums:delete_graph' graph_id=graph_obj.id album_id=album_id %}">删除</a>
                             </div>
                         {% endfor %}
                 </div>
