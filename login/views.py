@@ -43,10 +43,11 @@ def login(request):
 
 def register(request):
     if request.method == "GET":
-        return render(request,'register.html')
+        print('在这人')
+        return render(request, 'register.html')
     else:
         # 第一个页面，获取到用户注册的手机号和密码(用手机号作为账户)
-
+        print('一以以以以以以以以以以以i')
         user_numbers = request.POST.get('tel')
         user_password = request.POST.get('pwd')
         user_name = request.POST.get('name')
@@ -54,6 +55,7 @@ def register(request):
         user_sign = request.POST.get('sign')
         user_birth = request.POST.get('birth')
         user_city = request.POST.get('city')
+        print(user_name, user_password, user_birth)
         UserInfo.objects.create(user_numbers=user_numbers,user_password=user_password,user_name=user_name,user_sex=user_sex,user_sign=user_sign,user_birth=user_birth,user_city=user_city)
 
         return redirect(reverse('logins:login'))

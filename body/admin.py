@@ -39,7 +39,7 @@ admin.site.register(DynamicStatus, DynamicStatusAdmin)
 class CommentAdmin(admin.ModelAdmin):
     '''评论信息管理类'''
     list_per_page = 100
-    list_display = ['id','c_user','c_content']
+    list_display = ['id']
     actions_on_bottom = True
     actions_on_top = False
 
