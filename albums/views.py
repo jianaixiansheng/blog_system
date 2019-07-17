@@ -31,7 +31,7 @@ class upload_album(views.View):
         try:
             cover_path = fname
             im1 = cv2.imread(cover_path)
-            im2 = cv2.resize(im1, (230, 300), )  # 为图片重新指定尺寸
+            im2 = cv2.resize(im1, (192, 250), )  # 为图片重新指定尺寸
             cv2.imwrite(cover_path, im2)
         except cv2.error as e:
             os.unlink(fname)
@@ -47,7 +47,7 @@ class upload_album(views.View):
                                              user_fk_id=u_id)  # 模型类型
         image_type = PINYIN(image_type)
         os.mkdir(f"picture/{u_id}_{image_type}")
-        return redirect('albums:photo_album')
+        return redirect('albums:photo_album',0)
 
 
 class upload_graph(views.View):
@@ -86,9 +86,9 @@ class upload_graph(views.View):
             role, created = PhotoGraph.objects.get_or_create(
                 user_image_url=f'/picture/{u_id}_{image_type}/' + i.name)  # 模型类型
             role.I_A.add(album_id)
-        return redirect('albums:photo_graph', album_id)
+        return redirect('albums:photo_graph', album_id,0)
 
-def photo_album(request):
+def photo_album(request,is_delete):
     '''
     :param request:
     :return:
@@ -97,32 +97,39 @@ def photo_album(request):
     request.session["user_id"] = 1
     u_id = request.session.get("user_id")
     head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
-    album_objs = PhotoAlbum.objects.filter(user_fk_id=u_id, isDelete=0)
-    return render(request, "photo_album.html", {"album_objs": album_objs,"head_info":head_info})
+    if is_delete == 0:
+        album_objs = PhotoAlbum.objects.filter(user_fk_id=u_id, isDelete=0)
+    else:
+        album_objs = PhotoAlbum.objects.filter(user_fk_id=u_id, isDelete=1)
+    return render(request, "photo_album.html", {"album_objs": album_objs,"head_info":head_info,"is_delete":is_delete})
 
 
-def photo_graph(request, album_id):
+def photo_graph(request, album_id,is_delete):
     '''
     :param request:
     :return:
         图片展示页面
     '''
-    album_obj = PhotoAlbum.objects.filter(id=album_id,isDelete=0).first()
-    graph_objs = album_obj.photograph_set.filter(isDelete=0)
-    print(graph_objs)
-    return render(request, "photo_graph.html", {"graph_objs": graph_objs, "album_id": album_id})
+    print("*"*100)
+    print(album_id,is_delete)
+    album_obj = PhotoAlbum.objects.filter(id=album_id).first()
+    if is_delete == 0:
+        graph_objs = album_obj.photograph_set.filter(isDelete=0)
+    else:
+        graph_objs = album_obj.photograph_set.filter(isDelete=1)
+    return render(request, "photo_graph.html", {"graph_objs": graph_objs, "album_id": album_id,"is_delete":is_delete})
 
-# 将图片进行逻辑删除
-def delete_graph(request,graph_id,album_id):
+# 对图片进行逻辑删除
+def delete_graph(request,album_id,graph_id):
     obj = PhotoGraph.objects.filter(id=graph_id).first()
-    # print(obj)
     obj.isDelete = 1
     obj.save()
-    return redirect('albums:photo_graph',album_id)
+    return redirect('albums:photo_graph',album_id,0)
 
+# 对相册进行逻辑删除
 def delete_album(request,album_id):
     obj = PhotoAlbum.objects.filter(id=album_id).first()
     obj.isDelete = 1
     obj.save()
-    return redirect("albums:photo_album")
+    return redirect("albums:photo_album",0)
 

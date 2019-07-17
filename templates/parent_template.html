@@ -61,7 +61,7 @@
                     <li {% block activate1 %}{% endblock %} ><a href="{% url 'body:index' %}">主页</a></li>
                 <li {% block activate2 %}{% endblock %} ><a href="{% url 'body:dynamic_state' %}">动态</a></li>
                 <li {% block activate3 %}{% endblock %} ><a href="{% url 'body:music' %}">音乐</a></li>
-                <li {% block activate5 %}{% endblock %} ><a href="{% url 'albums:photo_album' %}">相册</a></li>
+                <li {% block activate5 %}{% endblock %} ><a href="{% url 'albums:photo_album' is_delete=0 %}">相册</a></li>
                 <li {% block activate6 %}{% endblock %} ><a href="{% url 'body:personal' %}">个人档</a></li>
                 </ul>
             </div>
