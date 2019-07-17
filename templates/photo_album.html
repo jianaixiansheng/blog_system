@@ -78,15 +78,21 @@
         <div class="lmlblog-member-right">
             <div class="lmlblog-post-list">
                 <div class="lmlblog-member-left-visitor clear" style="padding: 8px">
-                    <div style="display: inline-block;position: relative;margin-left: 5px;border: 2px olive dashed">
+                    <div style="position: relative;margin-left: 5px;border-bottom: 2px olive dashed;width: 681px;height: 38px;font-size: 25px;">
                         <a href="{% url 'albums:upload_album' %}">
-                            <h4 style="position: absolute;left: 14px;top: 4px;">新建</h4>
-                            <img src="{{ MEDIA_URL }}/picture/+3.jpg" alt="">
+                            <h4 style="position: absolute;left: 0;top: -3px;font-family: 华文仿宋;">新&nbsp;建&nbsp;相&nbsp;册</h4>
+                            <img src="{{ MEDIA_URL }}/picture/jiantou.png" alt="" style="position: absolute;left: 122px;top: -1px;">
+                        </a>
+                        <a href="#">
+                            <h4 style="position: absolute;right: 21px;top: -3px;font-family: 华文仿宋;">回&nbsp;收&nbsp;站</h4>
+                            <img src="{{ MEDIA_URL }}/picture/huishouzhan.png" alt="" style="position: absolute;right: 122px;top: -1px;">
                         </a>
                     </div>
+
                     {% for album_obj in album_objs %}
-                    <div style="display: inline-block;position: relative;margin-left: 5px;">
-                    <a href="{% url 'albums:photo_graph' album_id=album_obj.id %}"><h4 style="position: absolute;left: 14px;top: 4px;">{{ album_obj.image_type }}</h4><img src="{{ MEDIA_URL }}{{ album_obj.user_image }}" alt=""></a>
+                    <div style="display: inline-block;position: relative;margin-left: 5px;margin-top: 20px">
+                        <a href="{% url 'albums:photo_graph' album_id=album_obj.id %}"><h4 style="position: absolute;left: 14px;top: 4px;">{{ album_obj.image_type }}</h4><img src="{{ MEDIA_URL }}{{ album_obj.user_image }}" alt=""></a>
+                        <a href="{% url 'albums:delete_album' album_id=album_obj.id %}">删除</a>
                     </div>
                     {% endfor %}
 

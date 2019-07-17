@@ -41,6 +41,7 @@ class upload_album(views.View):
         clean_one = PhotoAlbum.objects.filter(image_type=image_type, user_fk_id=u_id).first()
         if clean_one:
             clean_one.user_image = '/picture/' + f1.name
+            clean_one.save()
         else:
             PhotoAlbum.objects.get_or_create(user_image='/picture/' + f1.name, image_type=image_type,
                                              user_fk_id=u_id)  # 模型类型
@@ -114,7 +115,14 @@ def photo_graph(request, album_id):
 # 将图片进行逻辑删除
 def delete_graph(request,graph_id,album_id):
     obj = PhotoGraph.objects.filter(id=graph_id).first()
-    print(obj)
+    # print(obj)
     obj.isDelete = 1
     obj.save()
     return redirect('albums:photo_graph',album_id)
+
+def delete_album(request,album_id):
+    obj = PhotoAlbum.objects.filter(id=album_id).first()
+    obj.isDelete = 1
+    obj.save()
+    return redirect("albums:photo_album")
+
