@@ -27,7 +27,7 @@ def index(request):
 
 
 
-class publish(views.View):
+class publish1(views.View):
     def get(self, request):
         return render(request, 'index.html')
     def post(self, request):
@@ -44,31 +44,6 @@ class publish(views.View):
         DynamicStatus.objects.create(d_content=content, d_picture=str(p_list), user_id_id=u_id)
         return redirect('body:index')
 
-
-def Thumpsup(request, a_id):
-    u_id = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
-    # 首页文章信息传递
-    info = DynamicStatus.objects.all().order_by('-d_time')
-
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
-
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    u = UserInfo.objects.get(id=u_id)
-    dynamic = DynamicStatus.objects.get(id=a_id)
-    # all_id = Thumps_up.objects.filter(article_id=a_id)
-    if Thumps_up.objects.filter(u_id=u_id, article_id=a_id).exists():
-        Thumps_up.objects.filter(u_id=u_id, article_id=a_id).delete()
-        dynamic.d_num -= 1
-        dynamic.save()
-    else:
-        Thumps_up.objects.create(u_id=u_id, article_id=a_id)
-        dynamic.d_num += 1
-        dynamic.save()
-
-    return render(request, 'index.html', {'u': u, "head_info": head_info, "info": info, "heat": heat, "guest": guest})
 
 
 def thumps_up2(request):
@@ -95,21 +70,10 @@ def thumps_up2(request):
 def t_up(request):
     pass
 
-
-
-def Love_article(request, a_id):
+def Love_article2(request):
+    data = {}
     u_id = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
-
-    # 首页文章信息传递
-    info = DynamicStatus.objects.all().order_by('-d_time')
-
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
-
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    u = UserInfo.objects.get(id=u_id)
+    a_id = request.POST.get('object_id')
     dynamic = DynamicStatus.objects.get(id=a_id)
     if love.objects.filter(u_id=u_id, U_Article_id=a_id).exists():
         love.objects.filter(u_id=u_id, U_Article_id=a_id).delete()
@@ -119,49 +83,25 @@ def Love_article(request, a_id):
         love.objects.create(u_id=u_id, U_Article_id=a_id)
         dynamic.d_like += 1
         dynamic.save()
+    data['status'] = 'SUCCESS'
+    data['d_like'] = dynamic.d_like
+    data['object_id'] = a_id
+    return JsonResponse(data)
 
-    return render(request, 'index.html', {'u': u,
-                                          "head_info": head_info,
-                                        "info": info,
-                                        "heat": heat,
-                                        "guest": guest})
-
-
-
-def exit(request):
-    pass
-
-
-
-
-
-def move_text(request, a_id):
+def move_text1(request):
+    data = {}
     u_id = request.session.get('user_id')  # 转发的用户Id
-    # 首页文章信息传递
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
-
-    info = DynamicStatus.objects.all().order_by('-d_time')
-    heat = [1, 2, 3, 4]
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    a_id = request.POST.get('hidd11')
     new_content = request.POST.get('move_content')
     b_id = DynamicStatus.objects.get(id=a_id).user_id_id
     dynamic = DynamicStatus.objects.get(id=a_id)
     Move_text.objects.create(d_user=b_id, d_z_user_id=u_id)
-    DynamicStatus.objects.create(d_content=dynamic.d_content, d_picture=dynamic.d_picture, new_content=new_content,
-                                 user_id_id=u_id)
+    DynamicStatus.objects.create(d_content=dynamic.d_content, d_picture=dynamic.d_picture, new_content=new_content, user_id_id=u_id)
     dynamic.d_move += 1
     dynamic.save()
-
-    Move_text.objects.create(d_z_user_id=u_id, d_user=b_id)
-    DynamicStatus.objects.create(d_content=dynamic.d_content, d_picture=dynamic.d_picture, user_id_id=u_id, new_content=new_content)
-
-    return render(request, 'index.html', {"head_info": head_info,
-                                          "info": info,
-                                          "heat": heat,
-                                          "guest": guest,
-                                          "dynamic": dynamic,
-                                          # 'd_id': d_id
-                                          })
+    data['iii'] = a_id
+    data['status'] = 'SUCCESS'
+    return JsonResponse(data)
 
 
 
@@ -262,8 +202,7 @@ def Commnets(request):
     text = request.POST.get('comm_content')
     aId = request.POST.get('hidd')
     dyns = DynamicStatus.objects.get(id=aId)
-    u = dyns.user_id_id  # 被评论的用户Id
-    Comment.objects.create(c_content=text, c_b_user_id=u, c_user=u_id, c_b_dynamic_id=aId)
+    Comment.objects.create(c_content=text, c_b_dynamic_id=dyns.id, user_id=u_id)
     data['status'] = 'SUCCESS'
     data['u_id'] = u_id
     data['text'] = text

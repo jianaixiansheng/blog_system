@@ -86,6 +86,10 @@
 .like .active{
     color: #f22;
 }
+
+.like_1 .active{
+    color: #f22;
+}
 .zan1{
     display: block;
     width: 30px;
@@ -113,11 +117,54 @@
 
 
 .move_cont{
-    display: none;
-    width: 432px;
-    height: 211px;
-    border: 1px solid red;
+    width: 430px;
+    height: 130px;
     background:white;
+
+}
+
+
+.clos{
+    width: 10px;
+    height: 9px;
+    position: absolute;
+    margin-left: 365px;
+    margin-top: 10px;
+    background: url("../images/sprite.png")-0 -9px;
+
+}
+.clos:hover{
+    background: url("../images/sprite.png")-50.2px;
+    cursor: pointer;
+}
+
+.move_font1{
+    font-size: 13px;
+    font-family: 黑体;
+    line-height: 35px;
+    margin-left: 20px;
+}
+
+.send{
+    width: 50px;
+    height: 22px;
+    border: 1px solid rgb(97, 170, 230);
+    background-color:rgb(97, 170, 230) ;
+    color: white;
+    font-size: 11px;
+    margin-top: 18px;
+    margin-left: 352px;
+}
+.move_div2{
+    width: 430px;
+    height: 35px;
+    background: rgb(243, 243, 243);
+}
+
+.move_cont2{
+    position: relative;
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 .move_font{
@@ -136,4 +183,20 @@
     margin-left: 40px;
     margin-top: -31px;
 }
+
+.comm_1{
+    margin-left: 0;
+}
+
+.comm_2{
+    width: 600px;
+    height: 30px;
+    margin-left: 80px;
+}
+
+.comm_3{
+    margin-left: 50px;
+}
+
+
 
