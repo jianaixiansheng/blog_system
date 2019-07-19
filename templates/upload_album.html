@@ -78,13 +78,19 @@
         <div class="lmlblog-member-right">
             <div class="lmlblog-post-list">
                 <div class="lmlblog-member-left-visitor clear" style="padding: 8px">
+                    <div style="position: relative;margin-left: 5px;border-bottom: 2px olive dashed;width: 681px;height: 38px;font-size: 25px;">
 
+                        <a href="{% url 'albums:photo_album' is_delete=0 %}">
+                            <h4 style="position: absolute;right: 21px;top: -3px;font-family: 华文仿宋;">返&nbsp;回&nbsp;相&nbsp;册</h4>
+                            <img src="{{ MEDIA_URL }}/picture/fanhui.jpg" alt="" style="position: absolute;right: 122px;top: -1px;">
+                        </a>
+                    </div>
                     <div>
                         <form action="{% url 'albums:upload_album' %}" method="post" enctype="multipart/form-data" >
                             {% csrf_token %}
 
                             <input type="file" name="picture">
-                            <input type="text" name="image_type">
+                            <input type="text" name="image_type" placeholder="最多输入10个字符">
                             <input type="submit" value="上传">
                         </form>
                     </div>

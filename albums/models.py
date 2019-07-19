@@ -4,7 +4,7 @@ from django.db import models
 class PhotoAlbum(models.Model):
     """用户相册字段"""
     user_image = models.ImageField(upload_to='picture',verbose_name='相册地址',blank=True)
-    image_type = models.CharField(max_length=10,verbose_name='相册类型')
+    image_type = models.TextField(verbose_name='相册类型')
     user_fk = models.ForeignKey('body.UserInfo', on_delete=models.CASCADE)
     isDelete = models.IntegerField(default=0) # 0代表未删除，1代表删除
     class Meta:

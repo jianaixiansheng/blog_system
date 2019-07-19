@@ -96,7 +96,7 @@
 
                                <a href="{% url 'albums:photo_album' is_delete=0 %}">
                                    <h4 style="position: absolute;right: 21px;top: -3px;font-family: 华文仿宋;">退&nbsp;出</h4>
-                                   <img src="{{ MEDIA_URL }}/picture/huishouzhan.png" alt="" style="position: absolute;right: 122px;top: -1px;">
+                                   <img src="{{ MEDIA_URL }}/picture/fanhui.jpg" alt="" style="position: absolute;right: 122px;top: -1px;">
                                </a>
                         {% endif %}
                     </div>
@@ -106,6 +106,8 @@
                         <a href="{% url 'albums:photo_graph' album_id=album_obj.id is_delete=0 %}"><h4 style="position: absolute;left: 14px;top: 4px;">{{ album_obj.image_type }}</h4><img src="{{ MEDIA_URL }}{{ album_obj.user_image }}" alt=""></a>
                         {% if is_delete == 0 %}
                             <a href="{% url 'albums:delete_album' album_id=album_obj.id %}">删除</a>
+                        {% else %}
+                            <a href="{% url 'albums:regain_album' album_id=album_obj.id %}">恢复</a>
                         {% endif %}
                     </div>
                     {% endfor %}
