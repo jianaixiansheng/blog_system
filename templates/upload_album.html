@@ -90,7 +90,14 @@
                             {% csrf_token %}
 
                             <input type="file" name="picture">
-                            <input type="text" name="image_type" placeholder="最多输入10个字符">
+                            <input type="text" name="image_type" list="wlmslist" placeholder="最多输入10个字符">
+                                <datalist id="wlmslist">
+
+                                    <option value="旅游">旅游</option>
+                                    <option value="日常">日常</option>
+                                    <option value="美景">美景</option>
+
+                                </datalist>
                             <input type="submit" value="上传">
                         </form>
                     </div>

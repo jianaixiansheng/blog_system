@@ -90,6 +90,10 @@
                         <p style="color: red">相册名长度不能超过10为字符</p>
                         <p>还有<span id="sp">5</span>秒返回相册界面...</p>
                         <p><a href="{% url 'albums:photo_album' is_delete=0 %}" style="color: #00a2eb">立即跳转</a></p>
+                    {% elif failed == 2 %}
+                        <p style="color: red">相册已存在</p>
+                        <p><a href="{% url 'albums:photo_album' is_delete=0 %}">返回相册</a></p>
+                        <p><a href="{% url 'albums:=file_exists' album_id=album_id %}">建立一个全新的相册</a></p>
                     {% endif %}
 
 

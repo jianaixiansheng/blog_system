@@ -24,22 +24,23 @@ class upload_album(views.View):
             return render(request, "photo_failed.html", {"failed": 1})
         # 在之前配好的静态文件目录static/media/Login 下 新建一个空文件
         # 然后我们循环把上传的图片写入到新建文件当中
-        fname = 'picture/photo_album/' + f1.name
-        with open(f"{fname}", 'wb') as pic:
-            for c in f1.chunks():
-                pic.write(c)
-        # --------------------------------------------------------
-        #  此处cv2模块的方法报黄属于正常现象
-
         try:
-            im1 = cv2.imread(fname)
-            im2 = cv2.resize(im1, (192, 250), )  # 为图片重新指定尺寸
-            cv2.imwrite(fname, im2)
-        except cv2.error as e:
-            os.unlink(fname)
-            return render(request, "photo_failed.html", {"failed": 0, "counts": 1})
-
-        # --------------------------------------------------------
+            fname = 'picture/photo_album/' + f1.name
+            with open(f"{fname}", 'wb') as pic:
+                for c in f1.chunks():
+                    pic.write(c)
+            try:
+                # --------------------------------------------------------
+                #  此处cv2模块的方法报黄属于正常现象
+                im1 = cv2.imread(fname)
+                im2 = cv2.resize(im1, (192, 250), )  # 为图片重新指定尺寸
+                cv2.imwrite(fname, im2)
+                # --------------------------------------------------------
+            except cv2.error as e:
+                os.unlink(fname)
+                return render(request, "photo_failed.html", {"failed": 0, "counts": 1})
+        except AttributeError:
+            fname = 'picture/photo_album/' + '355e8f22706837e9e3f7b0b90ed201e3_t01798c03c620172d6c.jpg'
 
         fname_two = f"/{fname}"
         clean_one = PhotoAlbum.objects.filter(image_type=image_type, user_fk_id=u_id).first()
@@ -50,8 +51,19 @@ class upload_album(views.View):
             PhotoAlbum.objects.get_or_create(user_image=fname_two, image_type=image_type,
                                              user_fk_id=u_id)  # 模型类型
         image_type = PINYIN(image_type)
-        os.mkdir(f"picture/{u_id}_{image_type}")
+        try:
+            os.mkdir(f"picture/{u_id}_{image_type}")
+        except FileExistsError:
+            return render(request, "photo_failed.html", {"failed": 2,"album_id":clean_one.id})
         return redirect('albums:photo_album', 0)
+
+def file_exists(request,album_id):
+    obj = PhotoAlbum.objects.filter(id=album_id).first()
+    obj.isDelete = 0
+    obj.user_image = '/picture/photo_album/' + '355e8f22706837e9e3f7b0b90ed201e3_t01798c03c620172d6c.jpg'
+    obj.photograph_set.clear()
+    obj.save()
+    return redirect('albums:photo_album',0)
 
 
 class upload_graph(views.View):
@@ -124,8 +136,6 @@ def photo_graph(request, album_id, is_delete):
     :return:
         图片展示页面
     '''
-    print("*" * 100)
-    print(album_id, is_delete)
     album_obj = PhotoAlbum.objects.filter(id=album_id).first()
     if is_delete == 0:
         graph_objs = album_obj.photograph_set.filter(isDelete=0)
@@ -135,10 +145,21 @@ def photo_graph(request, album_id, is_delete):
 
 
 # 对图片进行逻辑删除
-def delete_graph(request, album_id, graph_id):
-    obj = PhotoGraph.objects.filter(id=graph_id).first()
-    obj.isDelete = 1
-    obj.save()
+def delete_graph(request, album_id, graph_id,is_delete):
+    if is_delete == 0:
+        obj = PhotoGraph.objects.filter(id=graph_id).first()
+        obj.isDelete = 1
+        obj.save()
+    elif is_delete == 1:
+        obj = PhotoGraph.objects.filter(id=graph_id).first()
+        obj.isDelete = 2
+        obj.save()
+    else:
+        album_obj = PhotoAlbum.objects.filter(id=album_id).first()
+        graph_objs = album_obj.photograph_set.filter(isDelete=1)
+        for obj in graph_objs:
+            obj.isDelete = 2
+            obj.save()
     return redirect('albums:photo_graph', album_id, 0)
 
 
