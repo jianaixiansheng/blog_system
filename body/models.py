@@ -96,22 +96,12 @@ class AttentionPerson(models.Model):
 class Comment(models.Model):
     """评论表"""
     # 评论的内容
-    # c_content = models.TextField(verbose_name='内容')
-    # # 被评论的用户
-    # c_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE, verbose_name='被评用户', null=True)
-    # # 评论的用户
-    # c_user = models.IntegerField(verbose_name='评论用户', null=True)
-    # # 被评论的文章
-    # c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
-    # # 被评论的评论的ID
-    # c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True)
-    #
-
-    c_content = models.TextField(verbose_name='内容')
+    c_content = models.TextField(verbose_name='内容', null=True)
     # 被评论的文章
-    c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
+    c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE, null=True)
     # 被评论的评论的ID
-    c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True)
+    c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, related_name='parent_comment')
+    root = models.ForeignKey('Comment', related_name='root_comment', null=True, on_delete=models.DO_NOTHING)
     # 评论的时间
     comment_time = models.DateTimeField(auto_now_add=True, null=True)
     # 二级评论回复的人
@@ -119,18 +109,6 @@ class Comment(models.Model):
     # 评论的用户
     user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name='comments', null=True)
 
-
-# c_content = models.TextField(verbose_name='内容')
-# # 被评论的文章
-# c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
-# # 被评论的评论的ID
-# c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True)
-# # 评论的时间
-# comment_time = models.DateTimeField(auto_now_add=True, null=True)
-# # 二级评论回复的人
-# reply_to = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, null=True, related_name='replies')
-# # 评论的用户
-# user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name='comments', null=True)
 
 
 # 访客表

@@ -6,6 +6,10 @@
 {% block show %}
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'index/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'index/css/bootstrap.min.css' %}">
+    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'index/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'index/js/bootstrap.js' %}"></script>
     <script src="{% static 'index/js/index.js' %}"></script>
     <div class="lmlblog-member-content-list clear">
         <div class="lmlblog-member-left">
@@ -79,7 +83,7 @@
         </div>
     </form>
         <div class="lmlblog-member-right">
-            <div class="lmlblog-post-list" style="z-index: 1;">
+            <div class="lmlblog-post-list">
                 {# 文章展示 #}
             {% load get_user %}
                 {% for dyns in info %}
@@ -102,8 +106,7 @@
                                 <a href="#1">
                                     <span>{{ dyns.user_id_id|get_user }}</span>
                                 </a>
-                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span
-                                    class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
+                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
                             </div>
                             <div class="lmlblog-post-user-info-time" title="{{ dyns.d_time|date:"Y-m-d H:i:s" }}">{{ dyns.d_time|date:"Y-m-d H:i:s" }}</div>
                         </div><!-- 作者信息 -->
@@ -111,6 +114,7 @@
                             <i class="fa fa-angle-down"></i>
                             <div class="lmlblog-post-setting-box">
                                 <ul style="width: 200px;height: 200px;border: 1px solid red;">
+
                                     <li><a href="#" title="查看全文"></a></li>
                                     <li><a href="#" title="访问主页"></a></li>
                                 </ul>
@@ -237,11 +241,14 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 {% block script_content2 %}
 
     <script type="text/javascript">
-
+    $('.lmlblog-posts-list').click(function () {
+        $('.wode').stop().hide();
+    });
     function wode (){
         $('.lmlblog-posts-list').stopPropagation();
         $('.wode').show()
