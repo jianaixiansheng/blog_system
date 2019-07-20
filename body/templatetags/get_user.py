@@ -80,6 +80,23 @@ def get_like_num(a_id):
     d_num = d.d_num
     return d_num
 
+
+
+
+@register.filter
+def love_art(a_id):
+    d = DynamicStatus.objects.get(id=a_id)
+    d_like = d.d_like
+    return d_like
+
+
+@register.filter
+
+def get_one_comment(a_id):
+    c_all = Comment.objects.filter(c_b_dynamic_id=a_id, c_b_commentID_id=None)
+    return c_all
+
+
 @register.filter
 
 def get_thump_name(aid):
@@ -88,23 +105,7 @@ def get_thump_name(aid):
     name = UserInfo.objects.filter(id__in=u_id).values_list('user_name', flat=True)
     for i in name:
         name_list.append(str(i).replace("'", "").replace("'", ''))
-    print(name_list)
     return str(name_list).replace('[', '').replace(']', '').replace(',', '')
-
-
-
-
-def love_art(u_id, a_id):
-    if love.objects.filter(u_id=u_id, U_Article_id=a_id).exists():
-        return True
-    else:
-        return False
-
-
-register.filter('love_art', love_art)
-
-
-
 
 
 

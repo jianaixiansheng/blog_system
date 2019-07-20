@@ -10,12 +10,11 @@ urlpatterns = [
     path('photo_album/', views.photo_album, name='photo_album'), # 相册
     path('personal/', views.personal, name='personal'), # 个人档
     path('chat/', views.chat, name='chat'), # 聊天系统
-    path('publish/', views.publish.as_view(), name='publish'),
-    path('publish/', views.publish.as_view(), name='publish'),
-    path('thump_up/<int:a_id>', views.Thumpsup, name='thumps_up'),
-    path('Love_article/<int:a_id>', views.Love_article, name='Love_article'),
-    path('move_text/<int:a_id>', views.move_text, name='move_text'),
+    path('publish/', views.publish1.as_view(), name='publish'),
+    path('Love_article/', views.Love_article2, name='Love_article2'),
+    path('move_text1/', views.move_text1, name='move_text1'),
     path('comment/', views.Commnets, name='Comment'),
-    path('thumps_up2', views.thumps_up2, name='thumps_up2')
+    path('thumps_up2', views.thumps_up2, name='thumps_up2'),
+    path('Comments_2/', views.Comments_2, name='Comments_2'),
 ]
 

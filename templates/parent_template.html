@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
     <link rel="shortcut icon" href="{% static 'login_and_registration/images/tx.jpg' %}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="Pragma" content="no-cache">
@@ -32,7 +33,6 @@
     <link rel='stylesheet' id='all-css' href='{% static 'home/css/all.css' %}' type='text/css'
           media='all'/>
     <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
-    <script type='text/javascript' src='{% static 'home/js/jquery.min.js' %}'></script>
     <script type='text/javascript' src='{% static 'home/js/ueditor.all.min.js' %}'></script>
 </head>
 
@@ -83,6 +83,7 @@
 </div>
 <!-- 返回顶部 -->
 <a href="javascript:returnTop();" class="cd-top"></a>
+{% block script_content %}
 <script type="text/javascript">
     var sdelay = 0;
 
@@ -93,6 +94,7 @@
         }
     }
 </script>
+{% endblock %}
 </body>
 
 <script type='text/javascript' src='{% static 'home/js/base.js' %}'></script>
@@ -100,7 +102,9 @@
 <script type='text/javascript' src='{% static 'home/js/plupload.full.min.js' %}'></script>
 <script type='text/javascript' src='{% static 'home/js/layui.js' %}'></script>
 <script src="{% static 'chat/js/script.js' %}"></script>
-<script>
+
+
+    <script>
     jQuery(document).ready(function ($) {
         $.fn.smartFloat = function () {
             var position = function (element) {
@@ -133,4 +137,7 @@
         $(".lmlblog-member-left-bg-xg").smartFloat();
     });
 </script>
+
+{% block script_content2 %}
+{% endblock %}
 </html>

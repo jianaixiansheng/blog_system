@@ -4,12 +4,8 @@
     class="on"
 {% endblock %}
 {% block show %}
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'index/css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'index/css/bootstrap.min.css' %}">
-    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'index/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'index/js/bootstrap.js' %}"></script>
     <script src="{% static 'index/js/index.js' %}"></script>
     <div class="lmlblog-member-content-list clear">
         <div class="lmlblog-member-left">
@@ -83,7 +79,7 @@
         </div>
     </form>
         <div class="lmlblog-member-right">
-            <div class="lmlblog-post-list">
+            <div class="lmlblog-post-list" style="z-index: 1;">
                 {# 文章展示 #}
             {% load get_user %}
                 {% for dyns in info %}
@@ -106,8 +102,7 @@
                                 <a href="#1">
                                     <span>{{ dyns.user_id_id|get_user }}</span>
                                 </a>
-                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span
-                                    class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
+                                <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
                             </div>
                             <div class="lmlblog-post-user-info-time" title="{{ dyns.d_time|date:"Y-m-d H:i:s" }}">{{ dyns.d_time|date:"Y-m-d H:i:s" }}</div>
                         </div><!-- 作者信息 -->
@@ -115,140 +110,119 @@
                             <i class="fa fa-angle-down"></i>
                             <div class="lmlblog-post-setting-box">
                                 <ul style="width: 200px;height: 200px;border: 1px solid red;">
-
                                     <li><a href="#" title="查看全文"></a></li>
                                     <li><a href="#" title="访问主页"></a></li>
-
                                 </ul>
                             </div>
                         </div>
                         <div class="lmlblog-post-content ">
                             <span class="post_list_link">
-
                             {% if dyns.id|get_content %}
                                 <p><a href="#" style="font-family: 楷体;font-size: 20px;">{{ dyns.new_content }}</a></p>
                                 <br>
                                 <p><a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a></p>
                                 {% else %}
-
-
                                 <a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a>
-
                             {% endif %}
-
                             </span>
-
-
                                 {% for foo in dyns.id|get_picture %}
                                   <a href="#">  <img src="{{ MEDIA_URL }}{{ foo }}" alt="" width="150" height="150" style="border: 1px silver solid;"> </a>
                                 {% endfor %}
-
-
                         </div>
-
                         <div class="lmlblog-post-bar">
                             <ul>
                                 <li>
-
-                              <div onclick="likeChange(this, {{ dyns.id }})" class="like">
-
-                                  <span  class="glyphicon glyphicon-thumbs-up"></span>
-                                <span style="position: absolute;margin-left: 35px;margin-top: -32px" class="like_num">{{ dyns.id|get_like_num}}</span>
-                                   <span class="like_name">{{ dyns.id|get_thump_name }}</span>
-
-                              </div>
-
+                                  <div onclick="likeChange(this, {{ dyns.id }})" class="like">
+                                       <span  class="glyphicon glyphicon-thumbs-up"></span>
+                                       <span style="position: absolute;margin-left: 35px;margin-top: -32px" class="like_num">{{ dyns.id|get_like_num}}</span>
+                                       <span class="like_name">{{ dyns.id|get_thump_name }}</span>
+                                  </div>
                                 </li>
-
                                 <li>
-{#                                   {% if u.id|love_art:dyns.id %}#}
-{#                                        <a href="{% url 'body:Love_article' a_id=dyns.id  %}" class="like1"></a>#}
-{#                                   {% else %}#}
-{#                                        <a href="{% url 'body:Love_article' a_id=dyns.id %}" class="like2"></a>#}
-{#                                   {% endif %}#}
-                                    <div onclick="likeChange(this, {{ dyns.id }})">
-
+                                    <div onclick="likeChange2(this, {{ dyns.id }})" class="like_1">
                                         <span class="glyphicon glyphicon-heart"></span>
-                                        <span style="position: absolute;margin-left: 35px;margin-top: -24px">{{ dyns.d_like }}</span>
+                                        <span class="d_like_num">{{ dyns.id|love_art }}</span>
                                     </div>
-
                                 </li>
-
                                 <li>
-
-                                    <span class="move_font"></span>
+                                    <div class="move_font" onclick="move_content1({{ dyns.id }})">
+                                    </div>
                                     <span class="d_move">{{ dyns.d_move }}</span>
                                 </li>
-
                             <li>
-                                <span class="comm">评</span>
-{#                                <a href="{% url 'body:get_aid' aid=dyns.id %}" class="comm">评</a>#}
-
+                                <div onclick="comm_1(this, {{ dyns.id }})">评</div>
                             </li>
-
-
                             </ul>
-
                         </div>
-
-
-
-                        {% for comm in dyns.comment_set.all %}
-
-                        <div id="comment_list" data-c-id="{{ forloop.counter1 }}">
-                        {{ comm.c_content }}
+                    <div class="comment_1_{{ dyns.id }}" id="comment_2">
+                        {% for comm in dyns.id|get_one_comment %}
+                            <div class='comm_1'>
+                                <span>{{ comm.user.user_name }}：</span>
+                                <span>({{ comm.comment_time|date:"H:i:s" }})：</span>
+                                <span>{{ comm.c_content|safe }}</span>
+                            </div>
+                            <a href="javascript:reply_one({{ comm.id }})">回复</a>
+                            <form action="{% url 'body:Comments_2' %}" method="post" class="comm_2_form">
+                                <div id="comm_2_{{ comm.id }}" style="display: none;">
+                                    <input type="text" name="reply_1" id="reply_1_{{ comm.id }}" style="width: 200px;height: 40px;">
+                                    <input type="hidden" value="{{ comm.id }}" name="reply_2">
+                                    <input type="hidden" value="{{ comm.id }}" name="reply_2_1">
+                                    <input type="submit" style="width: 50px;height: 30px;" value="发表">
+                                </div>
+                            </form>
+                            <div id="comment_2_{{ comm.id }}">
+                                {% for reply in comm.root_comment.all %}
+                                <div class="comm_2">
+                                    <span>{{ reply.user.user_name }}:</span>
+                                    <span>({{ reply.comment_time|date:"H:i:s" }}):</span>
+                                    <span>回复</span>
+                                    <span>{{ reply.reply_to.user_name }}:</span>
+                                    <span>{{ reply.c_content|safe }}</span>
+                                </div>
+                                <a href="javascript:reply_two({{ reply.id }})" style="margin-left: 60px;">回复</a>
+                                <form action="{% url 'body:Comments_2' %}" method="post" class="comm_2_form">
+                                    <div id="comm_3_{{ reply.id }}" style="display: none;" class="wode" onclick="wode()">
+                                        <input type="text" name="reply_1" id="reply_2_1{{ reply.id }}">
+                                        <input type="hidden" value="{{ comm.id }}" name="reply_2_1">
+                                        <input type="hidden" value="{{ reply.id }}" name="reply_2">
+                                        <input type="submit">
+                                    </div>
+                                </form>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form action="{% url 'body:Comment' %} " method="post" class="comm_form">
+                        {% csrf_token %}
+                        <div id="Comm_2{{ dyns.id }}">
+                            <textarea name="comm_content" id="id_text_{{ dyns.id }}" cols="30" rows="10" style="width: 650px;height: 55px;margin-left: 25px;" class="text_area11"></textarea>
+                            <input value="{{ dyns.id }}" type="hidden" name="hidd">
+                            <input type="submit" value="发表" style="margin-left: 600px;width: 75px;height: 30px;background-color:rgb(28, 165, 252);border: 1px solid rgb(28, 165, 252);color: white;">
                         </div>
-
-                    {% endfor %}
-
-
-
-
-                <form action="{% url 'body:move_text' a_id=dyns.id %}" method="post">
-                    {% csrf_token %}
-
-
-                        <div class="move_cont">
-                             <textarea name="move_content" id="" cols="30" rows="10" style="width: 390px;height: 60px;border: 1px solid burlywood;"></textarea>           <input type="submit" value="转发">
-                        </div>
-
-
-
-                </form>
-                    <form action="{% url 'body:Comment'  %} " method="post" class="comm_form">
-                                    {% csrf_token %}
-                                    <textarea name="comm_content" id="" cols="30" rows="10" style="width: 650px;height: 60px;"></textarea>
-                                    <input value="{{ dyns.id }}" type="hidden" name="hidd">
-
-                                    <input type="submit" value="提交">
-
                     </form>
-
-
-
-
                         <div class="lmlblog-post-like-list">
-
-{#                            {% for i in  dyns.thumps_up_set.all  %}#}
-{##}
-{#                                <a href="#" class="like_name">{{ i.u.user_name }}</a>#}
-{#                            {% endfor %}#}
-
-
-
                         </div>
                         <div class="lmlblog-post-footer-bar">
                             <span title="2017-12-14 05:25:48">12月14日 05:25</span>
                             <span>电脑端</span><i class="lmlblog-icon" onclick="lmlblog_post_type_open();">&#xe62c;</i>
                         </div>
-
                     </div>
-
-
-
                 {% endfor %}
 
-
+                    <div id="move_div111111" style="width: 500px;height: 100px;position: fixed;z-index: 999;top: 300px;left: 700px;display: none">
+                        <div class="move_div2">
+                            <span class="move_font1">转发</span>
+                            <big class="clos"></big>
+                        </div>
+                        <form action="{% url 'body:move_text1' %}" method="post" class="move_form">
+                            {% csrf_token %}
+                            <div class="move_cont">
+                                <textarea name="move_content" id="" cols="30" rows="10" style="width: 390px;height: 60px;border: 1px solid burlywood;" class="move_cont2"></textarea>
+                                <input type="submit" value="发送" class="send">
+                                <input type="hidden" value="" class="hidd11" name="hidd11">
+                            </div>
+                        </form>
+                    </div>
                 <!-- 分页地点 -->
                 <div class="lmlblog-pager"><a class="lmlblog-pager-left" href="#2">上一页</a>
                     <div class="lmlblog-pager-center layui-form">
@@ -262,29 +236,93 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
+
+{% endblock %}
+{% block script_content2 %}
+
     <script type="text/javascript">
+    $('.lmlblog-posts-list').click(function () {
+        $('.wode').stop().hide();
+    });
+    function wode (){
+        $('.lmlblog-posts-list').stopPropagation();
+        $('.wode').show()
+    }
+    $('.text_area11').click(function () {
+        $('#wp-link-submit').show()
+    });
+    function comm_1(obj, obj_id) {
+        $('#Comm_2'+obj_id).show();
+    }
+    function reply_one(objee_id) {
+        $('#comm_2_'+objee_id).show();
+    }
+    function reply_two(objee_id) {
+        $('#comm_3_'+objee_id).show();
+    }
     $(function () {
     $('.comm_form').submit(function () {
-
-
         $.ajax({
             url: "{% url 'body:Comment' %}",
             type: 'POST',
             data: $(this).serialize(),
             cache: false,
             success: function (data) {
-                // alert(data)
                 if (data['status']=='SUCCESS'){
-                    var comment_html = '<p>' + data['text'] + '</p>';
-
+                    var comment_html =
+                        '<div class="comm_1"><span>'+data['c_user']+'：'+'</span><span>(' + data['c_date'] +')：</span><span>'+data['text']+'</span></div><a href="javascript:reply_one('+ data['c_id'] +');">回复</a>';
+                    $('.comment_1_'+data['aid']).append(comment_html);
+                    $('#id_text_'+data['aid']).val('');
                 }
             }
         });
         return false;
     });
 
+    $('.comm_2_form').submit(function () {
+        $.ajax({
+            url: "{% url 'body:Comments_2' %}",
+            type: 'POST',
+            data: $(this).serialize(),
+            cache: false,
+            success: function (data) {
+                var new_comment_html = '<div class="comm_2"><span>'+ data['user1'] +':    </span><span>(' + data['c_time'] +')          </span><span>回复    </span><span>'+ data['reply_name'] +':</span><span>'+ data['text'] +'</span></div><a href="javascript:reply_two('+ data['c_id'] +');" style="margin-left: 60px;">回复</a>';
+                $('#comment_2_'+data['c_id_1']).prepend(new_comment_html);
+                $('#comm_2_'+data['c_id']).hide();
+                $('#comm_3_'+data['c_id']).hide();
+                $('#reply_1_'+data['c_id_1']).val('');
+                $('#reply_2_1'+data['c_id']).val('');
+            }
+    });
+     return false
+})
 });
+    function move_content1(object_id){
+        // $('body').css({
+        //     'background-color': 'silver'
+        // });
+        $("#move_div111111").css({
+            'display':'block'
+        });
+        $("#move_div111111").show();
+        $('.hidd11').val(object_id);
+        $('.move_form').submit(function () {
+        $.ajax({
+            url: "{% url 'body:move_text1' %}",
+            type: 'POST',
+            data: $(this).serialize(),
+            cache: false,
+            success: function (data) {
+                if (data['status']=='SUCCESS'){
+                    $("#move_div111111").hide();
+                    alert('转发成功');
+                }
+        }
+        });
+        return false;
+    });
+
+    }
     function likeChange(obj, object_id) {
         var is_like = obj.getElementsByClassName('active').length == 0
         $.ajax({
@@ -312,5 +350,30 @@
         })
 
     }
+    function likeChange2(obj, object_id) {
+        var is_like = obj.getElementsByClassName('active').length == 0;
+        $.ajax({
+            url: "{% url 'body:Love_article2' %}",
+            type: 'POST',
+            data: {
+                object_id: object_id
+            },
+            cache: false,
+            success: function (data) {
+                if (data['status']=='SUCCESS'){
+                    var d_like_num = $(obj.getElementsByClassName('d_like_num'));
+                    var like_pic1 = $(obj.getElementsByClassName('glyphicon'));
+                    d_like_num.text(data['d_like']);
+                    if (is_like){
+                        like_pic1.addClass('active')
+                    }else {
+                        like_pic1.removeClass('active')
+                    }
+                }
+            }
+        })
+
+    }
     </script>
+
 {% endblock %}
