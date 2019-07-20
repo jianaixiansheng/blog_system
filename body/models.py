@@ -10,10 +10,10 @@ class UserInfo(models.Model):
     user_numbers = models.BigIntegerField(null=True,verbose_name='账号')
     user_password = models.CharField(max_length=20, null=True,verbose_name='密码')
     user_name = models.CharField(max_length=20,verbose_name='用户名')
-    user_sex = models.CharField(max_length=20,verbose_name='性别')
-    user_sign = models.TextField(verbose_name='个性签名')
-    user_birth = models.DateField(verbose_name='出生日期')
-    user_city = models.CharField(max_length=20,verbose_name='所在地')
+    user_sex = models.CharField(default='请修改', max_length=20,verbose_name='性别')
+    user_sign = models.TextField(default='空空如也',verbose_name='个性签名')
+    user_birth = models.DateField(auto_now_add=True,verbose_name='出生日期')
+    user_city = models.CharField(default='请修改',max_length=20,verbose_name='所在地')
     user_one_level = models.IntegerField(default=0,verbose_name='用户等级')
     user_member_level = models.IntegerField(default=0,verbose_name='会员等级')
 
@@ -96,15 +96,19 @@ class AttentionPerson(models.Model):
 class Comment(models.Model):
     """评论表"""
     # 评论的内容
-    c_content = models.TextField(verbose_name='内容')
-    # 被评论的用户
-    c_b_user = models.ForeignKey('UserInfo', on_delete=models.CASCADE,verbose_name='被评用户')
-    # 评论的用户
-    c_user = models.IntegerField(verbose_name='评论用户')
-    #被评论的文章
-    c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE)
+    c_content = models.TextField(verbose_name='内容', null=True)
+    # 被评论的文章
+    c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE, null=True)
     # 被评论的评论的ID
-    c_b_commentID = models.ForeignKey('Comment',on_delete=models.CASCADE, null=True)
+    c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, related_name='parent_comment')
+    root = models.ForeignKey('Comment', related_name='root_comment', null=True, on_delete=models.DO_NOTHING)
+    # 评论的时间
+    comment_time = models.DateTimeField(auto_now_add=True, null=True)
+    # 二级评论回复的人
+    reply_to = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, null=True, related_name='replies')
+    # 评论的用户
+    user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name='comments', null=True)
+
 
 
 # 访客表

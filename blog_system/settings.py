@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -83,9 +83,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'blog_system',  # 数据库名
         'USER': 'root',  # 用户名
-        'PASSWORD': '5173066',  # 密码
-        # 'HOST': '106.13.144.115',
-        'HOST': 'localhost',
+        'PASSWORD': 'root',  # 密码
+        'HOST': '106.13.144.115',
+        # 'HOST': 'localhost',
         'PORT': '3306',
     }
 }
