@@ -1,0 +1,152 @@
+{% extends 'parent_template.html' %}
+{% load staticfiles %}
+{% block activate5 %}
+    class="on"
+{% endblock %}
+
+{% block show %}
+    <link rel="stylesheet" href="{% static 'index/css/index.css' %}">
+    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'index/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'index/js/bootstrap.js' %}"></script>
+    <script src="{% static 'index/js/index.js' %}"></script>
+    <div class="lmlblog-member-content-list clear">
+        <div class="lmlblog-member-left">
+            {# 热度信息#}
+            <div class="lmlblog-member-left-follow clear">
+                {% for foo in heat %}
+                    <li>
+                        <strong>168</strong>
+                        <span>关注</span>
+                    </li>
+                {% endfor %}
+
+            </div>
+
+            {# 背景音乐 #}
+            <div class="lmlblog-member-left-bg-music clear">
+                <h3>背景音乐</h3>
+                <div id="lmlblog-memeber-bg-music" class="aplayer"></div>
+                <img src="http://wx2.sinaimg.cn/large/9c774d91gy1ft4lhr5vbmg20jp08okbw.gif" alt="司空琪">
+                <audio src="https://img.jinsom.cn/user_files/12551/bg-music/music_1530776683.mp3" autoplay
+                       controls></audio>
+            </div>
+
+            {# 个人资料 #}
+            <div class="lmlblog-member-left-profile">
+                <h3>资料简介</h3>
+                <li><i class="fa fa-address-book-o"></i> I D：<span>520<span></li>
+                <li><i class="fa fa-transgender"></i> 性别：<span>女生<span></li>
+                <li><i class="fa fa-map-marker"></i> 城市：<span>画江湖 司空家<span></li>
+                <li><i class="fa fa-smile-o"></i> 签名：<span>坚强勇敢，利落干脆。冰雪聪明，明眸善睐。重情重义，侠骨柔情。<span></li>
+                <div class="lmlblog-member-left-profile-hide">
+                    <li><i class="fa fa-qq"></i> Q Q：<span>sikongqi<span></li>
+                    <li><i class="fa fa-wechat"></i> 微信：<span>天涯路远，一剑轻安。携琪之手，相伴江湖<span></li>
+                    <li><i class="fa fa-weibo"></i> 微博：<span>司空琪吧官博<span></li>
+                    <li><i class="fa fa-clock-o"></i> 生日：<span>2月15日<span></li>
+                </div>
+                <div class="lmlblog-member-left-profile-more">查看更多 <i class="fa fa-angle-right"></i></div>
+            </div>
+
+            {# 最近访客 #}
+            <div class="lmlblog-member-left-visitor clear">
+                <h3>最近访客</h3>
+                {% for foo in guest %}
+                    {% if foo == 10 %}
+                        <li><a href="#1" title="访问时间：22分钟前"><span class="lmlblog-vip-icon"></span><img
+                                src="picture/1.gif" class="avatar"/>
+                            <p>born</p></a></li>
+                    {% else %}
+                        <li><a href="#1" title="访问时间：22分钟前"><img src="picture/1.gif" class="avatar"/>
+                            <p>born</p></a></li>
+                    {% endif %}
+
+                {% endfor %}
+
+
+            </div>
+
+            {# 相关推荐 #}
+            <div class="lmlblog-member-left-bg-xg clear">
+                <h3>相关推荐</h3>
+                <div id="lmlblog-memeber-bg-xg" class="aplayer"></div>
+                <a href="http://www.lmlblog.com/blog/yanlingjiao/1.html" target="_blank"><h2>燕凌姣个人主页</h2>
+                    <img src="http://www.lmlblog.com/blog/yanlingjiao/images/jiao8.jpg" alt="燕凌姣个人主页">
+                    <p>　　一袭蓝衣亭亭玉立，姣若春梅绽雪，神如月射寒江，香培玉琢、英姿飒爽;其静兰生幽谷，其动若飞若扬，性格大气坚毅、疏朗开阔，举止敢爱敢恨、聪明磊落...他就是燕凌姣</p></a>
+            </div>
+        </div>
+        <div class="lmlblog-member-right">
+            <div class="lmlblog-post-list">
+                <div class="lmlblog-member-left-visitor clear" style="padding: 8px">
+                    <div style="position: relative;margin-left: 5px;border-bottom: 2px olive dashed;width: 681px;height: 38px;font-size: 25px;">
+                        {% if is_delete == 0 %}
+                        <a href="{% url 'albums:upload_graph' album_id=album_id %}">
+                            <h4 style="position: absolute;left: 0;top: -3px;font-family: 华文仿宋;">上&nbsp;传&nbsp;图&nbsp;片</h4>
+                            <img src="{{ MEDIA_URL }}/picture/jiantou.png" alt="" style="position: absolute;left: 122px;top: -1px;">
+                        </a>
+                        <a title="回收站" href="{% url 'albums:photo_graph' album_id=album_id is_delete=1 %}">
+
+                            <img src="{{ MEDIA_URL }}/picture/huishouzhan.png" alt="" style="position: absolute;right: 42px;top: -1px;">
+                        </a>
+                        <a title="返回相册" href="{% url 'albums:photo_album' is_delete=0 %}">
+
+                            <img src="{{ MEDIA_URL }}/picture/fanhui.jpg" alt="" style="position: absolute;right: 7px;top: -1px;">
+                        </a>
+                        {% else %}
+
+                               <h4 style="position: absolute;left: 0;top: -3px;font-family: 华文仿宋;">图&nbsp;片&nbsp;回&nbsp;收&nbsp;站</h4>
+                               <a href="{% url 'albums:delete_graph' album_id=album_id graph_id=0 is_delete=3 %}" style="position: absolute;left: 279px;top: -1px;">清空回收站</a>
+
+
+                                <a href="{% url 'albums:photo_graph' album_id=album_id is_delete=0 %}"><img src="{{ MEDIA_URL }}/picture/fanhui.jpg" alt="" style="position: absolute;right: 7px;top: -1px;"></a>
+
+
+                        {% endif %}
+
+                    </div>
+                        {% for graph_obj in graph_objs %}
+                            <div id="handle1" style="display: inline-block;margin-left: 5px;position: relative">
+                            <input type="checkbox" name="pictures" value="" style="position: absolute;left: 5px;top: 5px;width: 30px;height: 30px;cursor: pointer;">
+                            <img src="{{ MEDIA_URL }}{{ graph_obj.user_image_url }}" alt="">
+                                <img src="{{ MEDIA_URL }}/picture/xiangxia.jpg" alt="" id="handle2" style="position: absolute;">
+                                {% if is_delete == 0 %}
+                                    <a href="{% url 'albums:delete_graph' album_id=album_id graph_id=graph_obj.id is_delete=is_delete %}">删除</a>
+                                {% else %}
+                                    <a href="{% url 'albums:delete_graph' album_id=album_id graph_id=graph_obj.id is_delete=is_delete %}">删除</a>
+                                    <a href="{% url 'albums:regain_graph' album_id=album_id graph_id=graph_obj.id %}">还原</a>
+                                {% endif %}
+
+                            </div>
+                        {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('.comm_form').submit(function () {
+
+
+                $.ajax({
+                    url: "{% url 'body:Comment' %}",
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    cache: false,
+                    success: function (data) {
+                        // alert(data)
+                        if (data['status'] == 'SUCCESS') {
+                            var comment_html = '<p>' + data['text'] + '</p>';
+
+                        }
+                    }
+                });
+                return false;
+            });
+
+
+            $()
+        });
+    </script>
+{% endblock %}

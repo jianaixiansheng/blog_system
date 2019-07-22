@@ -4,36 +4,39 @@ from PIL import Image, ImageDraw, ImageFont
 from django.utils.six import BytesIO
 ...
 from VerificationCode import send_sms,get_code
+from django.http import JsonResponse
+import TCP_CLIENT as cli
+import TCP_SERVER as ser
+import threading
 # Create your views here.
 
-
-def code(request):
-    tel = request.POST.get('tel')
-    print(tel)
-    # send_sms(tel,get_code())
 
 # 写登陆
 def login(request):
     if request.method == "GET":
-        return render(request, 'log.html')
+        return render(request, 'register1.html')
     else:
         user_numbers = request.POST.get('tel')
         user_password = request.POST.get('pwd')
-        yzm = request.POST.get('yzm')
-        verifycode = request.session['verifycode']
+        print(user_numbers,user_password)
         try:
+            print(2)
             if UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password):
-                u = UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password)
-                if yzm == verifycode:
-                    request.session['user_id'] = u.id
-                    request.session.set_expiry(0)
-                    return redirect('body:index')
-
-                else:
-                    return render(request, 'log.html')
-            return render(request, 'log.html')
+                print(3)
+                jud = UserInfo.objects.get(user_numbers=user_numbers,user_password=user_password)
+                request.session['user_id']=jud.id
+                request.session['user_numbers'] = user_numbers
+                jud.user_jude = 1
+                jud.save()
+                print(user_password,user_numbers)
+                t1 = threading.Thread(target=ser.tcp_server)
+                t2 = threading.Thread(target=cli.client, args=(user_numbers,))
+                t1.start()
+                t2.start()
+                return JsonResponse({"res":1})
         except Exception:
-            return render(request, 'log.html')
+            print(4)
+            return JsonResponse({"res":0})
 
 
 
@@ -44,21 +47,72 @@ def login(request):
 def register(request):
     if request.method == "GET":
         print('在这人')
-        return render(request, 'register.html')
+        return render(request, 'register1.html')
     else:
         # 第一个页面，获取到用户注册的手机号和密码(用手机号作为账户)
         print('一以以以以以以以以以以以i')
-        user_numbers = request.POST.get('tel')
-        user_password = request.POST.get('pwd')
-        user_name = request.POST.get('name')
-        user_sex = request.POST.get('sex')
-        user_sign = request.POST.get('sign')
-        user_birth = request.POST.get('birth')
-        user_city = request.POST.get('city')
-        print(user_name, user_password, user_birth)
-        UserInfo.objects.create(user_numbers=user_numbers,user_password=user_password,user_name=user_name,user_sex=user_sex,user_sign=user_sign,user_birth=user_birth,user_city=user_city)
+        user_tel = request.POST.get('tel')
 
-        return redirect(reverse('logins:login'))
+        a = get_code(6,False)
+        send_sms(user_tel,a)
+        request.session['lyzm']=a
+        request.session['rtel']=user_tel
+        print( user_tel )
+        print('我是验证码',a)
+        if user_tel:
+            return JsonResponse({"res":1})
+        else:
+            return JsonResponse({"res": 0})
+
+
+def zhuce(request):
+    # 获取到验证码
+    yzm = request.session.get('lyzm')
+    # 获取到手机号
+    tel = request.session.get('rtel')
+    # 获取到名称
+    name = request.POST.get('name')
+    # 获取到密码
+    pwd = request.POST.get('pwd')
+    # 获取到验证码
+    uyzm = request.POST.get('yzm')
+    print(yzm,uyzm,tel,name,pwd)
+
+    try:
+        a = UserInfo.objects.get(user_numbers=tel)
+        if a:
+            return JsonResponse({"res":'用户名已经存在'})
+
+    except:
+        if yzm ==uyzm:
+            UserInfo.objects.create(user_numbers=tel,user_password=pwd,user_name=name)
+            return JsonResponse({"res": "注册成功"})
+        else:
+            return JsonResponse({"res": "验证码错误"})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 图片验证码
 def verify_code(request):
@@ -85,7 +139,7 @@ def verify_code(request):
     for i in range(0, 4):
         rand_str += str1[random.randrange(0, len(str1))]
     #构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
-    font = ImageFont.truetype('E:/courseware/shixunxaingmu/blog/blog_system/login/FreeMono.ttf', 23)
+    font = ImageFont.truetype('F:/code/xiwang/blog_system/login/FreeMono.ttf', 23)
     #构造字体颜色
     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
     #绘制4个字

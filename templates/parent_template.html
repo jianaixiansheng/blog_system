@@ -33,54 +33,180 @@
     <link rel='stylesheet' id='all-css' href='{% static 'home/css/all.css' %}' type='text/css'
           media='all'/>
     <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
+    <script type='text/javascript' src='{% static 'home/js/jquery.min.js' %}'></script>
     <script type='text/javascript' src='{% static 'home/js/ueditor.all.min.js' %}'></script>
+    <script type='text/javascript' src='{% static 'home/js/jquery-3.4.1.min.map' %}'></script>
+    <script type='text/javascript'>
+        function ajax_header(id) {
+            $.ajax({
+                'url': '{% url 'body:indexs' %}',
+                'dataType': 'json',
+                'type': 'get',
+                'data': {'us_id': id},
+                'success': (function (data) {
+                    var arr = data;
+                    $('#info_img').attr('src', arr.img).attr('onclick', 'ajax_header(' + arr.user_id + ')');
+                    $('#info_img_name').attr('title', arr.user_name);
+                    $('#info_user_name').html(arr.user_name);
+                    $('#info_grade').html('LV.' + arr.grade).attr('title', arr.signnumber);
+                    $('#info_sgrade').html('LV.' + arr.sgrade);
+                    $('#info_sign').html(arr.user_sign);
+                    if (arr.hh == 1) {
+                        $('#hh').attr('onclick', 'qiandao(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 签到 </span>')
+                    } else if (arr.hh == 2) {
+                        $('#hh').attr('onclick', '');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 已签到 </span>')
+                    } else if (arr.hh == 3) {
+                        $('#hh').attr('onclick', 'guanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 关注 </span>')
+                    } else if (arr.hh == 4) {
+                        $('#hh').attr('onclick', 'noguanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 取消关注 </span>')
+                    }
+                })
+            })
+
+        }
+
+        function qiandao(id) {
+            $.ajax({
+                'url': '{% url "body:qiandao" %}',
+                'type': 'post',
+                'dataType': 'json',
+                'data': {'us_id': id},
+                'success': (function (data) {
+                    var arr = data;
+                    if (arr.hh == 1) {
+                        $('#hh').attr('onclick', 'qiandao(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 签到 </span>')
+                    } else if (arr.hh == 2) {
+                        $('#hh').attr('onclick', '');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 已签到 </span>')
+                    } else if (arr.hh == 3) {
+                        $('#hh').attr('onclick', 'guanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 关注 </span>')
+                    } else if (arr.hh == 4) {
+                        $('#hh').attr('onclick', 'noguanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 取消关注 </span>')
+                    }
+                })
+
+            })
+        }
+
+        function guanzhu(id) {
+            $.ajax({
+                url: '{% url 'body:guanzhu' %}',
+                dataType: 'json',
+                type: 'post',
+                data: {'us_id': id},
+                success: (function (data) {
+                    var arr = data;
+                    if (arr.hh == 1) {
+                        $('#hh').attr('onclick', 'qiandao(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 签到 </span>')
+                    } else if (arr.hh == 2) {
+                        $('#hh').attr('onclick', '');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 已签到 </span>')
+                    } else if (arr.hh == 3) {
+                        $('#hh').attr('onclick', 'guanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 关注 </span>')
+                    } else if (arr.hh == 4) {
+                        $('#hh').attr('onclick', 'noguanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 取消关注 </span>')
+                    }
+                })
+            })
+        }
+
+        function noguanzhu(id) {
+            $.ajax({
+                url: '{% url 'body:noguanzhu' %}',
+                dataType: 'json',
+                type: 'post',
+                data: {'us_id': id},
+                success: (function (data) {
+                    var arr = data;
+                    if (arr.hh == 1) {
+                        $('#hh').attr('onclick', 'qiandao(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 签到 </span>')
+                    } else if (arr.hh == 2) {
+                        $('#hh').attr('onclick', '');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 已签到 </span>')
+                    } else if (arr.hh == 3) {
+                        $('#hh').attr('onclick', 'guanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 关注 </span>')
+                    } else if (arr.hh == 4) {
+                        $('#hh').attr('onclick', 'noguanzhu(' + arr.user_id + ')');
+                        $('#heheda').html('<i class="lmlblog-icon"></i> 取消关注 </span>')
+                    }
+                })
+            })
+        }
+    </script>
 </head>
 
 <body>
-<div class="lmlblog-member-main" data="1">
+<div class="lmlblog-member-main">
     <div class="lmlblog-member-bg">
         <div class="lmlblog-member-content">
             <div class="lmlblog-member-header">
                 <div class="lmlblog-member-avatar other">
-                    <a href="{% url 'body:indexs' us_id=head_info.userid.id %}"><img src="{{ head_info.userimg }}"
-                                                                                     class="avatar"/></a>
-                    <i class="lmlblog-verify lmlblog-verify-a" title="{{ head_info.userid.user_name }}"></i></div>
+                    <a href="#" id="info_a"><img id="info_img" src="{{ head_info.userimg }}"
+                                                 onclick="ajax_header({{ head_info.userid.id }})"
+                                                 class="avatar" alt="加载失败"></a>
+                    <i id="info_img_name" class="lmlblog-verify lmlblog-verify-a"
+                       title="{{ head_info.userid.user_name }}"></i>
+                </div>
                 <div class="lmlblog-member-username">
-                    <h1>{{ head_info.userid.user_name }}</h1>
-                    <span class="lmlblog-mark lmlblog-lv"
+                    <h1 id="info_user_name">{{ head_info.userid.user_name }}</h1>
+                    <span class="lmlblog-mark lmlblog-lv" id="info_grade"
                           title="经验：3815">Lv.{{ head_info.userid.user_one_level }}</span>
-                    <span class="lmlblog-mark lmlblog-vip">VIP {{ head_info.userid.user_member_level }}</span></div>
-                <div class="lmlblog-member-desc">{{ head_info.userid.user_sign }}</div>
+                    <span class="lmlblog-mark lmlblog-vip"
+                          id="info_sgrade">VIP {{ head_info.userid.user_member_level }}</span>
+                </div>
+                <div class="lmlblog-member-desc" id="info_sign">{{ head_info.userid.user_sign }}</div>
                 <div class="lmlblog-member-follow-info">
-                    {% if hh %}
-                        <a href="{% url 'body:attention' us_id=head_info.userid.id %}" target="_blank" rel="nofollow"><span
-                                class="follow no opacity"><i class="lmlblog-icon"></i>+ 关注</span></a>
-
-
+                    {% if hh == 1 %}
+                        <a id="hh" target="_blank" rel="nofollow" onclick="qiandao({{ head_info.userid.id }})"> <span
+                                class="follow no opacity" id="heheda"><i class="lmlblog-icon"></i> 签到 </span></a>
                     {% else %}
-                        <a href="#" target="_blank" rel="nofollow"><span
-                                class="follow no opacity"><i class="lmlblog-icon"></i>已关注</span></a>
-
+                        <a id="hh" target="_blank" rel="nofollow" onclick=""><span
+                                class="follow no opacity" id="heheda"><i class="lmlblog-icon"></i>已签到</span></a>
                     {% endif %}
 
                     <span class="opacity"><i class="lmlblog-icon">&#xe612;</i> <a
-                            href="{% url 'body:chat' %}">私聊</a></span>
+                            href="{% url 'chat:index' %}">私聊</a></span>
                 </div>
             </div>
-            <div class="lmlblog-member-menu clear">
-                <ul>
-                    <li {% block activate1 %}{% endblock %} ><a href="{% url 'body:index' %}">主页</a></li>
-                    <li {% block activate2 %}{% endblock %} ><a href="{% url 'body:dynamic_state' %}">动态</a></li>
-                    <li {% block activate3 %}{% endblock %} ><a href="{% url 'body:music' %}">音乐</a></li>
-                    <li {% block activate5 %}{% endblock %} ><a href="{% url 'body:photo_album' %}">相册</a></li>
-                    <li {% block activate6 %}{% endblock %} ><a href="{% url 'body:personal' %}">个人档</a></li>
-                </ul>
-            </div>
-            {% block show %}
-
-            {% endblock %}
-
+            {#            <div class="lmlblog-member-header">#}
+            {#                <div class="lmlblog-member-avatar other">#}
+            {#                    <a href="#" id="info_a"><img id="info_img" src="{% static 'home/css/default_avatar.png' %}"#}
+            {#                                                 onclick="ajax_header(1)" class="avatar" alt="加载失败"></a>#}
+            {#                    <i id="info_img_name" class="lmlblog-verify lmlblog-verify-a" title="用户名"></i></div>#}
+            {#                <div class="lmlblog-member-username">#}
+            {#                    <h1 id="info_user_name">用户名</h1>#}
+            {#                    <span class="lmlblog-mark lmlblog-lv" id="info_grade" title="经验值">等级</span>#}
+            {#                    <span class="lmlblog-mark lmlblog-vip" id="info_sgrade">会员等级</span></div>#}
+            {#                <div class="lmlblog-member-desc" id="info_sign">个性签名</div>#}
+            {#                <div class="lmlblog-member-follow-info" id="pin">#}
+            {#关注 签到 私聊 异步加载地址#}
+            {#                </div>#}
         </div>
+        <div class="lmlblog-member-menu clear">
+            <ul>
+                <li {% block activate1 %}{% endblock %} ><a href="{% url 'body:index' %}">主页</a></li>
+                <li {% block activate2 %}{% endblock %} ><a href="{% url 'body:dynamic_state' %}">动态</a></li>
+                <li {% block activate3 %}{% endblock %} ><a href="{% url 'body:music' %}">音乐</a></li>
+                <li {% block activate5 %}{% endblock %} ><a href="{% url 'albums:photo_album' is_delete=0 %}">相册</a></li>
+                <li {% block activate6 %}{% endblock %} ><a href="{% url 'body:personal' %}">个人档</a></li>
+            </ul>
+        </div>
+
+        {% block show %}
+
+        {% endblock %}
     </div>
 </div>
 <!-- 底部 -->
@@ -113,9 +239,7 @@
 <script type='text/javascript' src='{% static 'home/js/plupload.full.min.js' %}'></script>
 <script type='text/javascript' src='{% static 'home/js/layui.js' %}'></script>
 <script src="{% static 'chat/js/script.js' %}"></script>
-
-
-    <script>
+<script>
     jQuery(document).ready(function ($) {
         $.fn.smartFloat = function () {
             var position = function (element) {

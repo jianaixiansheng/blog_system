@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="first" style="position: relative;width: 600px;height: 350px;margin: auto;margin-top: 30px">
+
+<div style="width: 600px;height: 345px;z-index: 999;border: 1px dashed #000000;position: absolute;">
+    {{ user }} <br> {{ a }}
+</div>
+    <div style="width: 600px;height: 150px;">
+<form action="{% url 'chat:halo' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="xinxi" style="width: 600px;height: 150px;position: absolute;margin-top: 346px;border-left: 1px dashed #000000;padding-bottom: 10px;font-size: 20px">
+
+    <input type="submit" value="发送(s)" style="position: absolute;margin-top: 460px;margin-left: 500px">
+</form>
+        </div>
+</div>
+
+</body>
+</html>
