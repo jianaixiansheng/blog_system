@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/qq.css' %}"/>
+
+</head>
+<script src="{% static 'js/jquery-1.12.4.min.js ' %}"></script>
+<script>
+    $(function () {
+            $('.intername').click(function () {
+                //获取想要的数据
+
+                pwd = $('.IP2').val()
+                name1 = $('.PORT2').val()
+
+                $.ajax({
+                    'url':'/chat/info/',
+                    'type':'post',
+                    'data':{"IP":pwd,"PORT":name1},
+                    'dataType':'json',
+                    'async':false
+                }).success(function (data) {
+                    $('.newsList').show().html(data.res)
+                })
+            })
+        })
+
+
+
+     {#$(function () {#}
+     {#       $('.sendBtn').click(function () {#}
+     {#           //获取想要的数据#}
+     {##}
+     {#           xinxi = $('.dope').val()#}
+     {##}
+     {##}
+     {#           $.ajax({#}
+     {#               'url':'/chat/info/',#}
+     {#               'type':'post',#}
+     {#               'data':{"xinxi":xinxi,},#}
+     {#               'dataType':'json',#}
+     {#               'async':false#}
+     {#           }).success(function (data) {#}
+     {#               if (data.res == 1){#}
+     {#                   alert('接收成功')#}
+     {#               }#}
+     {#           })#}
+     {#       })#}
+     {#   })#}
+</script>
+<body>
+
+<div class="qqBox">
+	<div class="BoxHead">
+		<div class="headImg">
+			<img src="img/6.jpg"/>
+		</div>
+		<div class="internetName">90后大叔</div>
+	</div>
+	<div class="context">
+		<div class="conLeft">
+			<ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {% for i in a %}
+                <li>
+{#                    此处是每个人的头像#}
+					<div class="liLeft"><img src="img/20170926103645_54.jpg"/></div>
+
+					<div class="liRight">
+{#                        此处是每个人的名字#}
+						<span  class="intername">{{ i.a_b_user.user_name }}</span>
+
+                        <input type="button" value="{{ i.a_b_user.user_IP }}" style="display: none" class="IP2">
+                        <input type="button" value="{{ i.a_b_user.user_PORT }}" style="display: none" class="PORT2">
+
+					</div>
+				</li>
+            {% endfor %}
+
+			</ul>
+		</div>
+		<div class="conRight">
+			<div class="Righthead">
+				<div class="headName"></div>
+			</div>
+			<div class="RightCont">
+				<ul class="newsList">
+                    {{ abc }}
+				</ul>
+			</div>
+			<div class="RightFoot">
+{#                此处写发送的from表单#}
+				<div class="inputBox">
+                    <form action="{% url 'chat:halo' %}" method="post">
+					<input  style="width: 99%;height: 75px; border: none;outline: none;" name="xinxi" >
+
+					<input type="submit" value="发送(s)">
+                        </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+
+</body>
+</html>

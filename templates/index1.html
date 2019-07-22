@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>联系人</title>
+</head>
+<body>
+<div style="text-align: center;width: 500px;height: 800px;background-color: #ff80cd;margin: auto;position: relative">
+<div style="margin-top: 20px;position: absolute">
+    <img src="{{ img.userimg }}" alt="" style="width: 100px;height: 100px;margin-left: -220px">
+    <h3 style="color: white;margin-left: 320px;margin-top: -80px ">{{ user.user_name }}</h3> <br>
+</div>
+<div style="position: absolute;margin-top: 150px;margin-left: 150px;z-index: 999">
+ {% for foo in all %}
+            <img src="{{ foo.userimg }}" alt="" style="width: 50px;height: 50px;margin-left: -150px;"> <br><br><br><br><br>
+        {% endfor %}
+    {% for i in a %}
+
+
+    <div style="position: absolute;text-decoration: none;width: 150px;height: 50px;margin-left: 100px;margin-top: -150px">
+        <a href="{% url 'chat:info' IP=i.a_b_user.user_IP  PORT=i.a_b_user.user_PORT name=i.a_b_user.user_name   %}" style="font-size: 20px" >{{ i.a_b_user.user_name }}<br> {{ i.a_b_user.user_sign }}</a>
+    </div>
+        <br><br><br><br><br><br><br>
+    {% endfor %}
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width-device-width,initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="sie-edge" />
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+<title>登录注册页面</title>
+    <script language="javascript" type="text/javascript">
+  function display(){
+      var div1 = document.getElementById("#btn");
+      if(btn.style.display=="none"){
+          btn.style.display = "block";
+          reg.style.display = "none";
+      }else{
+          btn.style.display = "none";
+          reg.style.display = "block";
+      }
+  }
+  </script>
+
+
+
+
+
+
+<script src="{% static 'js/jquery-1.12.4.min.js ' %}"></script>
+    <script>
+        $(function () {
+            $('#btn').click(function () {
+                //获取用户名和密码
+                phone = $('#phone').val()
+
+                //发起postAjax请求，携带数据
+                $.ajax({
+                    'url':'/register/',
+                    'type':'post',
+                    'data':{'tel':phone},
+                    'dataType':'json',
+                    'async':false,
+                    }).success(function (data) {
+                  if (data.res == 1){
+
+                      alert('验证码发送成功')
+                      $('#reg').style.show()
+                        $('#btn').style.hide()
+                  }if(data.res == 0){
+
+                      alert('验证码发送失败')
+                        $(display())
+
+                  }
+                })
+
+            })
+        })
+        $(function () {
+            $('#reg').click(function () {
+                //获取想要的数据
+
+                pwd = $('#pwd').val()
+                name1 = $('#name').val()
+                yzm = $('#yzm').val()
+                $.ajax({
+                    'url':'/zhuce/',
+                    'type':'post',
+                    'data':{"pwd":pwd,'yzm':yzm,"name":name1},
+                    'dataType':'json',
+                    'async':false
+                }).success(function (data) {
+                    if (data.res == '用户名已经存在'){
+                        alert('用户名已经存在')
+                            $('#reg').style.hide()
+                        $('#btn').style.show()
+                    }if (data.res == '注册成功'){
+                        alert('注册成功')
+                    }if (data.res == '验证码错误'){
+                        alert('验证码错误')
+                        $('#reg').style.hide()
+                        $('#btn').style.show()
+                    }
+
+
+                })
+            })
+        })
+
+
+
+
+        $(function () {
+            $('#dl').click(function () {
+                //获取想要的数据
+
+                pwd = $('#dtel').val()
+                name1 = $('#dpwd').val()
+
+                $.ajax({
+                    'url':'',
+                    'type':'post',
+                    'data':{"tel":pwd,"pwd":name1},
+                    'dataType':'json',
+                    'async':false
+                }).success(function (data) {
+                    if (data.res == 1){
+                         {#top.location.href='/body/index/'#}
+                        {#window.open('http://172.16.42.203:8000/body/index/')#}
+
+                        window.open('http://127.0.0.1:8000/body/index/')
+                    }if (data.res == 0){
+                        alert('账号或密码不正确')
+                    }
+
+
+
+                })
+            })
+        })
+    </script>
+<!--图标库-->
+<script src="https://unpkg.com/ionicons@4.2.2/dist/ionicons.js"></script>
+
+</head>
+
+<body>
+
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form action="#">
+      <h1>注册</h1>
+
+
+      <input type="text" placeholder="手机号" pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}" minlength="11" maxlength="11" id="phone">
+        <input type="text" placeholder="昵称" id="name">
+      <input type="password" placeholder="密码" id="pwd">
+      <input type="text" placeholder="短信验证码" id="yzm">
+        <div>
+      <button id="btn" onclick="display()">点击发送验证码</button>
+        <button id="reg" style="display: none" onclick="display()">注册</button>
+            </div>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form action="#" >
+{#        {% csrf_token %}#}
+      <h1>登录</h1>
+
+
+      <input type="text" placeholder="手机号" pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}" minlength="11" maxlength="11" id="dtel">
+      <input type="password" placeholder="密码" id="dpwd">
+      <button id="dl">登录</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>欢迎回来</h1>
+        <p>与我们保持联系请登录您的个人信息</p>
+        <button class="ghost" id="signIn">登录</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>欢迎光临</h1>
+        <p>输入您的个人资料，并与我们一起开始旅程</p>
+        <button class="ghost" id="signUp">注册</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script  src="{% static 'js/script.js' %}"></script>
+	
+</body>
+</html>

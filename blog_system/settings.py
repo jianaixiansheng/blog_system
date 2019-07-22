@@ -26,7 +26,7 @@ SECRET_KEY = 'v_cqcf5v$woab+z0jk1753fx$xy+#fe%(sb$wnt=9$3k=n+nwd'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = ['172.16.42.203']
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'body',
     'login',
+    'chat', # 聊天app
 ]
 
 MIDDLEWARE = [
