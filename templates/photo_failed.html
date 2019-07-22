@@ -78,39 +78,23 @@
         <div class="lmlblog-member-right">
             <div class="lmlblog-post-list">
                 <div class="lmlblog-member-left-visitor clear" style="padding: 8px">
-                    <div style="position: relative;margin-left: 5px;border-bottom: 2px olive dashed;width: 681px;height: 38px;font-size: 25px;">
-                        {% if is_delete == 0 %}
-                        <a href="{% url 'albums:upload_album' %}">
-                            <h4 style="position: absolute;left: 0;top: -3px;font-family: 华文仿宋;">新&nbsp;建&nbsp;相&nbsp;册</h4>
-                            <img src="{{ MEDIA_URL }}/picture/jiantou.png" alt="" style="position: absolute;left: 122px;top: -1px;">
-                        </a>
-                        <a href="{% url 'albums:photo_album' is_delete=1 %}">
-                            <h4 style="position: absolute;right: 21px;top: -3px;font-family: 华文仿宋;">回&nbsp;收&nbsp;站</h4>
-                            <img src="{{ MEDIA_URL }}/picture/huishouzhan.png" alt="" style="position: absolute;right: 122px;top: -1px;">
-                        </a>
 
-                        {% else %}
-
-                               <h4 style="position: absolute;left: 0;top: -3px;font-family: 华文仿宋;">相&nbsp;册&nbsp;回&nbsp;收&nbsp;站</h4>
-
-
-                               <a href="{% url 'albums:photo_album' is_delete=0 %}">
-                                   <h4 style="position: absolute;right: 21px;top: -3px;font-family: 华文仿宋;">退&nbsp;出</h4>
-                                   <img src="{{ MEDIA_URL }}/picture/fanhui.jpg" alt="" style="position: absolute;right: 122px;top: -1px;">
-                               </a>
-                        {% endif %}
-                    </div>
-
-                    {% for album_obj in album_objs %}
-                    <div style="display: inline-block;position: relative;margin-left: 5px;margin-top: 20px">
-                        <a href="{% url 'albums:photo_graph' album_id=album_obj.id is_delete=0 %}"><h4 style="position: absolute;left: 14px;top: 4px;">{{ album_obj.image_type }}</h4><img src="{{ MEDIA_URL }}{{ album_obj.user_image }}" alt=""></a>
-                        {% if is_delete == 0 %}
-                            <a href="{% url 'albums:delete_album' album_id=album_obj.id %}">删除</a>
-                        {% else %}
-                            <a href="{% url 'albums:regain_album' album_id=album_obj.id %}">恢复</a>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
+                    {% if failed == 0 %}
+                        <p style="color: red">这{{ counts }}图片不符合上传要求</p>
+                        {% for foo in list_failed %}
+                            <p>{{ foo }}</p>
+                        {% endfor %}
+                        <p>还有<span id="sp">5</span>秒返回相册界面...</p>
+                        <p><a href="{% url 'albums:photo_album' is_delete=0 %}" style="color: #00a2eb">立即跳转</a></p>
+                    {% elif failed == 1 %}
+                        <p style="color: red">相册名长度不能超过10为字符</p>
+                        <p>还有<span id="sp">5</span>秒返回相册界面...</p>
+                        <p><a href="{% url 'albums:photo_album' is_delete=0 %}" style="color: #00a2eb">立即跳转</a></p>
+                    {% elif failed == 2 %}
+                        <p style="color: red">相册已存在</p>
+                        <p><a href="{% url 'albums:photo_album' is_delete=0 %}">返回相册</a></p>
+                        <p><a href="{% url 'albums:=file_exists' album_id=album_id %}">建立一个全新的相册</a></p>
+                    {% endif %}
 
 
                 </div>
@@ -142,5 +126,19 @@
 
             $()
         });
+         onload=function () {
+        setInterval(go,1000)
+    };
+    var x=4;
+    function go() {
+
+        if (x>=0){
+            document.getElementById("sp").innerText=x;
+        }else {
+            location.href="{% url 'albums:photo_album' is_delete=0 %}";
+        }
+        x--;
+    }
+
     </script>
 {% endblock %}

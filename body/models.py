@@ -14,8 +14,8 @@ class UserInfo(models.Model):
     user_sign = models.TextField(default='空空如也',verbose_name='个性签名')
     user_birth = models.DateField(auto_now_add=True,verbose_name='出生日期')
     user_city = models.CharField(default='请修改',max_length=20,verbose_name='所在地')
-    user_one_level = models.IntegerField(default=0,verbose_name='用户等级')
-    user_member_level = models.IntegerField(default=0,verbose_name='会员等级')
+    user_one_level = models.IntegerField(default=1,verbose_name='用户等级')
+    user_member_level = models.IntegerField(default=1,verbose_name='会员等级')
     user_PORT = models.IntegerField(default=0)
     user_jude = models.IntegerField(default=0)
     user_IP  = models.CharField(max_length=20,null=True,blank=True)
@@ -25,19 +25,19 @@ class levelsystem(models.Model):
     signnumber = models.IntegerField(db_column='sign_num',verbose_name='登陆天数')
     memberopendata = models.DateField(null=True, db_column='member_open_data',verbose_name='会员充值日期')
     duedata = models.DateField(null=True, db_column='member_due_data',verbose_name='会员到期时间')
-    sign = models.BooleanField(default=False,verbose_name='当天是否签到')
+    sign = models.DateField(auto_now=True,verbose_name='最后签到日期')
     userimg = models.TextField(verbose_name='用户头像编码')
 
     class Meta:
         db_table = 'level_system'
 
 
-class PhotoAlbum(models.Model):
-    """用户相册字段"""
-    user_image = models.ImageField(upload_to='image',verbose_name='图片地址')
-    image_time = models.DateTimeField(auto_now_add=True,verbose_name='时间')
-    image_type = models.CharField(max_length=10,verbose_name='类型')
-    user_fk = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
+# class PhotoAlbum(models.Model):
+#     """用户相册字段"""
+#     user_image = models.ImageField(upload_to='image',verbose_name='图片地址')
+#     image_time = models.DateTimeField(auto_now_add=True,verbose_name='时间')
+#     image_type = models.CharField(max_length=10,verbose_name='类型')
+#     user_fk = models.ForeignKey('UserInfo', on_delete=models.CASCADE)
 
 
 class DynamicStatus(models.Model):
@@ -97,11 +97,13 @@ class AttentionPerson(models.Model):
 
 class Comment(models.Model):
     """评论表"""
-    c_content = models.TextField(verbose_name='内容')
+    # 评论的内容
+    c_content = models.TextField(verbose_name='内容', null=True)
     # 被评论的文章
     c_b_dynamic = models.ForeignKey('DynamicStatus', on_delete=models.CASCADE, null=True)
     # 被评论的评论的ID
-    c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True)
+    c_b_commentID = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, related_name='parent_comment')
+    root = models.ForeignKey('Comment', related_name='root_comment', null=True, on_delete=models.DO_NOTHING)
     # 评论的时间
     comment_time = models.DateTimeField(auto_now_add=True, null=True)
     # 二级评论回复的人
@@ -109,7 +111,10 @@ class Comment(models.Model):
     # 评论的用户
     user = models.ForeignKey(UserInfo, on_delete=models.DO_NOTHING, related_name='comments', null=True)
 
+
+
 # 访客表
+
 
 class GuestLog(models.Model):
     g_b_user=models.IntegerField()

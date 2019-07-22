@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'body',
     'login',
+    'albums',
     'chat', # 聊天app
 ]
 
