@@ -77,8 +77,11 @@ register.filter('thumps_up', Thumps_ups)
 @register.filter
 def get_like_num(a_id):
     d = DynamicStatus.objects.get(id=a_id)
-    d_num = d.d_num
-    return d_num
+    if d.d_num == 0:
+        return 0
+    else:
+        d_num = d.d_num
+        return d_num
 
 
 
@@ -108,6 +111,23 @@ def get_thump_name(aid):
     return str(name_list).replace('[', '').replace(']', '').replace(',', '')
 
 
+
+@register.filter
+
+def get_like_statu(a_id):
+    if Thumps_up.objects.filter(article_id=a_id).exists():
+        return 'active'
+    else:
+        return ''
+
+
+@register.filter
+
+def get_love_statu(a_id):
+    if love.objects.filter(U_Article_id=a_id).exists():
+        return 'active'
+    else:
+        return ''
 
 @register.filter
 

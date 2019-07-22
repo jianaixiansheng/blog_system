@@ -64,6 +64,7 @@ def thumps_up2(request):
     data['status'] = 'SUCCESS'
     data['d_num'] = dynamic.d_num
     data['username'] = username
+    data['a_id'] = a_id
     return JsonResponse(data)
 
 

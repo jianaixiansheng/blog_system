@@ -51,11 +51,11 @@
                 <h3>最近访客</h3>
                 {% for foo in guest %}
                     {% if foo == 10 %}
-                        <li><a href="#1" title="访问时间：22分钟前"><span class="lmlblog-vip-icon"></span><img
-                                src="picture/1.gif" class="avatar"/>
+                        <li><a href="#" title="访问时间：22分钟前"><span class="lmlblog-vip-icon"></span><img
+                                src="" class="avatar"/>
                             <p>born</p></a></li>
                     {% else %}
-                        <li><a href="#1" title="访问时间：22分钟前"><img src="picture/1.gif" class="avatar"/> <p>born</p></a></li>
+                        <li><a href="#" title="访问时间：22分钟前"><img src="" class="avatar"/> <p>born</p></a></li>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -93,17 +93,17 @@
                         <!-- 动态内容部分，包括列表 -->
                         <div class="lmlblog-post-user-info"><div class="lmlblog-post-user-info-avatar" user-data="1">
                                 <a href="#1" style="display: inline-block;">
-                                    <span class="lmlblog-vip-icon" ></span><img src="images/tx2.jpg" class="avatar"/><i
+                                    <span class="lmlblog-vip-icon" ></span><img src="" class="avatar"/><i
                                         class="lmlblog-verify lmlblog-verify-a" title="{{ dyns.user_id_id|get_user }}"></i></a>
                                 <div class="lmlblog-user-info-card">
-                                    <div class="info_card_loading" style="border: 1px solid red;"><img src="picture/chat-loading.gif">
+                                    <div class="info_card_loading" style="border: 1px solid red;"><img src="">
                                         <p>资料加载中...</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="lmlblog-post-user-info-name">
-                                <a href="#1">
+                                <a href="#">
                                     <span>{{ dyns.user_id_id|get_user }}</span>
                                 </a>
                                 <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
@@ -138,15 +138,15 @@
                             <ul>
                                 <li>
                                   <div onclick="likeChange(this, {{ dyns.id }})" class="like">
-                                       <span  class="glyphicon glyphicon-thumbs-up"></span>
-                                       <span style="position: absolute;margin-left: 35px;margin-top: -32px" class="like_num">{{ dyns.id|get_like_num}}</span>
-                                       <span class="like_name">{{ dyns.id|get_thump_name }}</span>
+                                       <span  class="glyphicon glyphicon-thumbs-up {{ dyns.id|get_like_statu }}"></span>
+                                       <b style="position: absolute;margin-left: 35px;margin-top: -32px" class="like_num">{{ dyns.id|get_like_num}}</b>
+
                                   </div>
                                 </li>
                                 <li>
                                     <div onclick="likeChange2(this, {{ dyns.id }})" class="like_1">
-                                        <span class="glyphicon glyphicon-heart"></span>
-                                        <span class="d_like_num">{{ dyns.id|love_art }}</span>
+                                        <span class="glyphicon glyphicon-heart {{ dyns.id|get_love_statu }}"></span>
+                                        <b class="d_like_num">{{ dyns.id|love_art }}</b>
                                     </div>
                                 </li>
                                 <li>
@@ -159,7 +159,10 @@
                             </li>
                             </ul>
                         </div>
-                    <div class="comment_1_{{ dyns.id }}" id="comment_2">
+                    <div class="like_name_{{ dyns.id }}">
+                        <span>{{ dyns.id|get_thump_name }}</span>
+                    </div>
+                    <div class="comment_1_{{ dyns.id }}" id="comment_2" style="margin-top: 5em;">
                         {% for comm in dyns.id|get_one_comment %}
                             <div class='comm_1'>
                                 <span>{{ comm.user.user_name }}：</span>
@@ -186,7 +189,7 @@
                                 </div>
                                 <a href="javascript:reply_two({{ reply.id }})" style="margin-left: 60px;">回复</a>
                                 <form action="{% url 'body:Comments_2' %}" method="post" class="comm_2_form">
-                                    <div id="comm_3_{{ reply.id }}" style="display: none;" class="wode" onclick="wode()">
+                                    <div id="comm_3_{{ reply.id }}" style="display: none;">
                                         <input type="text" name="reply_1" id="reply_2_1{{ reply.id }}">
                                         <input type="hidden" value="{{ comm.id }}" name="reply_2_1">
                                         <input type="hidden" value="{{ reply.id }}" name="reply_2">
@@ -246,16 +249,7 @@
 {% block script_content2 %}
 
     <script type="text/javascript">
-    $('.lmlblog-posts-list').click(function () {
-        $('.wode').stop().hide();
-    });
-    function wode (){
-        $('.lmlblog-posts-list').stopPropagation();
-        $('.wode').show()
-    }
-    $('.text_area11').click(function () {
-        $('#wp-link-submit').show()
-    });
+
     function comm_1(obj, obj_id) {
         $('#Comm_2'+obj_id).show();
     }
@@ -276,7 +270,7 @@
                 if (data['status']=='SUCCESS'){
                     var comment_html =
                         '<div class="comm_1"><span>'+data['c_user']+'：'+'</span><span>(' + data['c_date'] +')：</span><span>'+data['text']+'</span></div><a href="javascript:reply_one('+ data['c_id'] +');">回复</a>';
-                    $('.comment_1_'+data['aid']).append(comment_html);
+                    $('.comment_1_'+data['aid']).append($(comment_html));
                     $('#id_text_'+data['aid']).val('');
                 }
             }
@@ -292,7 +286,7 @@
             cache: false,
             success: function (data) {
                 var new_comment_html = '<div class="comm_2"><span>'+ data['user1'] +':    </span><span>(' + data['c_time'] +')          </span><span>回复    </span><span>'+ data['reply_name'] +':</span><span>'+ data['text'] +'</span></div><a href="javascript:reply_two('+ data['c_id'] +');" style="margin-left: 60px;">回复</a>';
-                $('#comment_2_'+data['c_id_1']).prepend(new_comment_html);
+                $('#comment_2_'+data['c_id_1']).append($(new_comment_html));
                 $('#comm_2_'+data['c_id']).hide();
                 $('#comm_3_'+data['c_id']).hide();
                 $('#reply_1_'+data['c_id_1']).val('');
@@ -342,18 +336,17 @@
                     var like_num = $(obj.getElementsByClassName('like_num'));
                     like_num.text(data['d_num']);
                     var like_pic = $(obj.getElementsByClassName('glyphicon'));
-                    var like_name = $(obj.getElementsByClassName('like_name'));
+                    var l_name = '<span style="padding-left:1em;">'+ data['username'] +'</span>';
                     if(is_like){
                             like_pic.addClass('active');
-                            like_name.prepend(data['username'])
+                            $('.like_name_'+data['a_id']).prepend(l_name)
                         }else{
                             like_pic.removeClass('active');
-                            // 残留问题  删除取消点赞的用户名
+                            $('.like_name_'+data['a_id']).children().remove();
                         }
                 }
             }
         })
-
     }
     function likeChange2(obj, object_id) {
         var is_like = obj.getElementsByClassName('active').length == 0;
