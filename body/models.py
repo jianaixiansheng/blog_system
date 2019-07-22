@@ -14,8 +14,8 @@ class UserInfo(models.Model):
     user_sign = models.TextField(default='空空如也',verbose_name='个性签名')
     user_birth = models.DateField(auto_now_add=True,verbose_name='出生日期')
     user_city = models.CharField(default='请修改',max_length=20,verbose_name='所在地')
-    user_one_level = models.IntegerField(default=0,verbose_name='用户等级')
-    user_member_level = models.IntegerField(default=0,verbose_name='会员等级')
+    user_one_level = models.IntegerField(default=1,verbose_name='用户等级')
+    user_member_level = models.IntegerField(default=1,verbose_name='会员等级')
 
 
 class levelsystem(models.Model):
@@ -23,7 +23,7 @@ class levelsystem(models.Model):
     signnumber = models.IntegerField(db_column='sign_num',verbose_name='登陆天数')
     memberopendata = models.DateField(null=True, db_column='member_open_data',verbose_name='会员充值日期')
     duedata = models.DateField(null=True, db_column='member_due_data',verbose_name='会员到期时间')
-    sign = models.BooleanField(default=False,verbose_name='当天是否签到')
+    sign = models.DateField(auto_now=True,verbose_name='最后签到日期')
     userimg = models.TextField(verbose_name='用户头像编码')
 
     class Meta:

@@ -1,10 +1,13 @@
+import time
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django import views
 from body.forms import *
 import os
 from . import models
+
 
 # Create your views here.
 def index(request):
@@ -12,17 +15,15 @@ def index(request):
     head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
     # 首页文章信息传递
     info = DynamicStatus.objects.all().order_by('-d_time')
-
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
-
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    is_sign = models.levelsystem.objects.filter(sign=time.strftime("%Y-%m-%d"), userid=u_id)
+    if is_sign:
+        hh = 2
+    else:
+        hh = 1
 
     return render(request, "index.html", {"head_info": head_info,
-                                          "info": info,
-                                          "heat": heat,
-                                          "guest": guest})
+                                          'hh': hh,
+                                          "info": info})
 
 
 
@@ -44,6 +45,26 @@ class publish1(views.View):
         DynamicStatus.objects.create(d_content=content, d_picture=str(p_list), user_id_id=u_id)
         return redirect('body:index')
 
+
+def Thumpsup(request, a_id):
+    u_id = request.session.get('user_id')
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
+    # 首页文章信息传递
+    info = DynamicStatus.objects.all().order_by('-d_time')
+
+    u = UserInfo.objects.get(id=u_id)
+    dynamic = DynamicStatus.objects.get(id=a_id)
+    # all_id = Thumps_up.objects.filter(article_id=a_id)
+    if Thumps_up.objects.filter(u_id=u_id, article_id=a_id).exists():
+        Thumps_up.objects.filter(u_id=u_id, article_id=a_id).delete()
+        dynamic.d_num -= 1
+        dynamic.save()
+    else:
+        Thumps_up.objects.create(u_id=u_id, article_id=a_id)
+        dynamic.d_num += 1
+        dynamic.save()
+
+    return render(request, 'index.html', {'u': u, "head_info": head_info, "info": info})
 
 
 def thumps_up2(request):
@@ -112,16 +133,8 @@ def dynamic_state(request):
     # 好友文章信息传递
     info = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
-
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
     return render(request, "dynamic_state.html", {"head_info": head_info,
-                                                  "info": info,
-                                                  "heat": heat,
-                                                  "guest": guest})
+                                                  "info": info, })
 
 
 def music(request):
@@ -137,16 +150,8 @@ def music(request):
     # 上传音频传递
     info = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
-
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
     return render(request, "music.html", {"head_info": head_info,
-                                          "info": info,
-                                          "heat": heat,
-                                          "guest": guest})
+                                          "info": info})
 
 # def photo_album(request):
 #     '''
@@ -172,16 +177,8 @@ def personal(request):
 
     # 上传音频传递
     info = [1]
-
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
-
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return render(request, "personal.html", {"head_info": head_info,
-                                             "info": info,
-                                             "heat": heat,
-                                             "guest": guest})
+                                             "info": info})
 
 
 def chat(request):
@@ -194,8 +191,6 @@ def chat(request):
     u_id = request.session.get('user_id')
     head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
     return render(request, "chat.html", {"head_info": head_info})
-
-
 
 
 def Commnets(request):
@@ -218,47 +213,85 @@ def Commnets(request):
     data['aid'] = aId
     return JsonResponse(data)
 
-def indexs(request, us_id):
+@csrf_exempt
+def indexs(request):
+    '''
+    头部信息加载
+    :param us_id: 访客id
+    :return:
+    hh 用户状态
+    1. 打开个人主页  未签到
+    2. 打开个人主页  已签到
+    3. 打开他人主页  未关注
+    4. 打开他人主页  已关注
+    '''
+    us_id = request.GET.get('us_id')
     u_id = request.session.get('user_id')
-    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
-    hh = ''
-    if us_id:
-        head_info = models.levelsystem.objects.select_related('userid').get(userid=us_id)
-        if u_id == us_id:
-            hh = False
+    if not u_id:
+        return HttpResponse('请登录后查看')
+
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=us_id)
+    data = {'user_id': head_info.userid.id, 'img': head_info.userimg,
+            'grade': head_info.userid.user_one_level,
+            'sgrade': head_info.userid.user_member_level, 'user_name': head_info.userid.user_name,
+            'user_sign': head_info.userid.user_sign, 'signnumber': head_info.signnumber}
+
+    is_sign = models.levelsystem.objects.filter(sign=time.strftime("%Y-%m-%d"), userid=u_id)
+    # hh类别判断
+
+    if u_id == us_id:
+        if is_sign:
+            hh = 2
         else:
-            exist = False
-            try:
-                exist = models.AttentionPerson.objects.get(a_user=u_id, a_b_user=us_id)
-            except AttentionPerson.DoesNotExist:
-                if exist:
-                    hh = False
-                else:
-                    hh = True
-
+            hh = 1
+        data['hh'] = hh
+        return JsonResponse(data)
     else:
-        hh = False
-    # 首页文章信息传递
-    info = DynamicStatus.objects.all().order_by('-d_time')
+        try:
+            models.AttentionPerson.objects.get(a_user=u_id, a_b_user_id=us_id)
+            hh = 4
+        except AttentionPerson.DoesNotExist:
+            hh = 3
 
-    # 热度信息传递
-    heat = [1, 2, 3, 4]
+    data['hh'] = hh
+    # 返回json数据提取
 
-    # 最近访客信息传递
-    guest = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    jieguo = models.GuestLog.objects.get_or_create(g_b_user=u_id,g_user_id=us_id)
 
-    return render(request, "index.html", {"head_info": head_info,
-                                          'hh': hh,
-                                          "info": info,
-                                          "heat": heat,
-                                          "guest": guest})
+    if jieguo[1]==False:
+        num = models.GuestLog.objects.get(g_b_user=u_id,g_user_id=us_id)
+        num.g_num += 1
+        num.save()
+    return JsonResponse(data)
 
+@csrf_exempt
+def qiandao(request):
+    u_id = request.POST.get('us_id')
+    info = models.levelsystem.objects.get(userid=u_id)
+    info.signnumber += 1
+    if info.signnumber % 20 == 0:
+        level = models.UserInfo.objects.get(id=u_id)
+        level.user_one_level += 1
+        level.save()
+    info.save()
+    return JsonResponse({'hh':2})
 
-def attention(request, us_id):
-    u_id = request.session.get('user_id')
-    us_ids = models.UserInfo.objects.get(id=us_id)
-    models.AttentionPerson.objects.create(a_user=u_id, a_b_user=us_ids)
-    return redirect('body:indexs',us_id,permanent=True)
+@csrf_exempt
+def guanzhu(request):
+    id = request.session.get('user_id')
+    u_id = request.POST.get('us_id')
+    u_id = models.UserInfo.objects.get(id=u_id)
+    info = models.AttentionPerson.objects.create(a_b_user=u_id,a_user=id)
+    return JsonResponse({'hh':4})
+
+@csrf_exempt
+def noguanzhu(request):
+    id = request.session.get('user_id')
+    u_id = request.POST.get('us_id')
+    u_id = models.UserInfo.objects.get(id=u_id)
+    models.AttentionPerson.objects.get(a_b_user=u_id,a_user=id).delete()
+    return JsonResponse({'hh':3})
+
 
 def Comments_2(request):
     data = {}

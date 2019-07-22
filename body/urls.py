@@ -15,8 +15,11 @@ urlpatterns = [
     path('move_text1/', views.move_text1, name='move_text1'),
     path('comment/', views.Commnets, name='Comment'),
     path('thumps_up2', views.thumps_up2, name='thumps_up2'),
+    path('indexs/',views.indexs,name='indexs'),
+    path('qiandao/',views.qiandao,name='qiandao'),
+    path('guanzhu/',views.guanzhu,name='guanzhu'),
+    path('noguanzhu/',views.noguanzhu,name='noguanzhu'),
     path('Comments_2/', views.Comments_2, name='Comments_2'),
-    path('indexs/<int:us_id>',views.indexs,name='indexs'),
-    path('attention/<int:us_id>',views.attention,name='attention'),
+    # path('get_aid/<int:aid>', views.get_aid, name='get_aid')
 ]
 
