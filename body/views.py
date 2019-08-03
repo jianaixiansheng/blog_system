@@ -215,7 +215,7 @@ def Commnets(request):
     return JsonResponse(data)
 
 @csrf_exempt
-def indexs(request):
+def indexs(request,us_id):
     '''
     头部信息加载
     :param us_id: 访客id
@@ -226,44 +226,34 @@ def indexs(request):
     3. 打开他人主页  未关注
     4. 打开他人主页  已关注
     '''
-    us_id = request.GET.get('us_id')
     u_id = request.session.get('user_id')
     if not u_id:
         return HttpResponse('请登录后查看')
 
     head_info = models.levelsystem.objects.select_related('userid').get(userid=us_id)
-    data = {'user_id': head_info.userid.id, 'img': head_info.userimg,
-            'grade': head_info.userid.user_one_level,
-            'sgrade': head_info.userid.user_member_level, 'user_name': head_info.userid.user_name,
-            'user_sign': head_info.userid.user_sign, 'signnumber': head_info.signnumber}
 
     is_sign = models.levelsystem.objects.filter(sign=time.strftime("%Y-%m-%d"), userid=u_id)
     # hh类别判断
 
     if u_id == us_id:
+        info = DynamicStatus.objects.all().order_by('-d_time')
         if is_sign:
             hh = 2
         else:
             hh = 1
-        data['hh'] = hh
-        return JsonResponse(data)
+        return render(request, "index.html", {"head_info": head_info,
+                                              'hh': hh,
+                                              "info": info})
     else:
         try:
             models.AttentionPerson.objects.get(a_user=u_id, a_b_user_id=us_id)
             hh = 4
         except AttentionPerson.DoesNotExist:
             hh = 3
-
-    data['hh'] = hh
-    # 返回json数据提取
-
-    jieguo = models.GuestLog.objects.get_or_create(g_b_user=u_id,g_user_id=us_id)
-
-    if jieguo[1]==False:
-        num = models.GuestLog.objects.get(g_b_user=u_id,g_user_id=us_id)
-        num.g_num += 1
-        num.save()
-    return JsonResponse(data)
+    info = DynamicStatus.objects.filter(user_id_id=us_id).order_by('-d_time')
+    return render(request, "index.html", {"head_info": head_info,
+                                          'hh': hh,
+                                          "info": info})
 
 @csrf_exempt
 def qiandao(request):
@@ -282,8 +272,14 @@ def guanzhu(request):
     id = request.session.get('user_id')
     u_id = request.POST.get('us_id')
     u_id = models.UserInfo.objects.get(id=u_id)
-    info = models.AttentionPerson.objects.create(a_b_user=u_id,a_user=id)
-    return JsonResponse({'hh':4})
+    models.AttentionPerson.objects.create(a_b_user=u_id,a_user=id)
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
+    data = {'user_id': head_info.userid.id, 'img': head_info.userimg,
+            'grade': head_info.userid.user_one_level,
+            'sgrade': head_info.userid.user_member_level, 'user_name': head_info.userid.user_name,
+            'user_sign': head_info.userid.user_sign, 'signnumber': head_info.signnumber}
+    data['hh'] = 4
+    return JsonResponse(data)
 
 @csrf_exempt
 def noguanzhu(request):
@@ -291,8 +287,13 @@ def noguanzhu(request):
     u_id = request.POST.get('us_id')
     u_id = models.UserInfo.objects.get(id=u_id)
     models.AttentionPerson.objects.get(a_b_user=u_id,a_user=id).delete()
-    return JsonResponse({'hh':3})
-
+    head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
+    data = {'user_id': head_info.userid.id, 'img': head_info.userimg,
+            'grade': head_info.userid.user_one_level,
+            'sgrade': head_info.userid.user_member_level, 'user_name': head_info.userid.user_name,
+            'user_sign': head_info.userid.user_sign, 'signnumber': head_info.signnumber}
+    data['hh'] = 3
+    return JsonResponse(data)
 
 def Comments_2(request):
     data = {}

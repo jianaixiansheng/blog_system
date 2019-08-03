@@ -122,3 +122,5 @@ class GuestLog(models.Model):
     g_user=models.ForeignKey('UserInfo',on_delete=models.CASCADE)
     # 访问的用户
     g_date=models.DateTimeField(auto_now=True)
+
+    g_num = models.IntegerField(default=0)

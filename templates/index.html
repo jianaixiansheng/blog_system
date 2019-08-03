@@ -24,7 +24,8 @@
             <div class="lmlblog-member-left-bg-music clear">
                 <h3>背景音乐</h3>
                 <div id="lmlblog-memeber-bg-music" class="aplayer"></div>
-                <img src="http://wx2.sinaimg.cn/large/9c774d91gy1ft4lhr5vbmg20jp08okbw.gif" alt="司空琪">
+                <a href="{% url 'body:indexs' us_id=head_info.userid.id %}"></a><img id="info_img" src="{{ head_info.userimg }}"
+                                                 class="avatar" alt="加载失败">
                 <audio src="https://img.jinsom.cn/user_files/12551/bg-music/music_1530776683.mp3" autoplay controls></audio>
             </div>
             <div class="lmlblog-member-left-profile">
@@ -92,8 +93,9 @@
 
                         <!-- 动态内容部分，包括列表 -->
                         <div class="lmlblog-post-user-info"><div class="lmlblog-post-user-info-avatar" user-data="1">
-                                <a href="#1" style="display: inline-block;">
-                                    <span class="lmlblog-vip-icon" ></span><img src="" class="avatar"/><i
+                                <a href="{% url 'body:indexs' us_id=dyns.user_id_id|get_id %}" style="display: inline-block;">
+                                    <span class="lmlblog-vip-icon" ></span><img id="info_img" src="{{ head_info.userimg }}"
+                                                 class="avatar" alt="加载失败"><i
                                         class="lmlblog-verify lmlblog-verify-a" title="{{ dyns.user_id_id|get_user }}"></i></a>
                                 <div class="lmlblog-user-info-card">
                                     <div class="info_card_loading" style="border: 1px solid red;"><img src="">

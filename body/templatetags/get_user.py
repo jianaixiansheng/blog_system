@@ -13,7 +13,10 @@ def get_user(u_id):
 
 register.filter("get_user", get_user)
 
-
+def get_id(u_id):
+    u = UserInfo.objects.get(id=u_id)
+    return u.id
+register.filter("get_id",get_id)
 
 
 def get_member(u_id):
