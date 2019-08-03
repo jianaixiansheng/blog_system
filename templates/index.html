@@ -7,7 +7,6 @@
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'index/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'index/css/bootstrap.min.css' %}">
-    <script src="{% static 'index/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'index/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'index/js/bootstrap.js' %}"></script>
     <script src="{% static 'index/js/index.js' %}"></script>
@@ -88,9 +87,7 @@
                 {# 文章展示 #}
             {% load get_user %}
                 {% for dyns in info %}
-
                     <div class="lmlblog-posts-list words">
-
                         <!-- 动态内容部分，包括列表 -->
                         <div class="lmlblog-post-user-info"><div class="lmlblog-post-user-info-avatar" user-data="1">
                                 <a href="{% url 'body:indexs' us_id=dyns.user_id_id|get_id %}" style="display: inline-block;">
@@ -103,11 +100,8 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="lmlblog-post-user-info-name">
-                                <a href="#">
-                                    <span>{{ dyns.user_id_id|get_user }}</span>
-                                </a>
+                                <a href="#"><span>{{ dyns.user_id_id|get_user }}</span></a>
                                 <span class="lmlblog-mark lmlblog-lv" title="经验：3815">Lv.{{ dyns.user_id_id|get_one_level }}</span><span class="lmlblog-mark lmlblog-vip">VIP {{ dyns.user_id_id|get_member }}</span>
                             </div>
                             <div class="lmlblog-post-user-info-time" title="{{ dyns.d_time|date:"Y-m-d H:i:s" }}">{{ dyns.d_time|date:"Y-m-d H:i:s" }}</div>
@@ -127,7 +121,10 @@
                             {% if dyns.id|get_content %}
                                 <p><a href="#" style="font-family: 楷体;font-size: 20px;">{{ dyns.new_content }}</a></p>
                                 <br>
-                                <p><a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a></p>
+                                <div style="background: rgb(245, 245, 245)">
+                                    <p><a href="#" style="font-family: 楷体;font-size: 20px;">{{ dyns.user_id.user_name }}</a></p>
+                                    <p><a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a></p>
+                                </div>
                                 {% else %}
                                 <a href="#" style="font-family: 楷体;font-size: 20px">{{ dyns.d_content }}</a>
                             {% endif %}
@@ -157,45 +154,53 @@
                                     <span class="d_move">{{ dyns.d_move }}</span>
                                 </li>
                             <li>
-                                <div onclick="comm_1(this, {{ dyns.id }})">评</div>
+                                <div onclick="comm_1({{ dyns.id }})" class="comm_1_pic"></div>
                             </li>
                             </ul>
                         </div>
-                    <div class="like_name_{{ dyns.id }}">
-                        <span>{{ dyns.id|get_thump_name }}</span>
-                    </div>
+                    <div class="like_name_{{ dyns.id }} like_name">
+                        <span class="like_pic"></span>
+                        <span class="like_names">{{ dyns.id|get_thump_name }}</span>
+                        </div>
                     <div class="comment_1_{{ dyns.id }}" id="comment_2" style="margin-top: 5em;">
                         {% for comm in dyns.id|get_one_comment %}
-                            <div class='comm_1'>
+                            <div class='comm_1' onmouseenter="comm_1_mouse({{ comm.id }})" onmouseleave="comm_1_leave({{ comm.id }})">
                                 <span>{{ comm.user.user_name }}：</span>
-                                <span>({{ comm.comment_time|date:"H:i:s" }})：</span>
                                 <span>{{ comm.c_content|safe }}</span>
+                                <br>
+                                <span style="margin-left: 22px;">{{ comm.comment_time|date:"m-d H:i:s" }}</span>
+                                <div class="reply_1_css{{ comm.id }}" style="display: none;">
+                                    <a href="javascript:reply_one({{ comm.id }})" class="reply_1_css" title="回复"></a>
+                                </div>
                             </div>
-                            <a href="javascript:reply_one({{ comm.id }})">回复</a>
                             <form action="{% url 'body:Comments_2' %}" method="post" class="comm_2_form">
-                                <div id="comm_2_{{ comm.id }}" style="display: none;">
-                                    <input type="text" name="reply_1" id="reply_1_{{ comm.id }}" style="width: 200px;height: 40px;">
+                                <div id="comm_2_{{ comm.id }}" style="display: none;" onmouseleave="comm_2_leave({{ comm.id }})">
+                                    <textarea name="reply_1" id="reply_1_{{ comm.id }}" style="width: 650px;height: 80px;margin-left: 30px;border: 1px silver solid" placeholder="回复{{ comm.user.user_name }}"></textarea>
                                     <input type="hidden" value="{{ comm.id }}" name="reply_2">
                                     <input type="hidden" value="{{ comm.id }}" name="reply_2_1">
-                                    <input type="submit" style="width: 50px;height: 30px;" value="发表">
-                                </div>
+                                    <input type="submit" style="width: 75px;height: 30px;background-color:rgb(28, 165, 252);border: 1px solid rgb(28, 165, 252);color: white;margin-left: 605px;
+    margin-top: -4px;" value="发表"></div>
                             </form>
                             <div id="comment_2_{{ comm.id }}">
                                 {% for reply in comm.root_comment.all %}
-                                <div class="comm_2">
-                                    <span>{{ reply.user.user_name }}:</span>
-                                    <span>({{ reply.comment_time|date:"H:i:s" }}):</span>
+                                <div class="comm_2" onmouseenter="comm_2_mouse({{ reply.id }})" onmouseleave="comm_2_leave_1({{ reply.id }})">
+                                    <span>{{ reply.user.user_name }}</span>
                                     <span>回复</span>
                                     <span>{{ reply.reply_to.user_name }}:</span>
                                     <span>{{ reply.c_content|safe }}</span>
+                                    <br>
+                                    <span>{{ reply.comment_time|date:"m-d H:i:s" }}</span>
+                                    <div class="reply_2_css{{ reply.id }}" style="display: none;">
+                                        <a href="javascript:reply_two({{ reply.id }})" class="reply_2_css" title="回复"></a>
+                                    </div>
                                 </div>
-                                <a href="javascript:reply_two({{ reply.id }})" style="margin-left: 60px;">回复</a>
                                 <form action="{% url 'body:Comments_2' %}" method="post" class="comm_2_form">
-                                    <div id="comm_3_{{ reply.id }}" style="display: none;">
-                                        <input type="text" name="reply_1" id="reply_2_1{{ reply.id }}">
+                                    <div id="comm_3_{{ reply.id }}" style="display: none;" onmouseleave="comm_2_leave_2({{ reply.id }})">
+                                        <textarea name="reply_1" id="reply_2_1{{ reply.id }}" style="width: 650px;height: 80px;margin-left: 30px;border: 1px silver solid" placeholder="回复{{ reply.reply_to.user_name }}"></textarea>
                                         <input type="hidden" value="{{ comm.id }}" name="reply_2_1">
                                         <input type="hidden" value="{{ reply.id }}" name="reply_2">
-                                        <input type="submit">
+                                        <input type="submit" style="width: 75px;height: 30px;background-color:rgb(28, 165, 252);border: 1px solid rgb(28, 165, 252);color: white;margin-left: 605px;
+    margin-top: -4px;" value="发表">
                                     </div>
                                 </form>
                                 {% endfor %}
@@ -204,13 +209,16 @@
                     </div>
                     <form action="{% url 'body:Comment' %} " method="post" class="comm_form">
                         {% csrf_token %}
-                        <div id="Comm_2{{ dyns.id }}">
+                        <div class="comm_con1" onclick="commtent(this, {{ dyns.id }})" id="comm_con1_{{ dyns.id }}">
+                                &emsp;评论&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                        </div>
+                        <div id="Comm_2{{ dyns.id }}" onmouseleave="Comm_2_leave({{ dyns.id }})" style="margin-top: 15px;display: none;">
                             <textarea name="comm_content" id="id_text_{{ dyns.id }}" cols="30" rows="10" style="width: 650px;height: 55px;margin-left: 25px;" class="text_area11"></textarea>
                             <input value="{{ dyns.id }}" type="hidden" name="hidd">
                             <input type="submit" value="发表" style="margin-left: 600px;width: 75px;height: 30px;background-color:rgb(28, 165, 252);border: 1px solid rgb(28, 165, 252);color: white;">
                         </div>
                     </form>
-                        <div class="lmlblog-post-like-list">
+                    <div class="lmlblog-post-like-list">
                         </div>
                         <div class="lmlblog-post-footer-bar">
                             <span title="2017-12-14 05:25:48">12月14日 05:25</span>
@@ -234,15 +242,21 @@
                         </form>
                     </div>
                 <!-- 分页地点 -->
-                <div class="lmlblog-pager"><a class="lmlblog-pager-left" href="#2">上一页</a>
+                <!-- <div class="lmlblog-pager">
+                    {% if info.has_previous %}
+                        <a class="lmlblog-pager-left" href="?page={{ info.previous_page_number }}">上一页</a>
+                    {% else %}
+                        <span class="lmlblog-pager-left">上一页</span>
+                    {% endif %}
                     <div class="lmlblog-pager-center layui-form">
-                        <select>
-                            <option value="#=1">第 1 页</option>
-                            <option value="#=2">第 2 页</option>
-                            <option selected="selected" value="#3">第 3 页</option>
-                        </select>第 1 页
+                        第{{ info.number }}页
                     </div>
-                    <a class="lmlblog-pager-right" href="#3">下一页</a></div>
+                    {% if info.has_next %}
+                        <a class="lmlblog-pager-right" href="?page={{ info.next_page_number }}" class="next_page" style="display: none;">下一页</a>
+                    {% else %}
+                        <span class="lmlblog-pager-right">下一页</span>
+                    {% endif %}
+                </div> -->
             </div>
         </div>
     </div>
@@ -252,15 +266,67 @@
 
     <script type="text/javascript">
 
-    function comm_1(obj, obj_id) {
-        $('#Comm_2'+obj_id).show();
+    function comm_1(object_id){
+        $('#Comm_2'+object_id).show();
+        $('#comm_con1_'+object_id).hide();
     }
+
+    function commtent(obj, object_id){
+        $(obj).hide();
+        $('#Comm_2'+object_id).show();
+    }
+
+    function Comm_2_leave(object_id){
+        $('#Comm_2'+object_id).hide();
+        $('#comm_con1_'+object_id).show();
+    }
+
+    function comm_1_mouse(comm_id){
+        $('.reply_1_css'+comm_id).show();
+    }
+
+    function comm_1_leave(comm_id){
+        $('.reply_1_css'+comm_id).hide();
+    }
+
+    function comm_2_mouse(reply_id){
+        $('.reply_2_css'+reply_id).show();
+    }
+
+    function comm_2_leave_1(reply_id){
+        $('.reply_2_css'+reply_id).hide();
+    }
+
+    function comm_2_leave(comm_id){
+        $('#comm_2_'+comm_id).hide();
+        $('.reply_1_css'+comm_id).hide();
+    }
+
+    function comm_2_leave_2(reply_id){
+        $('.reply_2_css'+reply_id).hide();
+        $('#comm_3_'+reply_id).hide();
+    }
+
     function reply_one(objee_id) {
         $('#comm_2_'+objee_id).show();
     }
     function reply_two(objee_id) {
         $('#comm_3_'+objee_id).show();
     }
+
+    $(function(){
+        var winH = $(window).height();
+        var i = 1;
+        $(window).scroll(function() {
+            var pageH = $(document.body).height();
+            var scrollT = $(window).scrollTop();
+            var aa = (pageH-winH-scrollT)/winH;
+            if (aa<0.02){
+               
+            }
+        })
+    })
+
     $(function () {
     $('.comm_form').submit(function () {
         $.ajax({
@@ -270,10 +336,10 @@
             cache: false,
             success: function (data) {
                 if (data['status']=='SUCCESS'){
-                    var comment_html =
-                        '<div class="comm_1"><span>'+data['c_user']+'：'+'</span><span>(' + data['c_date'] +')：</span><span>'+data['text']+'</span></div><a href="javascript:reply_one('+ data['c_id'] +');">回复</a>';
-                    $('.comment_1_'+data['aid']).append($(comment_html));
+                    var comment_1_html = '<div class="comm_1" onmouseenter="comm_1_mouse('+ data['c_id'] +')" onmouseleave="comm_1_leave('+ data['c_id'] +')"><span>'+data['c_user']+'：'+'</span><span>'+ data['text'] +'</span><br><span style="margin-left:22px;">'+ data['c_date'] +'</span><div class="reply_1_css'+data['c_id']+'" style="display: none;"><a href="javascript:reply_one('+ data['c_id'] +')" class="reply_1_css" title="回复"></a></div></div>'
+                    $('.comment_1_'+data['aid']).append($(comment_1_html));
                     $('#id_text_'+data['aid']).val('');
+
                 }
             }
         });
@@ -287,8 +353,8 @@
             data: $(this).serialize(),
             cache: false,
             success: function (data) {
-                var new_comment_html = '<div class="comm_2"><span>'+ data['user1'] +':    </span><span>(' + data['c_time'] +')          </span><span>回复    </span><span>'+ data['reply_name'] +':</span><span>'+ data['text'] +'</span></div><a href="javascript:reply_two('+ data['c_id'] +');" style="margin-left: 60px;">回复</a>';
-                $('#comment_2_'+data['c_id_1']).append($(new_comment_html));
+                var new_comment_html1 = '<div class="comm_2" onmouseenter="comm_2_mouse('+ data['c_id'] +')" onmouseleave="comm_2_leave_1('+ data['c_id'] +')"><span>'+ data['user1'] +'</span>    <span>回复</span>    <span>'+ data['reply_name'] +':</span><span>'+ data['text'] +'</span><br><span>'+ data['c_time'] +'</span><div class="reply_2_css'+ data['c_id'] +'" style="display: none;"><a href="javascript:reply_two('+ data['c_id'] +')" class="reply_2_css" title="回复"></a></div></div>'
+                $('#comment_2_'+data['c_id_1']).append($(new_comment_html1));
                 $('#comm_2_'+data['c_id']).hide();
                 $('#comm_3_'+data['c_id']).hide();
                 $('#reply_1_'+data['c_id_1']).val('');

@@ -171,7 +171,9 @@
     display: block;
     width: 24px;
     height: 24px;
-    background: url('../images/35.32-yoo190131143813.png')-40px -55px
+    background: url('../images/35.32-yoo190131143813.png')-40px -55px;
+    margin-left: -20px;
+    margin-top: 6px;
 }
 
 .move_font:hover{
@@ -180,7 +182,7 @@
 
 .d_move{
     position: absolute;
-    margin-left: 40px;
+    margin-left: 10px;
     margin-top: -31px;
 }
 
@@ -196,6 +198,54 @@
 
 .comm_2{
     margin-left: 50px;
+}
+.reply_1_css{
+    width:18px;
+    height: 18px;
+    background-image: url('../images/35.32-yoo190131143813.png');
+    background-position: -102px -918px;
+    margin-left: 150px;
+    margin-top: -16px;
+    display: block;
+}
+
+.reply_2_css{
+    display: block;
+    width:18px;
+    height: 18px;
+    background-image: url('../images/35.32-yoo190131143813.png');
+    background-position: -102px -918px;
+    margin-left: 130px;
+    margin-top: -18px;
+}
+.comm_con1{
+    border: 1px silver solid;
+    width: 650px;
+    height: 40px;
+    line-height: 40px;
+    font-family: 楷体;
+    cursor: auto;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+.comm_1_pic{
+    width:18px;
+    height: 18px;
+    background-image: url('../images/35.32-yoo190131143813.png');
+    background-position: -102px -918px;
+    margin-top: 9px;
+}
+.like_pic{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../images/35.32-yoo190131143813.png);
+    background-position: -58px -832px;
+}
+.like_names{
+    position: absolute;
+    margin-left: 40px;
+    margin-top: -20px;
 }
 
 

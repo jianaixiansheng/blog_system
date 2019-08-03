@@ -154,8 +154,8 @@
         <div class="lmlblog-member-content">
             <div class="lmlblog-member-header">
                 <div class="lmlblog-member-avatar other">
-                    <a href="#" id="info_a"><img id="info_img" src="{{ head_info.userimg }}"
-                                                 onclick="ajax_header({{ head_info.userid.id }})"
+                    <a id="info_a"><img id="info_img" src="{{ head_info.userimg }}"
+                                                 onclick="ajax_header(2)"
                                                  class="avatar" alt="加载失败"></a>
                     <i id="info_img_name" class="lmlblog-verify lmlblog-verify-a"
                        title="{{ head_info.userid.user_name }}"></i>
@@ -187,7 +187,7 @@
                             href="{% url 'chat:index' %}">私聊</a></span>
                 </div>
             </div>
-            {#            <div class="lmlblog-member-header">#}
+            <!-- {#            <div class="lmlblog-member-header">#}
             {#                <div class="lmlblog-member-avatar other">#}
             {#                    <a href="#" id="info_a"><img id="info_img" src="{% static 'home/css/default_avatar.png' %}"#}
             {#                                                 onclick="ajax_header(1)" class="avatar" alt="加载失败"></a>#}
@@ -199,7 +199,7 @@
             {#                <div class="lmlblog-member-desc" id="info_sign">个性签名</div>#}
             {#                <div class="lmlblog-member-follow-info" id="pin">#}
             {#关注 签到 私聊 异步加载地址#}
-            {#                </div>#}
+            {#                </div>#} -->
         </div>
         <div class="lmlblog-member-menu clear">
             <ul>

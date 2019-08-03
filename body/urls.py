@@ -20,6 +20,9 @@ urlpatterns = [
     path('guanzhu/',views.guanzhu,name='guanzhu'),
     path('noguanzhu/',views.noguanzhu,name='noguanzhu'),
     path('Comments_2/', views.Comments_2, name='Comments_2'),
-    # path('get_aid/<int:aid>', views.get_aid, name='get_aid')
+    path('publish/', views.publish1.as_view(), name='publish'),
+    path('move_text1/', views.move_text1, name='move_text1'),
+    path('Love_article2/', views.Love_article2, name='Love_article2'),
+    # path('get_page/', views.get_page, name='get_page'),
 ]
 

@@ -2,11 +2,15 @@ import time
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django import views
 from body.forms import *
-import os
+from queue import Queue
+from .models import *
 from . import models
+import time
+import os
 
 
 # Create your views here.
@@ -15,6 +19,10 @@ def index(request):
     head_info = models.levelsystem.objects.select_related('userid').get(userid=u_id)
     # 首页文章信息传递
     info = DynamicStatus.objects.all().order_by('-d_time')
+    limit = 4
+    paginator = Paginator(info, limit)
+    page = request.GET.get('page', 1)
+    result = paginator.page(page)
     is_sign = models.levelsystem.objects.filter(sign=time.strftime("%Y-%m-%d"), userid=u_id)
     if is_sign:
         hh = 2
@@ -23,8 +31,17 @@ def index(request):
 
     return render(request, "index.html", {"head_info": head_info,
                                           'hh': hh,
-                                          "info": info})
+                                          "info": result})
 
+
+# def get_page(request):
+#     data = {}
+#     infos = DynamicStatus.objects.all().order_by('-d_time')[5:8]
+#     print(infos)
+#     for info in infos:
+#         print(info)
+
+#     return JsonResponse(data)
 
 
 class publish1(views.View):
@@ -36,6 +53,7 @@ class publish1(views.View):
         p_list = []
         content = request.POST.get('d_content')
         picture = request.FILES.getlist('d_picture')
+        print(picture)
         for i in picture:
             p_list.append('/picture/' + str(i))
             file = open(f'picture/{i.name}', 'wb')
@@ -205,7 +223,7 @@ def Commnets(request):
     c_id=comment.id
     c_date=comment.comment_time
     c_user=comment.user.user_name
-    data['c_date']=c_date.strftime('%H:%M:%S')
+    data['c_date']=c_date.strftime('%m-%d %H:%M:%S')
     data['c_user']=c_user
     data['c_id']=c_id
     data['status'] = 'SUCCESS'
@@ -306,7 +324,7 @@ def Comments_2(request):
     comm = Comment.objects.get(c_content=new_text, c_b_commentID_id=c_id, reply_to_id=u_id1, user_id=u_id, root_id=c_id_1)
     data['c_id'] = c_id
     data['user1'] = comm.user.user_name
-    data['c_time'] = comm.comment_time.strftime('%H:%M:%S')
+    data['c_time'] = comm.comment_time.strftime('%m-%d %H:%M:%S')
     data['reply_name'] = comm.reply_to.user_name
     data['text'] = comm.c_content
     data['c_id_1'] = c_id_1
